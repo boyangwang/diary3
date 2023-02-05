@@ -3,4 +3,19 @@
   position: fixed;
   bottom: 0;
   width: 100%;
+  padding: 0 10%;
+}
+
+.diary-navbar .ant-menu-item {
+  width: 20%;
+  justify-content: center;
+  display: flex;
+}
+
+.diary-navbar :not(.ant-menu-item-selected).ant-menu-item {
+  color: #9FC2D7;
+}
+
+.diary-navbar .ant-menu-item-selected.ant-menu-item {
+  color: #376BED;
 }
