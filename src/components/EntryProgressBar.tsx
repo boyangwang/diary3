@@ -1,5 +1,5 @@
 import { Progress } from 'antd';
-import './EntryProgressBar.css';
+import "./EntryProgressBar.css";
 
 function EntryProgressBar(props: { points: number }) {
   const points = props.points;
