@@ -1,5 +1,6 @@
 import { Counter } from './features/counter/Counter';
 import './App.css';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <header className="App-header">
         <h1>Diary</h1>
         <Counter />
+        <Outlet />
       </header>
     </div>
   );
