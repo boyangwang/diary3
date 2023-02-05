@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import EntryChart from '../components/EntryChart';
 import EntryProgressBar from '../components/EntryProgressBar';
 import HeaderDatetime from '../components/HeaderDatetime';
 
@@ -19,6 +20,7 @@ export default function EntryPage() {
     <>
       <HeaderDatetime />
       <EntryProgressBar points={points} />
+      <EntryChart />
     </>
   );
 }
