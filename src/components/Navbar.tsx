@@ -9,9 +9,11 @@ const items: MenuProps['items'] = PAGES.map((page) => {
   const IconComponent = DiaryIcons[iconKey] || null;
 
   return {
-    label: (<Link to={`/${page.toLowerCase()}`}>
-      <IconComponent />
-    </Link>),
+    label: (
+      <Link to={`/${page.toLowerCase()}`}>
+        <IconComponent />
+      </Link>
+    ),
     key: page.toLowerCase(),
   };
 });

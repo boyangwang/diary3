@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import EntryProgressBar from "../components/EntryProgressBar";
-import HeaderDatetime from "../components/HeaderDatetime";
+import { useEffect, useState } from 'react';
+import EntryProgressBar from '../components/EntryProgressBar';
+import HeaderDatetime from '../components/HeaderDatetime';
 
 export default function EntryPage() {
   const [points, setPoints] = useState(() => 0);
@@ -21,4 +21,4 @@ export default function EntryPage() {
       <EntryProgressBar points={points} />
     </>
   );
-};
+}

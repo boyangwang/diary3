@@ -8,7 +8,7 @@ test('renders learn react link', () => {
   render(
     <Provider store={store}>
       <App />
-    </Provider>
+    </Provider>,
   );
 
   expect(screen.getByText(/Diary/i)).toBeInTheDocument();

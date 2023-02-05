@@ -3,7 +3,7 @@ import { Outlet, useLocation, useMatches } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import { PAGES } from './constants';
 import { useMemo } from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 function App() {
   const matches = useMatches();

@@ -1,32 +1,35 @@
-import { createBrowserRouter } from "react-router-dom";
-import App from "./App";
-import AddPage from "./pages/AddPage";
-import EntryPage from "./pages/EntryPage";
-import ReminderPage from "./pages/ReminderPage";
-import SettingsPage from "./pages/SettingsPage";
+import { createBrowserRouter } from 'react-router-dom';
+import App from './App';
+import AddPage from './pages/AddPage';
+import EntryPage from './pages/EntryPage';
+import ReminderPage from './pages/ReminderPage';
+import SettingsPage from './pages/SettingsPage';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <App />,
     children: [
       {
-        path: "entry",
+        path: 'entry',
         element: <EntryPage />,
-      }, {
-        path: "add",
+      },
+      {
+        path: 'add',
         element: <AddPage />,
-      }, {
-        path: "reminder",
+      },
+      {
+        path: 'reminder',
         element: <ReminderPage />,
-      }, {
-        path: "settings",
+      },
+      {
+        path: 'settings',
         element: <SettingsPage />,
       },
     ],
   },
   {
-    path: "*",
+    path: '*',
     element: <div>404 Not Found</div>,
   },
 ]);

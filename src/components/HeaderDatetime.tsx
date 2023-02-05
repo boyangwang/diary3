@@ -1,6 +1,6 @@
-import moment from "moment";
-import { useEffect, useState } from "react";
-import "./HeaderDatetime.css";
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import './HeaderDatetime.css';
 
 function HeaderDatetime() {
   const [time, setTime] = useState(new Date());

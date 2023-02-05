@@ -13,9 +13,9 @@
 }
 
 .diary-navbar :not(.ant-menu-item-selected).ant-menu-item {
-  color: #9FC2D7;
+  color: #9fc2d7;
 }
 
 .diary-navbar .ant-menu-item-selected.ant-menu-item {
-  color: #376BED;
+  color: #376bed;
 }

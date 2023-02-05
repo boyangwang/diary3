@@ -4,9 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import {
-  RouterProvider,
-} from "react-router-dom";
+import { RouterProvider } from 'react-router-dom';
 import './index.css';
 import router from './router';
 
@@ -18,7 +16,7 @@ root.render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want your app to work offline and load faster, you can change
