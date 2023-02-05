@@ -1,9 +1,9 @@
 import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
 import Icon from '@ant-design/icons';
-import { ReactComponent as homeSvg } from '../../assets/icons/home-icon.svg';
-import { ReactComponent as addSvg } from '../../assets/icons/add-icon.svg';
-import { ReactComponent as reminderSvg } from '../../assets/icons/reminder-icon.svg';
-import { ReactComponent as settingsSvg } from '../../assets/icons/settings-icon.svg';
+import { ReactComponent as homeSvg } from '../assets/icons/home-icon.svg';
+import { ReactComponent as addSvg } from '../assets/icons/add-icon.svg';
+import { ReactComponent as reminderSvg } from '../assets/icons/reminder-icon.svg';
+import { ReactComponent as settingsSvg } from '../assets/icons/settings-icon.svg';
 
 export function EntryNavIcon(props: Partial<CustomIconComponentProps>) {
   return <Icon component={homeSvg} {...props} />;

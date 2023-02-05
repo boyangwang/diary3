@@ -1,8 +1,8 @@
 import { Menu, MenuProps } from 'antd';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
-import { PAGES } from '../../constants';
-import DiaryIcons from '../icons/DiaryIcons';
+import { PAGES } from '../constants';
+import DiaryIcons from './DiaryIcons';
 
 const items: MenuProps['items'] = PAGES.map((page) => {
   const iconKey = `${page[0].toUpperCase()}${page.slice(1)}NavIcon` as keyof typeof DiaryIcons;

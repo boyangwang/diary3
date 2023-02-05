@@ -1,13 +1,14 @@
-import { Counter } from './components/counter/Counter';
 import './App.css';
-import { Outlet, useMatches } from 'react-router-dom';
-import Navbar from './components/navbar/Navbar';
+import { Outlet, useLocation, useMatches } from 'react-router-dom';
+import Navbar from './components/Navbar';
 import { PAGES } from './constants';
 import { useMemo } from 'react';
+import {Helmet} from "react-helmet";
 
 function App() {
   const matches = useMatches();
-  
+  const location = useLocation();
+
   const activeKey = useMemo(() => {
     let p;
     for (let m of matches) {
@@ -20,8 +21,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Diary</h1>
-      <Counter />
+      <Helmet>
+        <title>Diary - {location.pathname}</title>
+      </Helmet>
       <Outlet />
       <Navbar activeKey={activeKey} />
     </div>
