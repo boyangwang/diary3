@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from './App';
 import AddPage from './pages/AddPage';
 import EntryPage from './pages/EntryPage';
@@ -25,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: 'settings',
         element: <SettingsPage />,
+      },
+      {
+        path: '',
+        element: <Navigate to="/entry" />,
       },
     ],
   },

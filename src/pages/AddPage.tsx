@@ -1,5 +1,11 @@
-const COMPONENT_NAME = 'AddPage';
+import EntryTypeForm from '../components/EntryTypeForm';
+import HeaderDatetime from '../components/HeaderDatetime';
 
 export default function AddPage() {
-  return <div>{COMPONENT_NAME}</div>;
+  return (
+    <>
+      <HeaderDatetime />
+      <EntryTypeForm />
+    </>
+  );
 }

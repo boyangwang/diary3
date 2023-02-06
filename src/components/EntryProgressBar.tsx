@@ -14,6 +14,7 @@ function EntryProgressBar(props: { points: number }) {
   return (
     <div className="diary-entry-progress-bar">
       <Progress percent={percent} status="active" strokeColor={gradient} />
+      <span>{props.points}</span>
     </div>
   );
 }

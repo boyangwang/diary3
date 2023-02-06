@@ -1,7 +1,7 @@
 import './App.css';
 import { Outlet, useLocation, useMatches } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import { PAGES } from './constants';
+import { PAGES } from './types-constants';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 

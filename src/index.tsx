@@ -5,7 +5,6 @@ import { store } from './app/store';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { RouterProvider } from 'react-router-dom';
-import './index.css';
 import router from './router';
 
 const container = document.getElementById('root')!;
