@@ -103,3 +103,36 @@ export const EntryTypeThemeColors = [
   ['3592FF', '6865FF'],
   ['6865FF', '9E3EEF'],
 ];
+
+export class DiaryGlobalStats {
+  registrationSince: number = -1;
+  entryDays: number = -1;
+
+  historicalLongestStreakByEntry: number = -1;
+  currentStreakByentry: number = -1;
+
+  totalEntries: number = -1;
+}
+
+export class LoginUser {
+  uid: string = '';
+}
+
+export type SetLoginUser = (user: LoginUser | null) => void | null;
+
+export const saveLoginUser = (user: LoginUser | null, setLoginUser: SetLoginUser) => {
+  if (user) {
+    localStorage.setItem('loginUser', JSON.stringify(user));
+  } else {
+    localStorage.removeItem('loginUser');
+  }
+  setLoginUser(user);
+};
+
+export const loadLoginUser = (setLoginUser: SetLoginUser) => {
+  const loginUserJson = localStorage.getItem('loginUser');
+  if (loginUserJson) {
+    const user = JSON.parse(loginUserJson);
+    setLoginUser(user);
+  }
+};

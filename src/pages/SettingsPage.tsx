@@ -1,5 +1,10 @@
-const COMPONENT_NAME = 'SettingsPage';
+import { useContext } from 'react';
+import { LoginUserContext } from '../App';
+import GlobalStats from '../components/GlobalStats';
+import LoginForm from '../components/LoginForm';
 
 export default function SettingsPage() {
-  return <div>{COMPONENT_NAME}</div>;
+  const { loginUser } = useContext(LoginUserContext);
+
+  return <div>{loginUser ? <GlobalStats /> : <LoginForm />}</div>;
 }

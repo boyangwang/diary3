@@ -4,11 +4,12 @@
 - State data (e.g. current showing date range for chart)
 - Data flow
 
-- Routing and page wireframes
-- [x] Menu nav
-- Page components
-- Login logic
+- page wireframes page components
+- [x] Login logout logic
+  - write a test for login logout
 - Init data from localstorage + fetch remote
 
 - [x] helmet
-- 
+- [x] Menu nav
+- [x] Routing
+- [x] diaryglobalstats
