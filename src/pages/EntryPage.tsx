@@ -23,7 +23,7 @@ export default function EntryPage() {
   // TEMP CODE START
   useEffect(() => {
     const timer = setInterval(() => {
-      setPoints((points) => (points + 1) % 26);
+      setPoints((points) => (points + 1) % 32);
     }, 1000);
 
     return () => {
