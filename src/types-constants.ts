@@ -134,5 +134,6 @@ export const loadLoginUser = (setLoginUser: SetLoginUser) => {
   if (loginUserJson) {
     const user = JSON.parse(loginUserJson);
     setLoginUser(user);
+    return user;
   }
 };

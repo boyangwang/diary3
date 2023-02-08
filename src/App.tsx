@@ -13,7 +13,10 @@ function App() {
   const location = useLocation();
   const [loginUser, setLoginUser] = useState(null as LoginUser | null);
   useEffect(() => {
-    loadLoginUser(setLoginUser);
+    const res = loadLoginUser(setLoginUser);
+    // if (res) {
+    //   loadBlob(res);
+    // }
   }, []);
 
   const activeKey = useMemo(() => {
