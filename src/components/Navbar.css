@@ -1,6 +1,6 @@
 .diary-navbar {
   /* stick to bottom navbar */
-  position: fixed;
+  position: sticky;
   bottom: 0;
   width: 100%;
   padding: 0 2%;
