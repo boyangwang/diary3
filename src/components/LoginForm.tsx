@@ -1,15 +1,13 @@
 import { Button, Form, Input } from 'antd';
-import { useContext } from 'react';
-import { LoginUserContext } from '../App';
-import { saveLoginUser } from '../types-constants';
+import { firstLogin } from '../app/login-user-slice';
+import { useAppDispatch } from '../app/store';
 
 const LoginForm = () => {
-  const { setLoginUser } = useContext(LoginUserContext);
+  const dispatch = useAppDispatch();
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
-
-    saveLoginUser({ uid: values.uid }, setLoginUser);
+    dispatch(firstLogin(values.uid));
   };
 
   const onFinishFailed = (errorInfo: any) => {

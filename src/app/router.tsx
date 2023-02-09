@@ -1,9 +1,9 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import App from './App';
-import AddPage from './pages/AddPage';
-import EntryPage from './pages/EntryPage';
-import ReminderPage from './pages/ReminderPage';
-import SettingsPage from './pages/SettingsPage';
+import App from '../pages/App';
+import AddPage from '../pages/AddPage';
+import EntryPage from '../pages/EntryPage';
+import ReminderPage from '../pages/ReminderPage';
+import SettingsPage from '../pages/SettingsPage';
 
 const router = createBrowserRouter([
   {

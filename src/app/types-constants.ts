@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export class EntryInstance {
   id: number = -1;
   entryTypeId: number = -1;
@@ -114,26 +116,6 @@ export class DiaryGlobalStats {
   totalEntries: number = -1;
 }
 
-export class LoginUser {
-  uid: string = '';
-}
-
-export type SetLoginUser = (user: LoginUser | null) => void | null;
-
-export const saveLoginUser = (user: LoginUser | null, setLoginUser: SetLoginUser) => {
-  if (user) {
-    localStorage.setItem('loginUser', JSON.stringify(user));
-  } else {
-    localStorage.removeItem('loginUser');
-  }
-  setLoginUser(user);
-};
-
-export const loadLoginUser = (setLoginUser: SetLoginUser) => {
-  const loginUserJson = localStorage.getItem('loginUser');
-  if (loginUserJson) {
-    const user = JSON.parse(loginUserJson);
-    setLoginUser(user);
-    return user;
-  }
-};
+export const formatDatetime = (datetime: number | null) =>
+  datetime ? moment(datetime).format('hh:mm:ss a | ddd DD MMM YYYY') : '';
+export const formatDate = (datetime: number | null) => (datetime ? moment(datetime).format('ddd DD MMM YYYY') : '');

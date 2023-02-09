@@ -1,5 +1,5 @@
 import { Card } from 'antd';
-import { EntryType } from '../types-constants';
+import { EntryType } from '../app/types-constants';
 
 const { Meta } = Card;
 

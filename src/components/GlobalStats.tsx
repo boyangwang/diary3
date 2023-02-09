@@ -1,4 +1,4 @@
-import { DiaryGlobalStats } from '../types-constants';
+import { DiaryGlobalStats } from '../app/types-constants';
 
 function GlobalStats() {
   const globalStats = new DiaryGlobalStats();

@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import EntryChart from '../components/EntryChart';
 import EntryProgressBar from '../components/EntryProgressBar';
 import EntryTypeList from '../components/EntryTypeList';
-import HeaderDatetime from '../components/HeaderDatetime';
-import { EntryType } from '../types-constants';
+import { EntryType } from '../app/types-constants';
 
 const entryTypeList: EntryType[] = [];
 for (let i = 1; i < 6; i++) {
@@ -34,7 +33,6 @@ export default function EntryPage() {
 
   return (
     <>
-      <HeaderDatetime />
       <EntryProgressBar points={points} />
       <EntryChart />
       <EntryTypeList entryTypeList={entryTypeList} />

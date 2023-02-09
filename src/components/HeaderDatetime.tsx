@@ -1,13 +1,13 @@
-import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { formatDatetime } from '../app/types-constants';
 import './HeaderDatetime.css';
 
 function HeaderDatetime() {
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState(+new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTime(new Date());
+      setTime(+new Date());
     }, 500);
 
     return () => {
@@ -17,7 +17,7 @@ function HeaderDatetime() {
 
   return (
     <div className="diary-header-datetime">
-      <h1>{moment().format('hh:mm:ss a | ddd DD MMM YYYY')}</h1>
+      <h1>{formatDatetime(time)}</h1>
     </div>
   );
 }

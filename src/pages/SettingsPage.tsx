@@ -1,10 +1,8 @@
-import { useContext } from 'react';
-import { LoginUserContext } from '../App';
+import { useAppSelector } from '../app/store';
 import GlobalStats from '../components/GlobalStats';
 import LoginForm from '../components/LoginForm';
 
 export default function SettingsPage() {
-  const { loginUser } = useContext(LoginUserContext);
-
-  return <div>{loginUser ? <GlobalStats /> : <LoginForm />}</div>;
+  const loginUser = useAppSelector((state) => state.loginUser);
+  return <div>{loginUser.uid ? <GlobalStats /> : <LoginForm />}</div>;
 }

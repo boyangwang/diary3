@@ -5,7 +5,6 @@ import StreaksTable from '../components/StreaksTable';
 export default function AddPage() {
   return (
     <>
-      <HeaderDatetime />
       <EntryTypeForm />
       <StreaksTable />
     </>
