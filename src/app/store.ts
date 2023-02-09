@@ -2,6 +2,7 @@ import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/t
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
 import { loginUserSlice } from './login-user-slice';
+import { entryTypesSlice } from './entry-types-slice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 const persistConfig = {
@@ -9,7 +10,7 @@ const persistConfig = {
   version: 1,
   storage: localStorage,
 };
-const rootReducer = combineReducers({ loginUser: loginUserSlice.reducer });
+const rootReducer = combineReducers({ loginUser: loginUserSlice.reducer, entryTypes: entryTypesSlice.reducer });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,

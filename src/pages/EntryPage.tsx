@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import EntryChart from '../components/EntryChart';
 import EntryProgressBar from '../components/EntryProgressBar';
 import EntryTypeList from '../components/EntryTypeList';
-import { EntryType } from '../app/types-constants';
+import { EntryType, EntryTypeConstructor } from '../app/types-constants';
 
 const entryTypeList: EntryType[] = [];
 for (let i = 1; i < 6; i++) {
   entryTypeList.push(
-    new EntryType({
-      id: i,
+    EntryTypeConstructor({
+      id: `${i}`,
       title: `test${i}`,
       defaultPoints: i,
       pointStep: i / 10,

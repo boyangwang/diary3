@@ -1,14 +1,14 @@
 import moment from 'moment';
 
-export class EntryInstance {
-  id: number = -1;
-  entryTypeId: number = -1;
+export interface EntryInstance {
+  id: number; // timesstamp + random number
+  entryTypeId: string;
 
-  createdAt: number = -1;
-  updatedAt: number = -1;
+  createdAt: number;
+  updatedAt: number;
 
-  points: number = -1;
-  notes: string = '';
+  points: number;
+  notes: string;
 }
 
 export enum RoutineEnum {
@@ -18,39 +18,42 @@ export enum RoutineEnum {
   none = 'NONE',
 }
 
-export class EntryType {
-  constructor({
-    id = -1,
-    title = '',
-    defaultPoints = 0,
-    pointStep = 0,
-    routine = RoutineEnum.none,
-    themeColor = '#000000',
-  }) {
-    this.updatedAt = this.createdAt = +new Date();
+export interface EntryType {
+  id: string;
+  title: string;
 
-    this.id = id;
-    this.title = title;
-    this.defaultPoints = defaultPoints;
-    this.pointStep = pointStep;
-    this.routine = routine;
-    this.themeColor = themeColor;
-  }
-
-  id: number = -1;
-  title: string = '';
-
-  defaultPoints: number = 0;
-  pointStep: number = 0;
+  defaultPoints: number;
+  pointStep: number;
 
   // when not completed in a cycle, deduct default points
-  routine: RoutineEnum = RoutineEnum.none;
+  routine: RoutineEnum;
 
-  createdAt: number = -1;
-  updatedAt: number = -1;
+  createdAt: number;
+  updatedAt: number;
 
-  themeColor: string = '#000000';
+  themeColors: string[];
 }
+
+export const EntryTypeConstructor = ({
+  id = '',
+  title = '',
+  defaultPoints = 0,
+  pointStep = 0,
+  routine = RoutineEnum.none,
+  themeColors = ['#000000'],
+}) => {
+  const now = +new Date();
+  return {
+    updatedAt: now,
+    createdAt: now,
+    title,
+    id,
+    defaultPoints,
+    pointStep,
+    routine,
+    themeColors,
+  } as EntryType;
+};
 
 export class EntryDay {
   year: number = -1;
@@ -119,3 +122,5 @@ export class DiaryGlobalStats {
 export const formatDatetime = (datetime: number | null) =>
   datetime ? moment(datetime).format('hh:mm:ss a | ddd DD MMM YYYY') : '';
 export const formatDate = (datetime: number | null) => (datetime ? moment(datetime).format('ddd DD MMM YYYY') : '');
+
+export const getEntryTypeIds = (entryTypes: EntryType[]) => entryTypes.map((entryType) => entryType.id);
