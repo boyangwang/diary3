@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import EntryChart from '../components/EntryChart';
 import EntryProgressBar from '../components/EntryProgressBar';
-import EntryTypeList from '../components/EntryTypeList';
+import EntryTypeList from '../components/EntryTypeListForCompletion';
 import { EntryType, EntryTypeConstructor } from '../app/types-constants';
 
 const entryTypeList: EntryType[] = [];

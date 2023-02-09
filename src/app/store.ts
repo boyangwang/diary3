@@ -1,4 +1,4 @@
-import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action, combineReducers, createSelector } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
 import { loginUserSlice } from './login-user-slice';
@@ -28,3 +28,11 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unk
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+export const selectEntryTypesArray = (state: RootState) => state.entryTypes.entryTypesArray;
+export const selectLoginUser = (state: RootState) => state.loginUser;
+
+export const selectEntryTypeIds = createSelector(selectEntryTypesArray, (entryTypes) => {
+  console.log('Memo selector: ', selectEntryTypeIds);
+  return entryTypes.map((entryType) => entryType.id);
+});

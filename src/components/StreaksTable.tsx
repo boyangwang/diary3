@@ -1,92 +1,133 @@
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { EntryType, RoutineEnum } from '../app/types-constants';
+import EntryTypeCard from './EntryTypeCard';
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
+interface EntryTypeOnStreaksTable extends EntryType {
+  [key: string]: any;
 }
 
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<EntryTypeOnStreaksTable> = [
   {
-    title: 'Full Name',
-    width: 100,
-    dataIndex: 'name',
-    key: 'name',
+    title: 'EntryType',
+    width: 300,
+    key: 'EntryType',
     fixed: 'left',
-  },
-  {
-    title: 'Age',
-    width: 100,
-    dataIndex: 'age',
-    key: 'age',
-    fixed: 'left',
+    render: (item) => <EntryTypeCard entryType={item} />,
   },
   {
     title: 'Column 1',
-    dataIndex: 'address',
     key: '1',
-    width: 150,
+    width: 100,
+    render: () => (
+      <div>
+        <p>{Math.random() > 0.5 ? 'YES' : 'NO'}</p>
+      </div>
+    ),
   },
   {
     title: 'Column 2',
-    dataIndex: 'address',
     key: '2',
-    width: 150,
+    width: 100,
+    render: () => (
+      <div>
+        <p>{Math.random() > 0.5 ? 'YES' : 'NO'}</p>
+      </div>
+    ),
   },
   {
     title: 'Column 3',
-    dataIndex: 'address',
     key: '3',
-    width: 150,
+    width: 100,
+    render: () => (
+      <div>
+        <p>{Math.random() > 0.5 ? 'YES' : 'NO'}</p>
+      </div>
+    ),
   },
   {
     title: 'Column 4',
-    dataIndex: 'address',
     key: '4',
-    width: 150,
+    width: 100,
+    render: () => (
+      <div>
+        <p>{Math.random() > 0.5 ? 'YES' : 'NO'}</p>
+      </div>
+    ),
   },
   {
     title: 'Column 5',
-    dataIndex: 'address',
     key: '5',
-    width: 150,
+    width: 100,
+    render: () => (
+      <div>
+        <p>{Math.random() > 0.5 ? 'YES' : 'NO'}</p>
+      </div>
+    ),
   },
   {
     title: 'Column 6',
-    dataIndex: 'address',
     key: '6',
-    width: 150,
+    width: 100,
+    render: () => (
+      <div>
+        <p>YES</p>
+      </div>
+    ),
   },
   {
     title: 'Column 7',
-    dataIndex: 'address',
     key: '7',
-    width: 150,
+    width: 100,
+    render: () => (
+      <div>
+        <p>YES</p>
+      </div>
+    ),
   },
-  { title: 'Column 8', dataIndex: 'address', key: '8' },
   {
-    title: 'Action',
-    key: 'operation',
+    title: 'Column 8',
+    key: '8',
+    width: 100,
+    render: () => (
+      <div>
+        <p>YES</p>
+      </div>
+    ),
+  },
+  {
+    title: 'Streaks',
+    key: 'streaks',
     fixed: 'right',
     width: 100,
-    render: () => <a>action</a>,
+    render: () => (
+      <div>
+        <p>Current: 3 days</p>
+        <p>Historical: 10 days</p>
+      </div>
+    ),
   },
 ];
 
-const data: DataType[] = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i,
-    name: `Edrward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
-}
+function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnum }) {
+  const scrollY = {
+    [RoutineEnum.daily]: 600,
+    [RoutineEnum.adhoc]: 400,
+    [RoutineEnum.weekly]: 400,
+    [RoutineEnum.monthly]: 400,
+  };
 
-function StreaksTable() {
-  return <Table columns={columns} dataSource={data} scroll={{ x: true }} />;
+  return (
+    <>
+      <h2>{`${props.routine} Streaks Table`}</h2>
+      <Table
+        rowKey="id"
+        columns={columns}
+        dataSource={props.entryTypesArray.filter((item) => item.routine === props.routine)}
+        scroll={{ x: true, y: scrollY[props.routine] }}
+      />
+    </>
+  );
 }
 
 export default StreaksTable;

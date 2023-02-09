@@ -1,12 +1,12 @@
 import { Button } from 'antd';
-import { onCloseUpdateLastUseTime, onLogoutClickClearState } from '../app/login-user-slice';
-import { useAppDispatch, useAppSelector } from '../app/store';
+import { LoginUserState, onCloseUpdateLastUseTime, onLogoutClickClearState } from '../app/login-user-slice';
+import { useAppDispatch } from '../app/store';
 import { formatDate, formatDatetime } from '../app/types-constants';
 import './HeaderUser.css';
 
-function UserHeader() {
-  const loginUser = useAppSelector((state) => state.loginUser);
+function UserHeader(props: { loginUser: LoginUserState }) {
   const dispatch = useAppDispatch();
+  const { loginUser } = props;
 
   window.addEventListener('beforeunload', (ev) => {
     ev.preventDefault();

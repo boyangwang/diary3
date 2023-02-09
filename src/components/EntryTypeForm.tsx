@@ -1,25 +1,22 @@
 import { Button, Form, Input, InputNumber, Radio } from 'antd';
 import { EntryNavIcon } from './DiaryIcons';
-import { RoutineEnum, EntryTypeThemeColors, getEntryTypeIds, EntryTypeConstructor } from '../app/types-constants';
-import { useAppDispatch, useAppSelector } from '../app/store';
-import EntryTypeList from './EntryTypeList';
+import { RoutineEnum, EntryTypeThemeColors, EntryTypeConstructor, EntryType } from '../app/types-constants';
+import { useAppDispatch } from '../app/store';
 import { createEntryType } from '../app/entry-types-slice';
 
 const EntryTypeThemeColorsRadio = EntryTypeThemeColors.map((themeColorPair) => {
   return (
-    <Radio.Button key={themeColorPair[0]} value={themeColorPair}>
+    <Radio.Button key={themeColorPair[0]} value={JSON.stringify(themeColorPair)}>
       {JSON.stringify(themeColorPair)}
     </Radio.Button>
   );
 });
 
-const EntryTypeForm = () => {
-  const { entryTypesArray } = useAppSelector((state) => state.entryTypes);
+const EntryTypeForm = (props: { isUpdate: boolean; entryType?: null | EntryType; entryTypeIds: string[] }) => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
 
   const onValuesChange = (changedValues: any, allValues: any) => {
-    console.log('onValuesChange', changedValues, allValues);
     if (changedValues.title) {
       // replace non-alphanumeric characters in title with hyphens
       const id = changedValues.title
@@ -32,8 +29,10 @@ const EntryTypeForm = () => {
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
+    values.themeColors = JSON.parse(values.themeColors);
     const entryType = EntryTypeConstructor(values);
     dispatch(createEntryType(entryType));
+    form.resetFields();
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -46,8 +45,8 @@ const EntryTypeForm = () => {
         name="entry-type-form"
         form={form}
         initialValues={{
-          routine: RoutineEnum.none,
-          themeColor: EntryTypeThemeColors[0][0],
+          routine: RoutineEnum.adhoc,
+          themeColors: JSON.stringify(EntryTypeThemeColors[(EntryTypeThemeColors.length * Math.random()) | 0]),
           defaultPoints: 1,
           pointStep: 1,
         }}
@@ -61,9 +60,7 @@ const EntryTypeForm = () => {
             { required: true, message: 'id is required' },
             {
               validator: (_, id) => {
-                return getEntryTypeIds(entryTypesArray).includes(id)
-                  ? Promise.reject('id already exists')
-                  : Promise.resolve();
+                return props.entryTypeIds.includes(id) ? Promise.reject('id already exists') : Promise.resolve();
               },
             },
           ]}
@@ -82,19 +79,19 @@ const EntryTypeForm = () => {
           <InputNumber min={0} max={60} step={0.5} size="large" />
         </Form.Item>
 
-        <Form.Item name="routine" rules={[{ required: true, message: 'themeColor is required' }]}>
+        <Form.Item name="routine" rules={[{ required: true, message: 'routine is required' }]}>
           <Radio.Group>
-            <Radio.Button key={RoutineEnum.none} value={RoutineEnum.none}>
-              None
+            <Radio.Button key={RoutineEnum.adhoc} value={RoutineEnum.adhoc}>
+              {RoutineEnum.adhoc}
             </Radio.Button>
             <Radio.Button key={RoutineEnum.daily} value={RoutineEnum.daily}>
-              Daily
+              {RoutineEnum.daily}
             </Radio.Button>
             <Radio.Button key={RoutineEnum.weekly} value={RoutineEnum.weekly}>
-              Weekly
+              {RoutineEnum.weekly}
             </Radio.Button>
             <Radio.Button key={RoutineEnum.monthly} value={RoutineEnum.monthly}>
-              Monthly
+              {RoutineEnum.monthly}
             </Radio.Button>
           </Radio.Group>
         </Form.Item>
@@ -109,7 +106,6 @@ const EntryTypeForm = () => {
           </Button>
         </Form.Item>
       </Form>
-      <EntryTypeList entryTypeList={entryTypesArray}></EntryTypeList>
     </>
   );
 };

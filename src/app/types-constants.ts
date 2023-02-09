@@ -12,10 +12,10 @@ export interface EntryInstance {
 }
 
 export enum RoutineEnum {
-  daily = 'DAILY',
-  weekly = 'WEEKLY',
-  monthly = 'MONTHLY',
-  none = 'NONE',
+  daily = 'Daily',
+  weekly = 'Weekly',
+  monthly = 'Monthly',
+  adhoc = 'Adhoc',
 }
 
 export interface EntryType {
@@ -39,7 +39,7 @@ export const EntryTypeConstructor = ({
   title = '',
   defaultPoints = 0,
   pointStep = 0,
-  routine = RoutineEnum.none,
+  routine = RoutineEnum.adhoc,
   themeColors = ['#000000'],
 }) => {
   const now = +new Date();
@@ -122,5 +122,3 @@ export class DiaryGlobalStats {
 export const formatDatetime = (datetime: number | null) =>
   datetime ? moment(datetime).format('hh:mm:ss a | ddd DD MMM YYYY') : '';
 export const formatDate = (datetime: number | null) => (datetime ? moment(datetime).format('ddd DD MMM YYYY') : '');
-
-export const getEntryTypeIds = (entryTypes: EntryType[]) => entryTypes.map((entryType) => entryType.id);

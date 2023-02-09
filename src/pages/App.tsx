@@ -6,10 +6,12 @@ import { useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import UserHeader from '../components/HeaderUser';
 import HeaderDatetime from '../components/HeaderDatetime';
+import { useAppSelector } from '../app/store';
 
 function App() {
   const matches = useMatches();
   const location = useLocation();
+  const loginUser = useAppSelector((state) => state.loginUser);
 
   const activeKey = useMemo(() => {
     let p;
@@ -26,7 +28,7 @@ function App() {
       <Helmet>
         <title>Diary - {location.pathname}</title>
       </Helmet>
-      <UserHeader />
+      <UserHeader loginUser={loginUser} />
       <HeaderDatetime />
       <Outlet />
       <Navbar activeKey={activeKey} />

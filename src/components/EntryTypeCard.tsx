@@ -35,7 +35,10 @@ const EntryTypeCard = (props: { entryType: EntryType }) => {
         <EntryTypeCardDeleteButton entryType={entryType}></EntryTypeCardDeleteButton>,
       ]}
     >
-      <Meta title={`${props.entryType.title} ${props.entryType.id}`} description={JSON.stringify(props.entryType)} />
+      <Meta
+        title={`${props.entryType.title} ${props.entryType.id}`}
+        description={JSON.stringify(props.entryType, null, 2)}
+      />
     </Card>
   );
 };
