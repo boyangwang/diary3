@@ -2,7 +2,9 @@ import { Button, Form, Input, InputNumber, Radio } from 'antd';
 import { EntryNavIcon } from './DiaryIcons';
 import { RoutineEnum, EntryTypeThemeColors, EntryTypeConstructor, EntryType } from '../app/types-constants';
 import { useAppDispatch } from '../app/store';
-import { createEntryType } from '../app/entry-types-slice';
+import { createEntryType, updateEntryType } from '../app/entry-types-slice';
+import { exitEntryTypeEdit } from '../app/ui-slice';
+import { useEffect } from 'react';
 
 const EntryTypeThemeColorsRadio = EntryTypeThemeColors.map((themeColorPair) => {
   return (
@@ -12,7 +14,16 @@ const EntryTypeThemeColorsRadio = EntryTypeThemeColors.map((themeColorPair) => {
   );
 });
 
-const EntryTypeForm = (props: { isUpdate: boolean; entryType?: null | EntryType; entryTypeIds: string[] }) => {
+const addInitialValues = {
+  routine: RoutineEnum.adhoc,
+  themeColors: JSON.stringify(EntryTypeThemeColors[(EntryTypeThemeColors.length * Math.random()) | 0]),
+  defaultPoints: 1,
+  pointStep: 1,
+  id: '',
+  title: '',
+};
+
+const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | EntryType; entryTypeIds: string[] }) => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
 
@@ -31,25 +42,41 @@ const EntryTypeForm = (props: { isUpdate: boolean; entryType?: null | EntryType;
     console.log('Success:', values);
     values.themeColors = JSON.parse(values.themeColors);
     const entryType = EntryTypeConstructor(values);
-    dispatch(createEntryType(entryType));
-    form.resetFields();
+    if (props.isUpdate) {
+      dispatch(updateEntryType(entryType));
+      dispatch(exitEntryTypeEdit());
+    } else {
+      dispatch(createEntryType(entryType));
+      form.resetFields();
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
 
+  const onCancelUpdateClick = () => {
+    dispatch(exitEntryTypeEdit());
+  };
+
+  useEffect(() => {
+    if (props.isUpdate) {
+      form.setFieldsValue(
+        Object.assign({}, props.updatingEntryType, {
+          themeColors: props.updatingEntryType ? JSON.stringify(props.updatingEntryType.themeColors) : '',
+        }),
+      );
+    } else {
+      form.setFieldsValue(addInitialValues);
+    }
+  }, [props.isUpdate, props.updatingEntryType, form]);
+
   return (
     <>
       <Form
         name="entry-type-form"
         form={form}
-        initialValues={{
-          routine: RoutineEnum.adhoc,
-          themeColors: JSON.stringify(EntryTypeThemeColors[(EntryTypeThemeColors.length * Math.random()) | 0]),
-          defaultPoints: 1,
-          pointStep: 1,
-        }}
+        initialValues={addInitialValues}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         onValuesChange={onValuesChange}
@@ -60,7 +87,11 @@ const EntryTypeForm = (props: { isUpdate: boolean; entryType?: null | EntryType;
             { required: true, message: 'id is required' },
             {
               validator: (_, id) => {
-                return props.entryTypeIds.includes(id) ? Promise.reject('id already exists') : Promise.resolve();
+                if (props.isUpdate) {
+                  return Promise.resolve();
+                } else {
+                  return props.entryTypeIds.includes(id) ? Promise.reject('id already exists') : Promise.resolve();
+                }
               },
             },
           ]}
@@ -102,9 +133,10 @@ const EntryTypeForm = (props: { isUpdate: boolean; entryType?: null | EntryType;
 
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Add
+            {props.isUpdate ? 'Update' : 'Add'}
           </Button>
         </Form.Item>
+        {props.isUpdate && <Button onClick={onCancelUpdateClick}>Cancel</Button>}
       </Form>
     </>
   );

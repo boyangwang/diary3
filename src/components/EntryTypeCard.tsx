@@ -2,6 +2,7 @@ import { Button, Card } from 'antd';
 import { EntryType } from '../app/types-constants';
 import { deleteEntryType } from '../app/entry-types-slice';
 import { useAppDispatch } from '../app/store';
+import { enterEntryTypeEdit } from '../app/ui-slice';
 
 const { Meta } = Card;
 
@@ -23,7 +24,7 @@ const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {
 const EntryTypeCardUpdateButton = (props: { entryType: EntryType }) => {
   const dispatch = useAppDispatch();
 
-  return <Button onClick={() => {}}>Update</Button>;
+  return <Button onClick={() => dispatch(enterEntryTypeEdit({ entryTypeId: props.entryType.id }))}>Update</Button>;
 };
 
 const EntryTypeCard = (props: { entryType: EntryType }) => {
