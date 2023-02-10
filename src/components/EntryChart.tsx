@@ -3,7 +3,7 @@ import { ResponsiveContainer, Tooltip, AreaChart, XAxis, YAxis, Legend, Cartesia
 function EntryChart() {
   const { chartData, areas } = { chartData: [], areas: [] };
   return (
-    <ResponsiveContainer width="98%" height={480}>
+    <ResponsiveContainer width="98%" height={180}>
       <AreaChart data={chartData} margin={{ top: 12, right: 16, left: -20, bottom: 12 }}>
         <XAxis dataKey="date" padding={{ left: 16, right: 16 }} />
         <YAxis padding={{ top: 0, bottom: 0 }} type="number" domain={[0, 18]} ticks={[0, 4, 8, 12, 16]} />

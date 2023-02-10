@@ -1,11 +1,30 @@
 import { Form, Input, InputNumber, Button } from 'antd';
+import { createEntryInstance } from '../app/entry-instances-slice';
+import { useAppDispatch } from '../app/store';
 import { EntryType } from '../app/types-constants';
 
 function EntryTypeCompletionForm(props: { entryType: EntryType }) {
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
 
-  const onFinish = (values: any) => {};
-  const onFinishFailed = (errorInfo: any) => {};
+  const onFinish = (values: any) => {
+    console.log('Completion Form Values: ', values);
+    const now = +new Date();
+    dispatch(
+      createEntryInstance({
+        id: `${props.entryType.id}-${new Date().toISOString()}-${Math.floor(Math.random() * 120)}`,
+        createdAt: now,
+        updatedAt: now,
+        entryTypeId: props.entryType.id,
+        points: values.points,
+        notes: values.notes,
+      }),
+    );
+    form.resetFields();
+  };
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Completion Form Err: ', errorInfo);
+  };
 
   return (
     <Form

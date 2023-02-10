@@ -5,6 +5,7 @@ import { loginUserSlice } from './login-user-slice';
 import { entryTypesSlice } from './entry-types-slice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { uiStateSlice } from './ui-slice';
+import { entryInstancesSlice } from './entry-instances-slice';
 
 const persistConfig = {
   key: 'diary',
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   loginUser: loginUserSlice.reducer,
   entryTypes: entryTypesSlice.reducer,
+  entryInstances: entryInstancesSlice.reducer,
   uiState: uiStateSlice.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -35,6 +37,7 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const selectEntryTypesArray = (state: RootState) => state.entryTypes.entryTypesArray;
+export const selectEntryInstancesArray = (state: RootState) => state.entryInstances.entryInstancesArray;
 export const selectLoginUser = (state: RootState) => state.loginUser;
 
 export const selectEntryTypeIds = createSelector(selectEntryTypesArray, (entryTypes) => {

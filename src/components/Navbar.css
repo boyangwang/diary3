@@ -2,7 +2,6 @@
   /* stick to bottom navbar */
   position: sticky;
   bottom: 0;
-  width: 100%;
   padding: 0 2%;
   z-index: 12;
 }
