@@ -1,41 +1,17 @@
 import { useEffect, useState } from 'react';
 import EntryChart from '../components/EntryChart';
 import EntryProgressBar from '../components/EntryProgressBar';
-import EntryTypeList from '../components/EntryTypeListForCompletion';
-import { EntryType, EntryTypeConstructor } from '../app/types-constants';
-
-const entryTypeList: EntryType[] = [];
-for (let i = 1; i < 6; i++) {
-  entryTypeList.push(
-    EntryTypeConstructor({
-      id: `${i}`,
-      title: `test${i}`,
-      defaultPoints: i,
-      pointStep: i / 10,
-    }),
-  );
-}
+import EntryTypeListForCompletion from '../components/EntryTypeListForCompletion';
+import { selectEntryTypesArray, useAppSelector } from '../app/store';
 
 export default function EntryPage() {
-  const [points, setPoints] = useState(() => 0);
-
-  // TEMP CODE START
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setPoints((points) => (points + 1) % 32);
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-  // TEMP CODE END
+  const entryTypesArray = useAppSelector(selectEntryTypesArray);
 
   return (
     <>
-      <EntryProgressBar points={points} />
+      <EntryProgressBar points={Math.random() * 30} />
       <EntryChart />
-      <EntryTypeList entryTypeList={entryTypeList} />
+      <EntryTypeListForCompletion entryTypesArray={entryTypesArray} />
     </>
   );
 }

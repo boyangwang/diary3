@@ -3,6 +3,8 @@ import { EntryType } from '../app/types-constants';
 import { deleteEntryType } from '../app/entry-types-slice';
 import { useAppDispatch } from '../app/store';
 import { enterEntryTypeEdit } from '../app/ui-slice';
+import './EntryTypeCard.css';
+import EntryTypeCompletionForm from './EntryTypeCompletionForm';
 
 const { Meta } = Card;
 
@@ -27,18 +29,38 @@ const EntryTypeCardUpdateButton = (props: { entryType: EntryType }) => {
   return <Button onClick={() => dispatch(enterEntryTypeEdit({ entryTypeId: props.entryType.id }))}>Update</Button>;
 };
 
-const EntryTypeCard = (props: { entryType: EntryType }) => {
+const editActions = (entryType: EntryType) => [
+  <EntryTypeCardUpdateButton entryType={entryType}></EntryTypeCardUpdateButton>,
+  <EntryTypeCardDeleteButton entryType={entryType}></EntryTypeCardDeleteButton>,
+];
+
+const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean }) => {
   const { entryType } = props;
+
   return (
     <Card
-      actions={[
-        <EntryTypeCardUpdateButton entryType={entryType}></EntryTypeCardUpdateButton>,
-        <EntryTypeCardDeleteButton entryType={entryType}></EntryTypeCardDeleteButton>,
-      ]}
+      actions={
+        props.isEdit
+          ? editActions(entryType)
+          : [<EntryTypeCompletionForm entryType={props.entryType}></EntryTypeCompletionForm>]
+      }
     >
       <Meta
-        title={`${props.entryType.title} ${props.entryType.id}`}
-        description={JSON.stringify(props.entryType, null, 2)}
+        title={`${props.entryType.title}`}
+        description={
+          <div className="diary-entrytype-card-description">
+            <span>id: {props.entryType.id}</span>
+            <span>routine: {props.entryType.routine}</span>
+
+            <span>defaultPoints: {props.entryType.defaultPoints}</span>
+            <span>pointStep: {props.entryType.pointStep}</span>
+
+            <span>createdAt: {props.entryType.createdAt}</span>
+            <span>updatedAt: {props.entryType.updatedAt}</span>
+
+            <span>themeColors: {JSON.stringify(props.entryType.themeColors)}</span>
+          </div>
+        }
       />
     </Card>
   );

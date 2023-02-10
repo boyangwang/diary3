@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export interface EntryInstance {
-  id: number; // timesstamp + random number
+  id: string; // timesstamp + random number
   entryTypeId: string;
 
   createdAt: number;

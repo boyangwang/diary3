@@ -2,15 +2,15 @@ import { List } from 'antd';
 import { EntryType } from '../app/types-constants';
 import EntryTypeCard from './EntryTypeCard';
 
-const EntryTypeList = (props: { entryTypeList: EntryType[] }) => (
+const EntryTypeListForCompletion = (props: { entryTypesArray: EntryType[] }) => (
   <List
-    dataSource={props.entryTypeList}
+    dataSource={props.entryTypesArray}
     renderItem={(item: EntryType) => (
       <List.Item>
-        <EntryTypeCard entryType={item} />
+        <EntryTypeCard entryType={item} isEdit={false} />
       </List.Item>
     )}
   />
 );
 
-export default EntryTypeList;
+export default EntryTypeListForCompletion;

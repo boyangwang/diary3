@@ -43,6 +43,7 @@ const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | En
     values.themeColors = JSON.parse(values.themeColors);
     const entryType = EntryTypeConstructor(values);
     if (props.isUpdate) {
+      entryType.updatedAt = +new Date();
       dispatch(updateEntryType(entryType));
       dispatch(exitEntryTypeEdit());
     } else {

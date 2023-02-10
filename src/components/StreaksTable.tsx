@@ -13,7 +13,7 @@ const columns: ColumnsType<EntryTypeOnStreaksTable> = [
     width: 300,
     key: 'EntryType',
     fixed: 'left',
-    render: (item) => <EntryTypeCard entryType={item} />,
+    render: (item) => <EntryTypeCard entryType={item} isEdit />,
   },
   {
     title: 'Column 1',
