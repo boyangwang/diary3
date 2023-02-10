@@ -10,8 +10,9 @@
 
 - updateentry
 - redux entries
-- import data
+- import old data
 - persist to localstorage
+- all entryinstances should group by date by default
 
 - [x] redux login
 - [x] helmet

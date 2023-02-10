@@ -1,33 +1,46 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { EntryInstance } from './types-constants';
+import { EntryInstance, getDateStringFromTimestamp } from './types-constants';
 
 export interface EntryInstancesState {
-  entryInstancesArray: EntryInstance[];
+  entryInstancesMap: { [key: string]: EntryInstance[] };
 }
 const initialState: EntryInstancesState = {
-  entryInstancesArray: [],
+  entryInstancesMap: {},
 };
 
 export const entryInstancesSlice = createSlice({
   name: 'entryInstances',
   initialState,
   reducers: {
+    initDayEntryInstances: (state, actoin: PayloadAction<{ dateStr: string }>) => {
+      state.entryInstancesMap[actoin.payload.dateStr] = state.entryInstancesMap[actoin.payload.dateStr] || [];
+    },
     createEntryInstance: (state, action: PayloadAction<EntryInstance>) => {
-      state.entryInstancesArray.push(action.payload);
+      const dateStr = getDateStringFromTimestamp(action.payload.createdAt);
+      state.entryInstancesMap[dateStr]
+        ? state.entryInstancesMap[dateStr].push(action.payload)
+        : (state.entryInstancesMap[dateStr] = [action.payload]);
     },
     updateEntryInstance: (state, action: PayloadAction<EntryInstance>) => {
-      const indexToUpdate = state.entryInstancesArray.findIndex(
+      // find the index of the entryInstance in state.entryInstancesMap[dateStr]
+      const dateStr = getDateStringFromTimestamp(action.payload.createdAt);
+      const indexToUpdate = state.entryInstancesMap[dateStr].findIndex(
         (entryInstance) => entryInstance.id === action.payload.id,
       );
-      // update this index in state.entryInstancesArray
-      state.entryInstancesArray[indexToUpdate] = action.payload;
+      // update the entryInstance at that index
+      state.entryInstancesMap[dateStr][indexToUpdate] = action.payload;
     },
-    deleteEntryInstance: (state, action: PayloadAction<string>) => {
-      const indexToDelte = state.entryInstancesArray.findIndex((entryInstance) => entryInstance.id === action.payload);
-      // delete this index from state.entryInstancesArray
-      state.entryInstancesArray.splice(indexToDelte, 1);
+    deleteEntryInstance: (state, action: PayloadAction<EntryInstance>) => {
+      // find the index of the entryInstance in state.entryInstancesMap[dateStr]
+      const dateStr = getDateStringFromTimestamp(action.payload.createdAt);
+      const indexToDelete = state.entryInstancesMap[dateStr].findIndex(
+        (entryInstance) => entryInstance.id === action.payload.id,
+      );
+      // delete the entryInstance at that index
+      state.entryInstancesMap[dateStr].splice(indexToDelete, 1);
     },
   },
 });
 
-export const { createEntryInstance, updateEntryInstance, deleteEntryInstance } = entryInstancesSlice.actions;
+export const { initDayEntryInstances, createEntryInstance, updateEntryInstance, deleteEntryInstance } =
+  entryInstancesSlice.actions;

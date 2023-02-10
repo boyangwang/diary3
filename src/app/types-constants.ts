@@ -55,44 +55,15 @@ export const EntryTypeConstructor = ({
   } as EntryType;
 };
 
-export class EntryDay {
-  year: number = -1;
-  month: -1 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 = -1;
-  day:
-    | -1
-    | 1
-    | 2
-    | 3
-    | 4
-    | 5
-    | 6
-    | 7
-    | 8
-    | 9
-    | 10
-    | 11
-    | 12
-    | 13
-    | 14
-    | 15
-    | 16
-    | 17
-    | 18
-    | 19
-    | 20
-    | 21
-    | 22
-    | 23
-    | 24
-    | 25
-    | 26
-    | 27
-    | 28
-    | 29
-    | 30
-    | 31 = -1;
+export type Year = number;
+export type Month = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+// eslint-disable-next-line prettier/prettier
+export type Day = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31;
+export type DiaryDate = { year: Year; month: Month; day: Day };
 
-  entryInstanceIds: number[] = [];
+export interface EntryDay extends DiaryDate {
+  entryInstanceIds: string[];
+  totalPoints: number;
 }
 
 export const PAGES = ['entry', 'add', 'reminder', 'settings'];
@@ -122,3 +93,16 @@ export class DiaryGlobalStats {
 export const formatDatetime = (datetime: number | null) =>
   datetime ? moment(datetime).format('h:mm:ssa | ddd DD MMM YYYY') : '';
 export const formatDate = (datetime: number | null) => (datetime ? moment(datetime).format('ddd DD MMM YYYY') : '');
+
+export const getDateStringFromEntryDay = (entryDay: EntryDay) => {
+  const { year, month, day } = entryDay;
+  return `${year}-${month}-${day}`;
+};
+
+export const getDateStringFromTimestamp = (timestamp: number) => {
+  const m = moment(timestamp);
+  // month is 0-indexed. maybe easier to index in an array [Jan, Feb, Mar, ...]
+  // same goes for day of week
+  return m.format('YYYY-MM-DD');
+};
+export const getDateStringFromNow = () => getDateStringFromTimestamp(+new Date());

@@ -37,8 +37,9 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const selectEntryTypesArray = (state: RootState) => state.entryTypes.entryTypesArray;
-export const selectEntryInstancesArray = (state: RootState) => state.entryInstances.entryInstancesArray;
+export const selectEntryInstancesMap = (state: RootState) => state.entryInstances.entryInstancesMap;
 export const selectLoginUser = (state: RootState) => state.loginUser;
+export const selectDateStr = (state: RootState) => state.uiState.app.dateStr;
 
 export const selectEntryTypeIds = createSelector(selectEntryTypesArray, (entryTypes) => {
   console.log('Memo selector: ', selectEntryTypeIds);

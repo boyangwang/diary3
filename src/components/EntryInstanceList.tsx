@@ -10,7 +10,7 @@ const EntryInstanceCardDeleteButton = (props: { entryInstance: EntryInstance }) 
     <Button
       danger
       onClick={() => {
-        dispatch(deleteEntryInstance(props.entryInstance.id));
+        dispatch(deleteEntryInstance(props.entryInstance));
       }}
     >
       Delete
