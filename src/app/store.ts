@@ -42,6 +42,17 @@ export const selectLoginUser = (state: RootState) => state.loginUser;
 export const selectDateStr = (state: RootState) => state.uiState.app.dateStr;
 
 export const selectEntryTypeIds = createSelector(selectEntryTypesArray, (entryTypes) => {
-  console.log('Memo selector: ', selectEntryTypeIds);
+  console.log('Memo selector: selectEntryTypeIds');
   return entryTypes.map((entryType) => entryType.id);
+});
+
+export const selectTodayEntryInstances = (state: RootState) => {
+  const dateStr = selectDateStr(state);
+  const entryInstancesMap = selectEntryInstancesMap(state);
+  return entryInstancesMap[dateStr] || [];
+};
+
+export const selectTodayTotalPoints = createSelector(selectTodayEntryInstances, (entryInstances) => {
+  console.log('Memo selector: selectTodayTotalPoints');
+  return entryInstances.reduce((sum, entryInstance) => sum + entryInstance.points, 0);
 });

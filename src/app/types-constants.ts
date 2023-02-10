@@ -91,7 +91,7 @@ export class DiaryGlobalStats {
 }
 
 export const formatDatetime = (datetime: number | null) =>
-  datetime ? moment(datetime).format('h:mm:ssa | ddd DD MMM YYYY') : '';
+  datetime ? moment(datetime).format('h:mm:ssa | YYYY-MM-DD ddd') : '';
 export const formatDate = (datetime: number | null) => (datetime ? moment(datetime).format('ddd DD MMM YYYY') : '');
 
 export const getDateStringFromEntryDay = (entryDay: EntryDay) => {
