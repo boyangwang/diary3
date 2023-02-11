@@ -1,7 +1,7 @@
 import { Form, Input, InputNumber, Button } from 'antd';
 import { createEntryInstance } from '../app/entry-instances-slice';
 import { useAppDispatch } from '../app/store';
-import { EntryType } from '../app/types-constants';
+import { EntryType, getEntryInstanceIdFromEntryType } from '../app/types-constants';
 
 function EntryTypeCompletionForm(props: { entryType: EntryType }) {
   const [form] = Form.useForm();
@@ -12,7 +12,7 @@ function EntryTypeCompletionForm(props: { entryType: EntryType }) {
     const now = +new Date();
     dispatch(
       createEntryInstance({
-        id: `${props.entryType.id}-${new Date().toISOString()}-${Math.floor(Math.random() * 120)}`,
+        id: getEntryInstanceIdFromEntryType(props.entryType),
         createdAt: now,
         updatedAt: now,
         entryTypeId: props.entryType.id,

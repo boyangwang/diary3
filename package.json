@@ -67,6 +67,7 @@
   "devDependencies": {
     "@types/react-helmet": "^6.1.6",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "ts-node": "^10.9.1"
   }
 }

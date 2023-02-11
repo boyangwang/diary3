@@ -58,7 +58,38 @@ export const EntryTypeConstructor = ({
 export type Year = number;
 export type Month = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 // eslint-disable-next-line prettier/prettier
-export type Day = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31;
+export type Day =
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15
+  | 16
+  | 17
+  | 18
+  | 19
+  | 20
+  | 21
+  | 22
+  | 23
+  | 24
+  | 25
+  | 26
+  | 27
+  | 28
+  | 29
+  | 30
+  | 31;
 export type DiaryDate = { year: Year; month: Month; day: Day };
 
 export interface EntryDay extends DiaryDate {
@@ -106,3 +137,7 @@ export const getDateStringFromTimestamp = (timestamp: number) => {
   return m.format('YYYY-MM-DD');
 };
 export const getDateStringFromNow = () => getDateStringFromTimestamp(+new Date());
+
+export const getEntryInstanceIdFromEntryType = (entryType: EntryType) => {
+  return `${entryType.id}-${new Date().toISOString()}-${Math.floor(Math.random() * 120)}`;
+};

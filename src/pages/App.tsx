@@ -6,7 +6,7 @@ import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import UserHeader from '../components/HeaderUser';
 import HeaderDatetime from '../components/HeaderDatetime';
-import { selectDateStr, useAppDispatch, useAppSelector } from '../app/store';
+import { useAppDispatch, useAppSelector } from '../app/store';
 import { initDateStr } from '../app/ui-slice';
 import { initDayEntryInstances } from '../app/entry-instances-slice';
 
