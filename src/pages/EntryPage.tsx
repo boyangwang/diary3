@@ -1,12 +1,19 @@
 import EntryChart from '../components/EntryChart';
 import EntryProgressBar from '../components/EntryProgressBar';
 import EntryTypeListForCompletion from '../components/EntryTypeListForCompletion';
-import { selectEntryTypesArray, selectTodayEntryInstances, selectTodayTotalPoints, useAppSelector } from '../app/store';
+import {
+  selectEntryInstancesMap,
+  selectEntryTypesArray,
+  selectTodayEntryInstances,
+  selectTodayTotalPoints,
+  useAppSelector,
+} from '../app/store';
 import EntryInstanceList from '../components/EntryInstanceList';
-import ImportHistoryButton from '../components/ImportHistoryButton';
+// import ImportHistoryButton from '../components/ImportHistoryButton';
 
 export default function EntryPage() {
   const entryTypesArray = useAppSelector(selectEntryTypesArray);
+  const entryInstancesMap = useAppSelector(selectEntryInstancesMap);
   const todayEntryInstances = useAppSelector(selectTodayEntryInstances);
   const todayPoints = useAppSelector(selectTodayTotalPoints);
 
@@ -14,7 +21,7 @@ export default function EntryPage() {
     <>
       <EntryProgressBar points={todayPoints} />
       <EntryInstanceList entryInstancesArray={todayEntryInstances} />
-      <EntryChart />
+      <EntryChart entryInstancesMap={entryInstancesMap} />
       <EntryTypeListForCompletion entryTypesArray={entryTypesArray} />
     </>
   );

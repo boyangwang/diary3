@@ -1,9 +1,95 @@
-import { ResponsiveContainer, Tooltip, AreaChart, XAxis, YAxis, Legend, CartesianGrid } from 'recharts';
+import { Area, ResponsiveContainer, Tooltip, AreaChart, XAxis, YAxis, Legend, CartesianGrid } from 'recharts';
+import { selectAllDaysFilledBySomeEntryInstances, useAppSelector } from '../app/store';
+import {
+  barHighColor,
+  barLowColor,
+  chartColorPanel,
+  EntryInstance,
+  setOpacity,
+  stringHashCode,
+} from '../app/types-constants';
+import { barLowValue, barHighValue } from '../app/types-constants';
+import EntryChartTooltip, { TooltipPayload } from './EntryChartTooltip';
 
-function EntryChart() {
-  const { chartData, areas } = { chartData: [], areas: [] };
+const getChartDataAndAreasFromDaysAndEntriesDateMap = (
+  dateRange: string[],
+  entryInstancesMap: { [key: string]: EntryInstance[] },
+) => {
+  const allKeys: Set<string> = new Set();
+  const chartData = dateRange
+    .map((date) => {
+      const entries = entryInstancesMap[date];
+      const res: { [key: string]: number | string } = {
+        date,
+        _barLow: barLowValue,
+        _barHigh: barHighValue,
+        Sum: 0,
+      };
+      entries.forEach((entry) => {
+        allKeys.add(entry.entryTypeId);
+        res[entry.entryTypeId] = res[entry.entryTypeId] ? +res[entry.entryTypeId] + entry.points : entry.points;
+      });
+      return res;
+    })
+    .map((dataPoint) => {
+      allKeys.forEach((key: string) => {
+        dataPoint[key] = dataPoint[key] || 0;
+      });
+      return dataPoint;
+    });
+  const areas = [...allKeys.keys(), '_barLow', '_barHigh'].sort().map((key: string) => {
+    const colorIdx = Math.abs(stringHashCode(key)) % chartColorPanel.length;
+    const props = {
+      type: 'linear' as 'linear',
+      dataKey: key,
+      stackId: '3',
+      stroke: chartColorPanel[colorIdx],
+      fill: setOpacity(chartColorPanel[colorIdx], 0.36),
+      dot: false,
+      label: {
+        formatter: (label: number | string) => {
+          if (+label === 0) {
+            return null;
+          }
+          return +label;
+        },
+        position: 'right',
+      },
+    };
+    if (key === '_barLow') {
+      Object.assign(props, {
+        stackId: '1',
+        stroke: barLowColor,
+        fill: 'transparent',
+        dot: false,
+        strokeWidth: 2,
+        strokeDasharray: '5 4',
+        strokeOpacity: 0.8,
+        label: false,
+      });
+    } else if (key === '_barHigh') {
+      Object.assign(props, {
+        stackId: '2',
+        stroke: barHighColor,
+        fill: 'transparent',
+        dot: false,
+        strokeWidth: 2,
+        strokeDasharray: '5 4',
+        strokeOpacity: 0.8,
+        label: false,
+      });
+    }
+    return <Area key={key} {...props} />;
+  });
+  return { areas, chartData };
+};
+
+function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[] } }) {
+  const dateRange = useAppSelector(selectAllDaysFilledBySomeEntryInstances);
+  const { chartData, areas } = getChartDataAndAreasFromDaysAndEntriesDateMap(dateRange, props.entryInstancesMap);
+
   return (
-    <ResponsiveContainer width="98%" height={180}>
+    <ResponsiveContainer width="98%" height={480}>
       <AreaChart data={chartData} margin={{ top: 12, right: 16, left: -20, bottom: 12 }}>
         <XAxis dataKey="date" padding={{ left: 16, right: 16 }} />
         <YAxis padding={{ top: 0, bottom: 0 }} type="number" domain={[0, 18]} ticks={[0, 4, 8, 12, 16]} />
@@ -27,16 +113,15 @@ function EntryChart() {
           cursor={true}
           // itemSorter={(a: any, b: any) => b.value - a.value}
           content={(props: any) => (
-            <span>EntryTrendChartTooltipContent</span>
-            // <EntryTrendChartTooltipContent
-            //   {...props}
-            //   filter={(data: TooltipPayload) => {
-            //     if (data.name === '_barLow' || data.name === '_barHigh' || data.value === 0) {
-            //       return false;
-            //     }
-            //     return true;
-            //   }}
-            // />
+            <EntryChartTooltip
+              {...props}
+              filter={(data: TooltipPayload) => {
+                if (data.name === '_barLow' || data.name === '_barHigh' || data.value === 0) {
+                  return false;
+                }
+                return true;
+              }}
+            />
           )}
         />
         <CartesianGrid strokeDasharray="3 3" />

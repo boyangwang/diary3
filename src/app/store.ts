@@ -56,3 +56,7 @@ export const selectTodayTotalPoints = createSelector(selectTodayEntryInstances, 
   console.log('Memo selector: selectTodayTotalPoints');
   return entryInstances.reduce((sum, entryInstance) => sum + entryInstance.points, 0);
 });
+
+export const selectAllDaysFilledBySomeEntryInstances = (state: RootState) => {
+  return Object.keys(selectEntryInstancesMap(state)).sort();
+};
