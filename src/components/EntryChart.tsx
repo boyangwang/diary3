@@ -111,8 +111,8 @@ function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[]
             maxHeight: '220px',
           }}
           cursor={true}
-          // itemSorter={(a: any, b: any) => b.value - a.value}
-          content={(props: any) => (
+          // itemSorter={(a, b) => b.value - a.value}
+          content={(props) => (
             <EntryChartTooltip
               {...props}
               filter={(data: TooltipPayload) => {

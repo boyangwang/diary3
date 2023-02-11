@@ -26,24 +26,29 @@ const defaultFormatter = (value: any) =>
 
 type EntryChartTooltipProps = {
   filter: (tooltipPayload: TooltipPayload) => boolean;
-  separator: string;
-  formatter: any;
-  wrapperStyle: any;
-  itemStyle: any;
-  labelStyle: any;
-  labelFormatter: any;
-  label: any;
-  payload: TooltipPayload[];
-  itemSorter: (a: TooltipPayload, b: TooltipPayload) => 0 | 1 | -1;
+  separator?: string;
+  formatter?: any;
+  wrapperStyle?: any;
+  itemStyle?: any;
+  labelStyle?: any;
+  labelFormatter?: any;
+  label?: any;
+  //XXX to be fixed
+  payload?: any;
+  // itemSorter: (a: TooltipPayload, b: TooltipPayload) => 0 | 1 | -1;
 };
 const PropsDefaults = {
-  separator: ' : ',
   itemStyle: {},
   labelStyle: {},
 };
 
 function EntryChartToolip(props: EntryChartTooltipProps) {
-  const { labelStyle, label, labelFormatter, wrapperStyle } = props;
+  const { label, labelFormatter, wrapperStyle } = props;
+  let { labelStyle } = props;
+  if (!labelStyle) {
+    labelStyle = {};
+  }
+
   const finalStyle = {
     margin: 0,
     padding: 10,
@@ -64,37 +69,51 @@ function EntryChartToolip(props: EntryChartTooltipProps) {
   }
 
   function renderContent() {
-    const { payload, separator, formatter, itemStyle, itemSorter, filter } = props;
+    const { payload, formatter, filter } = props;
+    let { separator } = props;
+    if (!separator) {
+      separator = ' : ';
+    }
+    let { wrapperStyle } = props;
+    if (!wrapperStyle) {
+      wrapperStyle = {};
+    }
+    let { itemStyle } = props;
+    if (!itemStyle) {
+      itemStyle = {};
+    }
 
     if (payload && payload.length) {
       const listStyle = { padding: 0, margin: 0 };
 
-      const items = payload.sort(itemSorter).map((entry, i) => {
-        const finalItemStyle = {
-          display: 'block',
-          paddingTop: 4,
-          paddingBottom: 4,
-          color: entry.color || '#000',
-          ...itemStyle,
-        };
-        const hasName = isNumOrStrAndNotNaN(entry.name);
-        const finalFormatter = formatter || defaultFormatter;
+      const items = payload
+        .sort((a: any, b: any) => b.value - a.value)
+        .map((entry: any, i: number) => {
+          const finalItemStyle = {
+            display: 'block',
+            paddingTop: 4,
+            paddingBottom: 4,
+            color: entry.color || '#000',
+            ...itemStyle,
+          };
+          const hasName = isNumOrStrAndNotNaN(entry.name);
+          const finalFormatter = formatter || defaultFormatter;
 
-        if (filter && !filter(entry)) {
-          return null;
-        }
+          if (filter && !filter(entry)) {
+            return null;
+          }
 
-        return (
-          <li className="recharts-tooltip-item" key={`tooltip-item-${i}`} style={finalItemStyle}>
-            {hasName ? <span className="recharts-tooltip-item-name">{entry.name}</span> : null}
-            {hasName ? <span className="recharts-tooltip-item-separator">{separator}</span> : null}
-            <span className="recharts-tooltip-item-value">
-              {finalFormatter ? finalFormatter(entry.value, entry.name, entry, i) : entry.value}
-            </span>
-            <span className="recharts-tooltip-item-unit">{entry.unit || ''}</span>
-          </li>
-        );
-      });
+          return (
+            <li className="recharts-tooltip-item" key={`tooltip-item-${i}`} style={finalItemStyle}>
+              {hasName ? <span className="recharts-tooltip-item-name">{entry.name}</span> : null}
+              {hasName ? <span className="recharts-tooltip-item-separator">{separator}</span> : null}
+              <span className="recharts-tooltip-item-value">
+                {finalFormatter ? finalFormatter(entry.value, entry.name, entry, i) : entry.value}
+              </span>
+              <span className="recharts-tooltip-item-unit">{entry.unit || ''}</span>
+            </li>
+          );
+        });
 
       return (
         <ul className="recharts-tooltip-item-list" style={listStyle}>
