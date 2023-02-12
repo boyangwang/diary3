@@ -2,6 +2,7 @@ import { selectEntryTypeIds, selectEntryTypesArray, useAppSelector } from '../ap
 import EntryTypeForm from '../components/EntryTypeForm';
 import StreaksTable from '../components/StreaksTable';
 import { RoutineEnum } from '../app/types-constants';
+import EntryAllInOneTable from '../components/EntryAllInOneTable';
 
 export default function AddPage() {
   const entryTypesArray = useAppSelector(selectEntryTypesArray);
@@ -18,6 +19,7 @@ export default function AddPage() {
       <StreaksTable entryTypesArray={entryTypesArray} routine={RoutineEnum.weekly} />
       <StreaksTable entryTypesArray={entryTypesArray} routine={RoutineEnum.monthly} />
       <StreaksTable entryTypesArray={entryTypesArray} routine={RoutineEnum.adhoc} />
+      <EntryAllInOneTable />
     </>
   );
 }
