@@ -21,3 +21,8 @@
 - [x] import old datax
 - [x] all entryinstances should group by date by default
 - [x] redux entries
+
+# Ref
+https://cssgradient.io/gradient-backgrounds/
+https://ant-design.antgroup.com/
+

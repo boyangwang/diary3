@@ -1,10 +1,11 @@
 import { Button, Form, Input, InputNumber, Radio } from 'antd';
-import { EntryNavIcon } from './DiaryIcons';
+import { EditNavIcon, EntryNavIcon } from './DiaryIcons';
 import { RoutineEnum, EntryTypeThemeColors, EntryTypeConstructor, EntryType } from '../app/types-constants';
 import { useAppDispatch } from '../app/store';
 import { createEntryType, updateEntryType } from '../app/entry-types-slice';
 import { exitEntryTypeEdit } from '../app/ui-slice';
 import { useEffect } from 'react';
+import './EntryTypeForm.css';
 
 const EntryTypeThemeColorsRadio = EntryTypeThemeColors.map((themeColorPair) => {
   return (
@@ -75,6 +76,7 @@ const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | En
   return (
     <>
       <Form
+        className="diary-entry-type-form"
         name="entry-type-form"
         form={form}
         initialValues={addInitialValues}
@@ -133,8 +135,8 @@ const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | En
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            {props.isUpdate ? 'Update' : 'Add'}
+          <Button className="diary-entry-type-form-button" type="primary" htmlType="submit" block size="large">
+            <EditNavIcon /> {props.isUpdate ? 'Update' : 'Create'}
           </Button>
         </Form.Item>
         {props.isUpdate && <Button onClick={onCancelUpdateClick}>Cancel</Button>}
