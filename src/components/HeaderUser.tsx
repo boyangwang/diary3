@@ -1,8 +1,10 @@
 import { Button } from 'antd';
 import { LoginUserState, onCloseUpdateLastUseTime, onLogoutClickClearState } from '../app/login-user-slice';
-import { useAppDispatch } from '../app/store';
-import { formatDate, formatDatetime } from '../app/types-constants';
+import { useAppDispatch, useAppSelector } from '../app/store';
+import { formatDatetime, getDatetimeStringFromNow } from '../app/types-constants';
+import { Descriptions } from 'antd';
 import './HeaderUser.css';
+import { useState } from 'react';
 
 function UserHeader(props: { loginUser: LoginUserState }) {
   const dispatch = useAppDispatch();
@@ -17,16 +19,34 @@ function UserHeader(props: { loginUser: LoginUserState }) {
     dispatch(onLogoutClickClearState());
   };
 
+  const state = useAppSelector((state) => state);
+
+  const handleSaveClick = () => {
+    const jsonState = JSON.stringify(state);
+    const element = document.createElement('a');
+    const file = new Blob([jsonState], { type: 'application/json' });
+    element.href = URL.createObjectURL(file);
+    element.download = `diarystate-${getDatetimeStringFromNow()}.json`;
+    document.body.appendChild(element);
+    element.click();
+  };
+
   return (
     <div className="diary-user-header">
       {loginUser.uid ? (
         <>
-          <span>{loginUser.uid}</span>
-          <span>LoginSince: {formatDate(loginUser.loginTime)}</span>
-          <span>LastUsed: {formatDatetime(loginUser.lastUseTime)}</span>
-          <Button type="dashed" danger onClick={onLogoutClick}>
-            Logout
-          </Button>
+          <Descriptions bordered column={4}>
+            <Descriptions.Item label={loginUser.uid}>
+              <Button onClick={handleSaveClick}>Save</Button>
+              <Button>Load</Button>
+            </Descriptions.Item>
+            <Descriptions.Item label="LoginSince:">{formatDatetime(loginUser.loginTime)}</Descriptions.Item>
+            <Descriptions.Item label="Logout">
+              <Button type="dashed" danger onClick={onLogoutClick}>
+                Logout
+              </Button>
+            </Descriptions.Item>
+          </Descriptions>
         </>
       ) : (
         <span>Not logged in</span>

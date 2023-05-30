@@ -173,7 +173,7 @@ export const isNumOrStrAndNotNaN = (a: any) => {
 };
 
 export class DiaryGlobalStats {
-  registrationSince: number = -1;
+  registedSince: number = -1;
   entryDays: number = -1;
 
   historicalLongestStreakByEntry: number = -1;
@@ -183,7 +183,7 @@ export class DiaryGlobalStats {
 }
 
 export const formatDatetime = (datetime: number | null) =>
-  datetime ? moment(datetime).format('h:mm:ssa | YYYY-MM-DD ddd') : '';
+  datetime ? moment(datetime).format('h:mm:ssa | ddd YYYY-MMM-DD') : '';
 export const formatDate = (datetime: number | null) => (datetime ? moment(datetime).format('ddd DD MMM YYYY') : '');
 
 export const getDateStringFromEntryDay = (entryDay: EntryDay) => {
@@ -197,7 +197,15 @@ export const getDateStringFromTimestamp = (timestamp: number) => {
   // same goes for day of week
   return m.format('YYYY-MM-DD');
 };
+export const getDatetimeStringFromTimestamp = (timestamp: number) => {
+  const m = moment(timestamp);
+  // month is 0-indexed. maybe easier to index in an array [Jan, Feb, Mar, ...]
+  // same goes for day of week
+  return m.format('YYYY-MM-DD-hh-mm-ss');
+};
+
 export const getDateStringFromNow = () => getDateStringFromTimestamp(+new Date());
+export const getDatetimeStringFromNow = () => getDateStringFromTimestamp(+new Date());
 
 export const getEntryInstanceIdFromEntryType = (entryType: EntryType) => {
   return `${entryType.id}-${new Date().toISOString()}-${Math.floor(Math.random() * 120)}`;
