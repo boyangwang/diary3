@@ -197,6 +197,12 @@ export const getDateStringFromTimestamp = (timestamp: number) => {
   // same goes for day of week
   return m.format('YYYY-MM-DD');
 };
+export const getDatetimeStringFromTimestampShortFormat = (timestamp: number) => {
+  const m = moment(timestamp);
+  // month is 0-indexed. maybe easier to index in an array [Jan, Feb, Mar, ...]
+  // same goes for day of week
+  return m.format('YYYYMMDD-hhmmss');
+};
 export const getDatetimeStringFromTimestamp = (timestamp: number) => {
   const m = moment(timestamp);
   // month is 0-indexed. maybe easier to index in an array [Jan, Feb, Mar, ...]
@@ -206,6 +212,7 @@ export const getDatetimeStringFromTimestamp = (timestamp: number) => {
 
 export const getDateStringFromNow = () => getDateStringFromTimestamp(+new Date());
 export const getDatetimeStringFromNow = () => getDateStringFromTimestamp(+new Date());
+export const getDatetimeStringShortFormatFromNow = () => getDatetimeStringFromTimestampShortFormat(+new Date());
 
 export const getEntryInstanceIdFromEntryType = (entryType: EntryType) => {
   return `${entryType.id}-${new Date().toISOString()}-${Math.floor(Math.random() * 120)}`;

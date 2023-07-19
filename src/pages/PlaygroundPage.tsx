@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import TestGithubStorage from '../components/TestGithubStorage';
 
 export default function PlaygroundPage() {
   return (
     <>
       <h1>Playground</h1>
+      <TestGithubStorage />
     </>
   );
 }
