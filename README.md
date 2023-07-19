@@ -1,5 +1,5 @@
 # Diary3
-
+- Increment version number
 - Persisted data
 - State data (e.g. current showing date range for chart)
 - Data flow
