@@ -4,6 +4,7 @@ import AddPage from '../pages/AddPage';
 import EntryPage from '../pages/EntryPage';
 import ReminderPage from '../pages/ReminderPage';
 import SettingsPage from '../pages/SettingsPage';
+import PlaygroundPage from '../pages/PlaygroundPage';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: 'settings',
         element: <SettingsPage />,
+      },
+      {
+        path: 'playground',
+        element: <PlaygroundPage />,
       },
       {
         path: '',
