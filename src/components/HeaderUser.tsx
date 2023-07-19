@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '../app/store';
 import { formatDatetime, getDatetimeStringFromNow } from '../app/types-constants';
 import { Descriptions } from 'antd';
 import './HeaderUser.css';
-import { useState } from 'react';
 
 function UserHeader(props: { loginUser: LoginUserState }) {
   const dispatch = useAppDispatch();

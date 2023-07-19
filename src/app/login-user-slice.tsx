@@ -4,22 +4,27 @@ export interface LoginUserState {
   uid: string | null;
   loginTime: number | null;
   lastUseTime: number | null;
+  githubSecret: string | null;
+  repo: string | null;
+  email: string | null;
 }
 const loginUserInitialState: LoginUserState = {
   uid: null,
   loginTime: null,
   lastUseTime: null,
+  githubSecret: null,
+  repo: null,
+  email: null,
 };
 
 export const loginUserSlice = createSlice({
   name: 'loginUser',
   initialState: loginUserInitialState,
   reducers: {
-    firstLogin: (state, action: PayloadAction<string>) => {
-      state.uid = action.payload;
-      const now = +Date.now();
+    firstLogin: (state, action: PayloadAction<Object>) => {
+      Object.assign(state, action.payload);
       if (!state.loginTime) {
-        state.loginTime = now;
+        state.loginTime = +Date.now();
       }
     },
     onCloseUpdateLastUseTime: (state) => {

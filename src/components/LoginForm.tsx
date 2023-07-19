@@ -7,7 +7,7 @@ const LoginForm = () => {
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
-    dispatch(firstLogin(values.uid));
+    dispatch(firstLogin(values));
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -17,10 +17,18 @@ const LoginForm = () => {
   return (
     <>
       <Form name="login-form" initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
-        <Form.Item label="UID" name="uid" rules={[{ required: true, message: 'Please input your username!' }]}>
+        <Form.Item label="github-username" name="uid" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-
+        <Form.Item label="github-secret" name="githubSecret" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item label="github-repo" name="repo" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item label="email" name="email" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Login
