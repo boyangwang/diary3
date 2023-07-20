@@ -1,5 +1,5 @@
 import { Area, ResponsiveContainer, Tooltip, AreaChart, XAxis, YAxis, Legend, CartesianGrid } from 'recharts';
-import { selectAllDaysFilledBySomeEntryInstances, useAppSelector } from '../app/store';
+import { selectAllDaysFilledBySomeEntryInstances, useAppSelector } from '../../app/store';
 import {
   barHighColor,
   barLowColor,
@@ -7,8 +7,8 @@ import {
   EntryInstance,
   setOpacity,
   stringHashCode,
-} from '../app/types-constants';
-import { barLowValue, barHighValue } from '../app/types-constants';
+} from '../../app/types-constants';
+import { barLowValue, barHighValue } from '../../app/types-constants';
 import EntryChartTooltip, { TooltipPayload } from './EntryChartTooltip';
 
 const getChartDataAndAreasFromDaysAndEntriesDateMap = (

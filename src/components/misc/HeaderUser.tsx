@@ -1,10 +1,12 @@
 import { Button } from 'antd';
-import { LoginUserState, onCloseUpdateLastUseTime, onLogoutClickClearState } from '../app/login-user-slice';
-import { useAppDispatch, useAppSelector } from '../app/store';
-import { formatDatetime } from '../app/types-constants';
+import { LoginUserState, onCloseUpdateLastUseTime, onLogoutClickClearState } from '../../app/login-user-slice';
+import { useAppDispatch, useAppSelector } from '../../app/store';
+import { formatDatetime } from '../../app/types-constants';
 import { Descriptions } from 'antd';
 import './HeaderUser.css';
 import { saveStateToGithub } from './TestGithubStorage';
+import ImportHistoryButton from 'src/components/misc/ImportHistoryButton';
+import EmptyHistoryButton from './EmptyHistoryButton';
 
 function UserHeader(props: { loginUser: LoginUserState }) {
   const dispatch = useAppDispatch();
@@ -38,6 +40,8 @@ function UserHeader(props: { loginUser: LoginUserState }) {
               <Button type="dashed" danger onClick={onLogoutClick}>
                 Logout
               </Button>
+              <ImportHistoryButton />
+              <EmptyHistoryButton />
             </Descriptions.Item>
             <Descriptions.Item label={<p>LastUse: {formatDatetime(loginUser.loginTime)}</p>}>
               <p>Streak days: 12</p>

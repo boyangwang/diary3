@@ -1,9 +1,9 @@
 import { Button, Form, Input, InputNumber, Radio } from 'antd';
-import { EditNavIcon, EntryNavIcon } from './DiaryIcons';
-import { RoutineEnum, EntryTypeThemeColors, EntryTypeConstructor, EntryType } from '../app/types-constants';
-import { useAppDispatch } from '../app/store';
-import { createEntryType, updateEntryType } from '../app/entry-types-slice';
-import { exitEntryTypeEdit } from '../app/ui-slice';
+import { EditNavIcon, EntryNavIcon } from '../misc/DiaryIcons';
+import { RoutineEnum, EntryTypeThemeColors, EntryTypeConstructor, EntryType } from '../../app/types-constants';
+import { useAppDispatch } from '../../app/store';
+import { createEntryType, updateEntryType } from '../../app/entry-types-slice';
+import { exitEntryTypeEdit } from '../../app/ui-slice';
 import { useEffect } from 'react';
 import './EntryTypeForm.css';
 

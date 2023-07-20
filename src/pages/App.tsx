@@ -1,11 +1,11 @@
 import './App.css';
 import { Outlet, useLocation, useMatches } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/misc/Navbar';
 import { getDateStringFromNow, PAGES } from '../app/types-constants';
 import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
-import UserHeader from '../components/HeaderUser';
-import HeaderDatetime from '../components/HeaderDatetime';
+import UserHeader from '../components/misc/HeaderUser';
+import HeaderDatetime from '../components/misc/HeaderDatetime';
 import { useAppDispatch, useAppSelector } from '../app/store';
 import { initDateStr } from '../app/ui-slice';
 import { initDayEntryInstances } from '../app/entry-instances-slice';

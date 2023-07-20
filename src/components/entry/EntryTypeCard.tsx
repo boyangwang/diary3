@@ -1,8 +1,8 @@
 import { Button, Card } from 'antd';
-import { EntryType } from '../app/types-constants';
-import { deleteEntryType } from '../app/entry-types-slice';
-import { useAppDispatch } from '../app/store';
-import { enterEntryTypeEdit } from '../app/ui-slice';
+import { EntryType } from '../../app/types-constants';
+import { deleteEntryType } from '../../app/entry-types-slice';
+import { useAppDispatch } from '../../app/store';
+import { enterEntryTypeEdit } from '../../app/ui-slice';
 import './EntryTypeCard.css';
 import EntryTypeCompletionForm from './EntryTypeCompletionForm';
 

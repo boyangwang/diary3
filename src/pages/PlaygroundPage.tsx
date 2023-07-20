@@ -1,4 +1,4 @@
-import TestGithubStorage from '../components/TestGithubStorage';
+import TestGithubStorage from '../components/misc/TestGithubStorage';
 
 export default function PlaygroundPage() {
   return (

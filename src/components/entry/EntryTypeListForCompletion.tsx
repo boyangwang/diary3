@@ -1,5 +1,5 @@
 import { List } from 'antd';
-import { EntryType } from '../app/types-constants';
+import { EntryType } from '../../app/types-constants';
 import EntryTypeCard from './EntryTypeCard';
 
 const EntryTypeListForCompletion = (props: { entryTypesArray: EntryType[] }) => (

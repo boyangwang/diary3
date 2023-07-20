@@ -1,7 +1,7 @@
 import { Button, List } from 'antd';
-import { deleteEntryInstance } from '../app/entry-instances-slice';
-import { useAppDispatch } from '../app/store';
-import { EntryInstance } from '../app/types-constants';
+import { deleteEntryInstance } from '../../app/entry-instances-slice';
+import { useAppDispatch } from '../../app/store';
+import { EntryInstance } from '../../app/types-constants';
 
 const EntryInstanceCardDeleteButton = (props: { entryInstance: EntryInstance }) => {
   const dispatch = useAppDispatch();

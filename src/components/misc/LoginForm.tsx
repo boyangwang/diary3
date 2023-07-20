@@ -1,6 +1,6 @@
 import { Button, Form, Input } from 'antd';
-import { firstLogin } from '../app/login-user-slice';
-import { useAppDispatch } from '../app/store';
+import { firstLogin } from '../../app/login-user-slice';
+import { useAppDispatch } from '../../app/store';
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();

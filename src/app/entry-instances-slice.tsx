@@ -39,8 +39,16 @@ export const entryInstancesSlice = createSlice({
       // delete the entryInstance at that index
       state.entryInstancesMap[dateStr].splice(indexToDelete, 1);
     },
+    emptyEntryInstance: (state) => {
+      state.entryInstancesMap = {};
+    },
   },
 });
 
-export const { initDayEntryInstances, createEntryInstance, updateEntryInstance, deleteEntryInstance } =
-  entryInstancesSlice.actions;
+export const {
+  initDayEntryInstances,
+  createEntryInstance,
+  updateEntryInstance,
+  deleteEntryInstance,
+  emptyEntryInstance,
+} = entryInstancesSlice.actions;

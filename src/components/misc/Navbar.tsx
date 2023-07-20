@@ -1,7 +1,7 @@
 import { Menu, MenuProps } from 'antd';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
-import { PAGES } from '../app/types-constants';
+import { PAGES } from '../../app/types-constants';
 import DiaryIcons from './DiaryIcons';
 
 const items: MenuProps['items'] = PAGES.map((page) => {

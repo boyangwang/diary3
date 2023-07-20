@@ -1,7 +1,7 @@
 import { Form, Input, InputNumber, Button } from 'antd';
-import { createEntryInstance } from '../app/entry-instances-slice';
-import { useAppDispatch } from '../app/store';
-import { EntryType, getEntryInstanceIdFromEntryType } from '../app/types-constants';
+import { createEntryInstance } from '../../app/entry-instances-slice';
+import { useAppDispatch } from '../../app/store';
+import { EntryType, getEntryInstanceIdFromEntryType } from '../../app/types-constants';
 
 function EntryTypeCompletionForm(props: { entryType: EntryType }) {
   const [form] = Form.useForm();

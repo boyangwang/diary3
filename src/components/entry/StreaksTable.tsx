@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { EntryType, RoutineEnum } from '../app/types-constants';
+import { EntryType, RoutineEnum } from '../../app/types-constants';
 import EntryTypeCard from './EntryTypeCard';
 
 interface EntryTypeOnStreaksTable extends EntryType {

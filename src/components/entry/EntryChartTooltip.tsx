@@ -1,4 +1,4 @@
-import { isNumOrStrAndNotNaN } from '../app/types-constants';
+import { isNumOrStrAndNotNaN } from '../../app/types-constants';
 
 function shallowEqual(a: any, b: any) {
   for (const key in a) {
