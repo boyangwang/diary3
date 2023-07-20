@@ -47,7 +47,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo 111222 && npm version patch"
+      "pre-commit": "echo 111222333 && npm version patch"
     }
   },
   "lint-staged": {
