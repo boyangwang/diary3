@@ -1,6 +1,6 @@
 {
   "name": "diary3",
-  "version": "0.1.0",
+  "version": "0.1.120",
   "private": true,
   "dependencies": {
     "@ant-design/pro-components": "^2.3.54",
@@ -45,21 +45,9 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm version patch"
+      "pre-commit": "echo 111222 && npm version patch"
     }
   },
   "lint-staged": {

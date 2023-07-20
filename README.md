@@ -1,5 +1,6 @@
 # Diary3
-- Increment version number
+- Husky hook not running?
+- Display version, increment version number
 - Persisted data
 - State data (e.g. current showing date range for chart)
 - Data flow
@@ -11,7 +12,6 @@
 - updateentry
 
 - persist to localstorage
-
 
 - [x] redux login
 - [x] helmet
