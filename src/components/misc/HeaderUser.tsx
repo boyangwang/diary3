@@ -7,6 +7,7 @@ import './HeaderUser.css';
 import { saveStateToGithub } from './TestGithubStorage';
 import ImportHistoryButton from 'src/components/misc/ImportHistoryButton';
 import EmptyHistoryButton from './EmptyHistoryButton';
+import packageJson from '../../../package.json';
 
 function UserHeader(props: { loginUser: LoginUserState }) {
   const dispatch = useAppDispatch();
@@ -37,6 +38,8 @@ function UserHeader(props: { loginUser: LoginUserState }) {
                 </>
               }
             >
+              <h1>Diary</h1>
+              <span>v{packageJson.version}</span>
               <Button type="dashed" danger onClick={onLogoutClick}>
                 Logout
               </Button>
