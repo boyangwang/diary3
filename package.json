@@ -1,6 +1,6 @@
 {
   "name": "diary3",
-  "version": "0.1.121",
+  "version": "0.1.122",
   "private": true,
   "dependencies": {
     "@ant-design/pro-components": "^2.3.54",
@@ -44,11 +44,6 @@
       "react-app",
       "react-app/jest"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "echo 111222333 && npm version patch"
-    }
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
