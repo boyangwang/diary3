@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../app/store';
 import { formatDatetime } from '../../app/types-constants';
 import { Descriptions } from 'antd';
 import './HeaderUser.css';
-import { saveStateToGithub } from './TestGithubStorage';
+import { saveStateToGithub, loadStateFromGithub } from './GithubStorage';
 import ImportHistoryButton from 'src/components/misc/ImportHistoryButton';
 import EmptyHistoryButton from './EmptyHistoryButton';
 import packageJson from '../../../package.json';
@@ -34,7 +34,7 @@ function UserHeader(props: { loginUser: LoginUserState }) {
                 <>
                   <p>{loginUser.uid}</p>
                   <Button onClick={(e) => saveStateToGithub(state.loginUser)}>Save</Button>
-                  <Button>Load</Button>
+                  <Button onClick={(e) => loadStateFromGithub(state.loginUser)}>Load</Button>
                 </>
               }
             >

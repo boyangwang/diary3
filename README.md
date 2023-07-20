@@ -2,7 +2,9 @@
 
 # TODOs
 - [ ] Load from github
+  - Means I want the github version. Nothing local matters. It's not a merge. It's a load. It's a replace. It should pause any persist. Load. Load to localstorage. Then persist. Then rehydrate. Then maybe resume persist.
 - [ ] Global stats
+  - [ ] First time this profile was ever created
 - [ ] Display version, increment version number
 - [ ] Write a test for login logout. 1. not logged in, should show loginform, uid empty 2. do login 3. should not show login form. should show global stats. uid match 4. do logout 5. should show login form. uid empty
 - [ ] Some easter eggs

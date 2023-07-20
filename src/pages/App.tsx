@@ -12,7 +12,6 @@ import { initDayEntryInstances } from '../app/entry-instances-slice';
 
 function App() {
   const matches = useMatches();
-  console.log('XXXTEMP in app', matches);
   const location = useLocation();
   const loginUser = useAppSelector((state) => state.loginUser);
   const dispatch = useAppDispatch();

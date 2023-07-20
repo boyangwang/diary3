@@ -1,5 +1,15 @@
 import { configureStore, ThunkAction, Action, combineReducers, createSelector } from '@reduxjs/toolkit';
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  Persistor,
+} from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
 import { loginUserSlice } from './login-user-slice';
 import { entryTypesSlice } from './entry-types-slice';
@@ -28,7 +38,7 @@ export const store = configureStore({
       },
     }),
 });
-export const persistor = persistStore(store);
+export const persistor: Persistor = persistStore(store);
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
