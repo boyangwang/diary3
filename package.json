@@ -37,7 +37,8 @@
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/ --fix",
-    "prettier": "prettier --write src/"
+    "prettier": "prettier --write src/",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -58,7 +59,7 @@
   "devDependencies": {
     "@types/react-helmet": "^6.1.6",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "ts-node": "^10.9.1"
   }
 }
