@@ -8,7 +8,7 @@ export interface LoginUserState {
   repo: string | null;
   email: string | null;
 }
-const loginUserInitialState: LoginUserState = {
+export const LoginUserInitialState: LoginUserState = {
   uid: null,
   loginTime: null,
   lastUseTime: null,
@@ -19,7 +19,7 @@ const loginUserInitialState: LoginUserState = {
 
 export const loginUserSlice = createSlice({
   name: 'loginUser',
-  initialState: loginUserInitialState,
+  initialState: LoginUserInitialState,
   reducers: {
     firstLogin: (state, action: PayloadAction<Object>) => {
       Object.assign(state, action.payload);
