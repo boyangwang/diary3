@@ -37,7 +37,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test a --watchAll=false --passWithNoTests",
+    "test-all": "react-scripts test a --watchAll=false --passWithNoTests",
+    "test": "react-scripts test --watchAll=false --passWithNoTests",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/ --fix",
