@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from 'src/app/store';
 import React from 'react';
 import App from 'src/pages/App';
-import { MemoryRouter, RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 test('renders Diary title', () => {
   jest.mock('react-router-dom', () => ({
