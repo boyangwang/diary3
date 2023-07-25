@@ -6,18 +6,42 @@ import { getDatetimeStringShortFormatFromNow } from '../../app/types-constants';
 import { message } from 'antd';
 
 export const isIncompleteGithubInfo = (loginUser: LoginUserState) => {
-  console.log('XXXTEMP', loginUser);
   return !loginUser.githubSecret || !loginUser.uid || !loginUser.repo || !loginUser.email;
 };
 
 /**
  * It should pause any persist. Load. Load to localstorage. Then persist. Then rehydrate. Then maybe resume persist.
  */
-export const loadStateFromGithub = (loginUser: LoginUserState) => {
+export const loadStateFromGithub = async (loginUser: LoginUserState) => {
   if (isIncompleteGithubInfo(loginUser)) {
     return console.log('Not logged in');
   }
+  message.loading('Loading state from GitHub', 0);
   persistor.pause();
+
+  const octokit = new Octokit({
+    auth: loginUser.githubSecret,
+    userAgent: 'diary-app',
+  });
+  const owner = loginUser.uid!;
+  const repo = loginUser.repo!;
+  const commit = await octokit.rest.repos.listCommits({
+    owner,
+    repo,
+  });
+  const file = await octokit.rest.repos.getContent({ owner, repo, path: commit.data[0].commit.message });
+  let downloadUrl;
+  if (Array.isArray(file.data)) {
+    // If file.data is an array, it's a directory object
+    console.log('Cannot download directory');
+    return;
+  } else {
+    // If file.data is an object, it's a file object
+    downloadUrl = file.data.download_url;
+  }
+  const fileresponse = await fetch(downloadUrl!);
+  const stateToLoad = await fileresponse.json();
+  localStorage.setItem('persist:diary', JSON.stringify(stateToLoad));
 };
 
 /**
@@ -38,13 +62,13 @@ export const saveStateToGithub = (loginUser: LoginUserState) => {
       auth: loginUser.githubSecret,
       userAgent: 'diary-app',
     });
-    const path = `dairy-data-${loginUser.uid}-${getDatetimeStringShortFormatFromNow()}`;
-    return octokit.rest.repos
+    const path = `dairy-save-${loginUser.uid}-${getDatetimeStringShortFormatFromNow()}.json`;
+    octokit.rest.repos
       .createOrUpdateFileContents({
         owner: loginUser.uid!,
         repo: loginUser.repo!,
         path,
-        message: `Commit ${path}`,
+        message: `${path}`,
         content: Buffer.from(state || '').toString('base64'),
         'committer.name': loginUser.uid,
         'committer.email': loginUser.email,
@@ -58,22 +82,6 @@ export const saveStateToGithub = (loginUser: LoginUserState) => {
 };
 
 const TestGithubStorage = () => {
-  // octokit.rest.repos
-  //   .createOrUpdateFileContents({
-  //     owner: 'boyangwang',
-  //     repo: 'diary-data',
-  //     path: 'dairy-data-boyangwang-1-20230719-1523',
-  //     message: 'Commit dairy-data-boyangwang-1-20230719-1523',
-  //     content: Buffer.from('{ "test": 1 }').toString('base64'),
-  //     'committer.name': 'boyangwang',
-  //     'committer.email': 'wangboyang1991@gmail.com',
-  //     'author.name': 'boyangwang',
-  //     'author.email': 'wangboyang1991@gmail.com',
-  //   })
-  //   .then((res) => {
-  //     console.log(res);
-  //   });
-
   return <>TestGithubStorage</>;
 };
 
