@@ -30,7 +30,7 @@ test('GitHub octokit API works', async () => {
     repo,
   });
   const file = await octokit.rest.repos.getContent({ owner, repo, path: commit.data[0].commit.message });
-  const fileresponse = await fetch(file.data.download_url);
+  const fileresponse = await fetch((file.data as any).download_url);
   const stateToLoad = await fileresponse.json();
   console.log('XXXTEMP', stateToLoad);
 });

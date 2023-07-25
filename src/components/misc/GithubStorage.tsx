@@ -39,9 +39,13 @@ export const loadStateFromGithub = async (loginUser: LoginUserState) => {
     // If file.data is an object, it's a file object
     downloadUrl = file.data.download_url;
   }
-  const fileresponse = await fetch(downloadUrl!);
-  const stateToLoad = await fileresponse.json();
-  localStorage.setItem('persist:diary', JSON.stringify(stateToLoad));
+  if (downloadUrl) {
+    const fileresponse = await fetch(downloadUrl);
+    const stateToLoad = await fileresponse.json();
+    localStorage.setItem('persist:diary', JSON.stringify(stateToLoad));
+  } else {
+    console.log('Download URL is not available');
+  }
 };
 
 /**
