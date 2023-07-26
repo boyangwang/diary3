@@ -2,12 +2,12 @@ import { isNumOrStrAndNotNaN } from '../../app/types-constants';
 
 function shallowEqual(a: any, b: any) {
   for (const key in a) {
-    if ({}.hasOwnProperty.call(a, key) && (!{}.hasOwnProperty.call(b, key) || a[key] !== b[key])) {
+    if (Object.hasOwn(a, key) && (!Object.hasOwn(b, key) || a[key] !== b[key])) {
       return false;
     }
   }
   for (const key in b) {
-    if ({}.hasOwnProperty.call(b, key) && !{}.hasOwnProperty.call(a, key)) {
+    if (Object.hasOwn(b, key) && !Object.hasOwn(a, key)) {
       return false;
     }
   }
@@ -24,7 +24,7 @@ export interface TooltipPayload {
 const defaultFormatter = (value: any) =>
   Array.isArray(value) && isNumOrStrAndNotNaN(value[0]) && isNumOrStrAndNotNaN(value[1]) ? value.join(' ~ ') : value;
 
-type EntryChartTooltipProps = {
+interface EntryChartTooltipProps {
   filter: (tooltipPayload: TooltipPayload) => boolean;
   separator?: string;
   formatter?: any;
@@ -33,10 +33,10 @@ type EntryChartTooltipProps = {
   labelStyle?: any;
   labelFormatter?: any;
   label?: any;
-  //XXX to be fixed
+  // XXX to be fixed
   payload?: any;
   // itemSorter: (a: TooltipPayload, b: TooltipPayload) => 0 | 1 | -1;
-};
+}
 const PropsDefaults = {
   itemStyle: {},
   labelStyle: {},
@@ -83,7 +83,7 @@ function EntryChartToolip(props: EntryChartTooltipProps) {
       itemStyle = {};
     }
 
-    if (payload && payload.length) {
+    if (payload?.length) {
       const listStyle = { padding: 0, margin: 0 };
 
       const items = payload

@@ -27,30 +27,28 @@ function UserHeader(props: { loginUser: LoginUserState }) {
   return (
     <div className="diary-user-header">
       {loginUser.uid ? (
-        <>
-          <Descriptions bordered column={4}>
-            <Descriptions.Item
-              label={
-                <>
-                  <p>{loginUser.uid}</p>
-                  <Button onClick={(e) => saveStateToGithub(state.loginUser)}>Save</Button>
-                  <Button onClick={(e) => loadStateFromGithub(state.loginUser)}>Load</Button>
-                </>
-              }
-            >
-              <h1>Diary</h1>
-              <span>v{packageJson.version}</span>
-              <Button type="dashed" danger onClick={onLogoutClick}>
-                Logout
-              </Button>
-              <ImportHistoryButton />
-              <EmptyHistoryButton />
-            </Descriptions.Item>
-            <Descriptions.Item label={<p>LastUse: {formatDatetime(loginUser.loginTime)}</p>}>
-              <p>Streak days: 12</p>
-            </Descriptions.Item>
-          </Descriptions>
-        </>
+        <Descriptions bordered column={4}>
+          <Descriptions.Item
+            label={
+              <>
+                <p>{loginUser.uid}</p>
+                <Button onClick={(e) => saveStateToGithub(state.loginUser)}>Save</Button>
+                <Button onClick={(e) => loadStateFromGithub(state.loginUser)}>Load</Button>
+              </>
+            }
+          >
+            <h1>Diary</h1>
+            <span>v{packageJson.version}</span>
+            <Button type="dashed" danger onClick={onLogoutClick}>
+              Logout
+            </Button>
+            <ImportHistoryButton />
+            <EmptyHistoryButton />
+          </Descriptions.Item>
+          <Descriptions.Item label={<p>LastUse: {formatDatetime(loginUser.loginTime)}</p>}>
+            <p>Streak days: 12</p>
+          </Descriptions.Item>
+        </Descriptions>
       ) : (
         <span>Not logged in</span>
       )}

@@ -9,7 +9,7 @@ function EntryTypeCompletionForm(props: { entryType: EntryType }) {
 
   const onFinish = (values: any) => {
     console.log('Completion Form Values: ', values);
-    const now = +new Date();
+    const now = Number(new Date());
     dispatch(
       createEntryInstance({
         id: getEntryInstanceIdFromEntryType(props.entryType),

@@ -45,10 +45,5 @@ export const entryInstancesSlice = createSlice({
   },
 });
 
-export const {
-  initDayEntryInstances,
-  createEntryInstance,
-  updateEntryInstance,
-  deleteEntryInstance,
-  emptyEntryInstance,
-} = entryInstancesSlice.actions;
+export const { initDayEntryInstances, createEntryInstance, updateEntryInstance, deleteEntryInstance, emptyEntryInstance } =
+  entryInstancesSlice.actions;

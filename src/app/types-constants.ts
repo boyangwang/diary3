@@ -42,7 +42,7 @@ export const EntryTypeConstructor = ({
   routine = RoutineEnum.adhoc,
   themeColors = ['#000000'],
 }) => {
-  const now = +new Date();
+  const now = Number(new Date());
   return {
     updatedAt: now,
     createdAt: now,
@@ -52,7 +52,7 @@ export const EntryTypeConstructor = ({
     pointStep,
     routine,
     themeColors,
-  } as EntryType;
+  } satisfies EntryType;
 };
 
 export type Year = number;
@@ -90,7 +90,11 @@ export type Day =
   | 29
   | 30
   | 31;
-export type DiaryDate = { year: Year; month: Month; day: Day };
+export interface DiaryDate {
+  year: Year;
+  month: Month;
+  day: Day;
+}
 
 export interface EntryDay extends DiaryDate {
   entryInstanceIds: string[];
@@ -169,17 +173,17 @@ export const setOpacity = (s: string, a: number) => {
   return s.substring(0, s.lastIndexOf(',') + 1) + a + ')';
 };
 export const isNumOrStrAndNotNaN = (a: any) => {
-  return (typeof a == 'number' || typeof a == 'string') && !isNaN(a as number);
+  return (typeof a === 'number' || typeof a === 'string') && !isNaN(a as number);
 };
 
 export class DiaryGlobalStats {
-  registedSince: number = -1;
-  entryDays: number = -1;
+  registedSince = -1;
+  entryDays = -1;
 
-  historicalLongestStreakByEntry: number = -1;
-  currentStreakByentry: number = -1;
+  historicalLongestStreakByEntry = -1;
+  currentStreakByentry = -1;
 
-  totalEntries: number = -1;
+  totalEntries = -1;
 }
 
 export const formatDatetime = (datetime: number | null) =>
@@ -210,9 +214,9 @@ export const getDatetimeStringFromTimestamp = (timestamp: number) => {
   return m.format('YYYY-MM-DD-hh-mm-ss');
 };
 
-export const getDateStringFromNow = () => getDateStringFromTimestamp(+new Date());
-export const getDatetimeStringFromNow = () => getDateStringFromTimestamp(+new Date());
-export const getDatetimeStringShortFormatFromNow = () => getDatetimeStringFromTimestampShortFormat(+new Date());
+export const getDateStringFromNow = () => getDateStringFromTimestamp(Number(new Date()));
+export const getDatetimeStringFromNow = () => getDateStringFromTimestamp(Number(new Date()));
+export const getDatetimeStringShortFormatFromNow = () => getDatetimeStringFromTimestampShortFormat(Number(new Date()));
 
 export const getEntryInstanceIdFromEntryType = (entryType: EntryType) => {
   return `${entryType.id}-${new Date().toISOString()}-${Math.floor(Math.random() * 120)}`;

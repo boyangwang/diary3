@@ -22,10 +22,7 @@ const EntryInstanceList = (props: { entryInstancesArray: EntryInstance[] }) => (
   <List
     dataSource={props.entryInstancesArray}
     renderItem={(item: EntryInstance) => (
-      <List.Item
-        key={item.id}
-        actions={[<EntryInstanceCardDeleteButton entryInstance={item}></EntryInstanceCardDeleteButton>]}
-      >
+      <List.Item key={item.id} actions={[<EntryInstanceCardDeleteButton key={item.id} entryInstance={item} />]}>
         <List.Item.Meta avatar={item.points} title={item.entryTypeId} description={item.notes} />
         <span>id: {item.id}</span>
         <span>createdAt: {item.createdAt}</span>

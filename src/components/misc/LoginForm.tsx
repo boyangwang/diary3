@@ -15,27 +15,25 @@ const LoginForm = () => {
   };
 
   return (
-    <>
-      <Form name="login-form" initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
-        <Form.Item label="github-username" name="uid" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item label="github-secret" name="githubSecret" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item label="github-repo" name="repo" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item label="email" name="email" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Login
-          </Button>
-        </Form.Item>
-      </Form>
-    </>
+    <Form name="login-form" initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+      <Form.Item label="github-username" name="uid" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+      <Form.Item label="github-secret" name="githubSecret" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+      <Form.Item label="github-repo" name="repo" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+      <Form.Item label="email" name="email" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Login
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

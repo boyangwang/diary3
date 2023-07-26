@@ -1,15 +1,5 @@
 import { configureStore, ThunkAction, Action, combineReducers, createSelector } from '@reduxjs/toolkit';
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  Persistor,
-} from 'redux-persist';
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, Persistor } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
 import { loginUserSlice } from './login-user-slice';
 import { entryTypesSlice } from './entry-types-slice';

@@ -24,11 +24,11 @@ export const loginUserSlice = createSlice({
     firstLogin: (state, action: PayloadAction<Object>) => {
       Object.assign(state, action.payload);
       if (!state.loginTime) {
-        state.loginTime = +Date.now();
+        state.loginTime = Number(Date.now());
       }
     },
     onCloseUpdateLastUseTime: (state) => {
-      state.lastUseTime = +Date.now();
+      state.lastUseTime = Number(Date.now());
     },
     onLogoutClickClearState: (state) => {
       state.uid = null;

@@ -27,7 +27,7 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
       };
       entries.forEach((entry) => {
         allKeys.add(entry.entryTypeId);
-        res[entry.entryTypeId] = res[entry.entryTypeId] ? +res[entry.entryTypeId] + entry.points : entry.points;
+        res[entry.entryTypeId] = res[entry.entryTypeId] ? Number(res[entry.entryTypeId]) + entry.points : entry.points;
       });
       return res;
     })
@@ -48,10 +48,10 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
       dot: false,
       label: {
         formatter: (label: number | string) => {
-          if (+label === 0) {
+          if (Number(label) === 0) {
             return null;
           }
-          return +label;
+          return Number(label);
         },
         position: 'right',
       },

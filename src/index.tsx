@@ -7,6 +7,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { RouterProvider } from 'react-router-dom';
 import router from './app/router';
 import { PersistGate } from 'redux-persist/integration/react';
+import './styles/global.css';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);

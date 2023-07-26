@@ -30,8 +30,8 @@ const EntryTypeCardUpdateButton = (props: { entryType: EntryType }) => {
 };
 
 const editActions = (entryType: EntryType) => [
-  <EntryTypeCardUpdateButton entryType={entryType}></EntryTypeCardUpdateButton>,
-  <EntryTypeCardDeleteButton entryType={entryType}></EntryTypeCardDeleteButton>,
+  <EntryTypeCardUpdateButton key="EntryTypeCardUpdateButton" entryType={entryType} />,
+  <EntryTypeCardDeleteButton key="EntryTypeCardDeleteButton" entryType={entryType} />,
 ];
 
 const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean }) => {
@@ -42,11 +42,11 @@ const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean }) => {
       actions={
         props.isEdit
           ? editActions(entryType)
-          : [<EntryTypeCompletionForm entryType={props.entryType}></EntryTypeCompletionForm>]
+          : [<EntryTypeCompletionForm key="EntryTypeCompletionForm" entryType={props.entryType} />]
       }
     >
       <Meta
-        title={`${props.entryType.title}`}
+        title={props.entryType.title}
         description={
           <div className="diary-entrytype-card-description">
             <span>id: {props.entryType.id}</span>
