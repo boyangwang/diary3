@@ -3,7 +3,6 @@ import { LoginUserState, onCloseUpdateLastUseTime, onLogoutClickClearState } fro
 import { useAppDispatch, useAppSelector } from '../../app/store';
 import { formatDatetime } from '../../app/types-constants';
 import { Descriptions } from 'antd';
-import './HeaderUser.css';
 import { saveStateToGithub, loadStateFromGithub } from './GithubStorage';
 import ImportHistoryButton from 'src/components/misc/ImportHistoryButton';
 import EmptyHistoryButton from './EmptyHistoryButton';
@@ -25,7 +24,7 @@ function UserHeader(props: { loginUser: LoginUserState }) {
   const state = useAppSelector((state) => state);
 
   return (
-    <div className="diary-user-header">
+    <div className="flex">
       {loginUser.uid ? (
         <Descriptions bordered column={4}>
           <Descriptions.Item

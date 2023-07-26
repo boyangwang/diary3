@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { formatDatetime } from '../../app/types-constants';
-import './HeaderDatetime.css';
 
 function HeaderDatetime() {
   const [time, setTime] = useState(Number(new Date()));
@@ -16,7 +15,7 @@ function HeaderDatetime() {
   }, []);
 
   return (
-    <div className="diary-header-datetime">
+    <div className="text-center">
       <h1>{formatDatetime(time)}</h1>
     </div>
   );
