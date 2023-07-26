@@ -16,7 +16,7 @@ test('renders not logged in', () => {
     </React.StrictMode>,
   );
 
-  expect(screen.getByText('Not logged in')).toBeInTheDocument();
+  expect(screen.getByText("Not logged in, Let's Get Started")).toBeInTheDocument();
 });
 
 test('renders logged in', () => {

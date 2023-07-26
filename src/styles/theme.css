@@ -8,21 +8,30 @@
   --gradient-3-from: #09bda0;
   --gradient-3-to: #a3d365;
 
-  --gradient-4-from: #09bda0;
-  --gradient-4-to: #a3d365;
-
   --gradient-4-from: #a072ff;
   --gradient-4-to: #3592ff;
 }
 .diary-theme-1 {
   --gradient: repeating-linear-gradient(to right, var(--gradient-1-from), var(--gradient-1-to));
+  --gradient-from: var(--gradient-1-from);
+  --gradient-to: var(--gradient-1-to);
+  --gradient-home: linear-gradient(180deg, #a011ff 0%, #a072ff 37.5%, rgba(251, 128, 64, 0) 100%);
 }
 .diary-theme-2 {
   --gradient: repeating-linear-gradient(to right, var(--gradient-2-from), var(--gradient-2-to));
+  --gradient-from: var(--gradient-2-from);
+  --gradient-to: var(--gradient-2-to);
+  --gradient-home: linear-gradient(180deg, #e1413e 0%, #ff6e23 37.5%, rgba(251, 128, 64, 0) 100%);
 }
 .diary-theme-3 {
   --gradient: repeating-linear-gradient(to right, var(--gradient-3-from), var(--gradient-3-to));
+  --gradient-from: var(--gradient-3-from);
+  --gradient-to: var(--gradient-3-to);
+  --gradient-home: linear-gradient(180deg, #17c09c 0%, #95d065 37.5%, rgba(149, 208, 101, 0) 100%);
 }
 .diary-theme-4 {
   --gradient: repeating-linear-gradient(to right, var(--gradient-4-from), var(--gradient-4-to));
+  --gradient-from: var(--gradient-4-from);
+  --gradient-to: var(--gradient-4-to);
+  --gradient-home: linear-gradient(180deg, #3669ed 0%, #36acc7 37.5%, rgba(54, 172, 199, 0) 100%);
 }

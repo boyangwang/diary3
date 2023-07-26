@@ -1,4 +1,3 @@
-import { Button } from 'antd';
 import { LoginUserState, onCloseUpdateLastUseTime, onLogoutClickClearState } from '../../app/login-user-slice';
 import { useAppDispatch, useAppSelector } from '../../app/store';
 import { formatDatetime } from '../../app/types-constants';
@@ -7,10 +6,12 @@ import { saveStateToGithub, loadStateFromGithub } from './GithubStorage';
 import ImportHistoryButton from 'src/components/misc/ImportHistoryButton';
 import EmptyHistoryButton from './EmptyHistoryButton';
 import packageJson from '../../../package.json';
+import Button from '../button';
+import { twMerge } from 'tailwind-merge';
 
-function UserHeader(props: { loginUser: LoginUserState }) {
+function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const dispatch = useAppDispatch();
-  const { loginUser } = props;
+  const { loginUser, className } = props;
 
   window.addEventListener('beforeunload', (ev) => {
     ev.preventDefault();
@@ -24,23 +25,21 @@ function UserHeader(props: { loginUser: LoginUserState }) {
   const state = useAppSelector((state) => state);
 
   return (
-    <div className="flex">
+    <div className={twMerge('flex', className)}>
       {loginUser.uid ? (
         <Descriptions bordered column={4}>
           <Descriptions.Item
             label={
               <>
                 <p>{loginUser.uid}</p>
-                <Button onClick={(e) => saveStateToGithub(state.loginUser)}>Save</Button>
-                <Button onClick={(e) => loadStateFromGithub(state.loginUser)}>Load</Button>
+                <Button onClick={() => saveStateToGithub(state.loginUser)}>Save</Button>
+                <Button onClick={() => loadStateFromGithub(state.loginUser)}>Load</Button>
               </>
             }
           >
             <h1>Diary</h1>
             <span>v{packageJson.version}</span>
-            <Button type="dashed" danger onClick={onLogoutClick}>
-              Logout
-            </Button>
+            <Button onClick={onLogoutClick}>Logout</Button>
             <ImportHistoryButton />
             <EmptyHistoryButton />
           </Descriptions.Item>
@@ -49,7 +48,7 @@ function UserHeader(props: { loginUser: LoginUserState }) {
           </Descriptions.Item>
         </Descriptions>
       ) : (
-        <span>Not logged in</span>
+        <span>Not logged in, Let&apos;s Get Started</span>
       )}
     </div>
   );

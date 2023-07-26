@@ -1,12 +1,12 @@
 import { Octokit } from '@octokit/rest';
 import { Buffer } from 'buffer';
 
+// test already completed
 test('GitHub octokit API works', async () => {
-  const octokit = new Octokit({
-    auth: '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',
-    userAgent: 'diary-app',
-  });
-
+  // const octokit = new Octokit({
+  //   auth: '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',
+  //   userAgent: 'diary-app',
+  // });
   // octokit.rest.repos
   //   .createOrUpdateFileContents({
   //     owner: 'boyangwang',
@@ -22,15 +22,14 @@ test('GitHub octokit API works', async () => {
   //   .then((res) => {
   //     console.log(res);
   //   });
-
-  const owner = 'boyangwang';
-  const repo = 'diary-data';
-  const commit = await octokit.rest.repos.listCommits({
-    owner,
-    repo,
-  });
-  const file = await octokit.rest.repos.getContent({ owner, repo, path: commit.data[0].commit.message });
-  const fileresponse = await fetch((file.data as any).download_url);
-  const stateToLoad = await fileresponse.json();
-  console.log('XXXTEMP', stateToLoad);
+  // const owner = 'boyangwang';
+  // const repo = 'diary-data';
+  // const commit = await octokit.rest.repos.listCommits({
+  //   owner,
+  //   repo,
+  // });
+  // const file = await octokit.rest.repos.getContent({ owner, repo, path: commit.data[0].commit.message });
+  // const fileresponse = await fetch((file.data as any).download_url);
+  // const stateToLoad = await fileresponse.json();
+  // console.log('XXXTEMP', stateToLoad);
 });

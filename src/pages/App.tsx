@@ -25,7 +25,6 @@ function App() {
         <title>Diary - {location.pathname}</title>
       </Helmet>
       <div className={clsx('flex h-screen min-h-screen flex-col')}>
-        <UserHeader loginUser={loginUser} />
         <main className="relative flex-grow overflow-auto scroll-smooth bg-[#F6F6F6]">
           <Outlet />
         </main>

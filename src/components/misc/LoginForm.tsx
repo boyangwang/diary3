@@ -1,6 +1,8 @@
-import { Button, Form, Input } from 'antd';
+import { Form, Input } from 'antd';
 import { firstLogin } from '../../app/login-user-slice';
 import { useAppDispatch } from '../../app/store';
+import { AiFillGithub } from 'react-icons/ai';
+import Button from '../button';
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +17,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Form name="login-form" initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+    <Form name="login-form" className="flex flex-col" initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <Form.Item label="github-username" name="uid" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
@@ -29,8 +31,8 @@ const LoginForm = () => {
         <Input />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Login
+        <Button htmlType="submit" className="w-full">
+          <AiFillGithub className="h-4 w-4" /> Login with Github
         </Button>
       </Form.Item>
     </Form>
