@@ -1,0 +1,28 @@
+:root {
+  --gradient-1-from: #a011ff;
+  --gradient-1-to: #ff9e76;
+
+  --gradient-2-from: #d9214d;
+  --gradient-2-to: #ffb876;
+
+  --gradient-3-from: #09bda0;
+  --gradient-3-to: #a3d365;
+
+  --gradient-4-from: #09bda0;
+  --gradient-4-to: #a3d365;
+
+  --gradient-4-from: #a072ff;
+  --gradient-4-to: #3592ff;
+}
+.diary-theme-1 {
+  --gradient: repeating-linear-gradient(to right, var(--gradient-1-from), var(--gradient-1-to));
+}
+.diary-theme-2 {
+  --gradient: repeating-linear-gradient(to right, var(--gradient-2-from), var(--gradient-2-to));
+}
+.diary-theme-3 {
+  --gradient: repeating-linear-gradient(to right, var(--gradient-3-from), var(--gradient-3-to));
+}
+.diary-theme-4 {
+  --gradient: repeating-linear-gradient(to right, var(--gradient-4-from), var(--gradient-4-to));
+}

@@ -9,6 +9,7 @@ import {
   useAppSelector,
 } from '../app/store';
 import EntryInstanceList from '../components/entry/EntryInstanceList';
+import HeaderDatetime from '@/components/misc/HeaderDatetime';
 
 export default function EntryPage() {
   const entryTypesArray = useAppSelector(selectEntryTypesArray);
@@ -18,6 +19,7 @@ export default function EntryPage() {
 
   return (
     <>
+      <HeaderDatetime />
       <EntryProgressBar points={todayPoints} />
       <EntryInstanceList entryInstancesArray={todayEntryInstances} />
       <EntryChart entryInstancesMap={entryInstancesMap} />

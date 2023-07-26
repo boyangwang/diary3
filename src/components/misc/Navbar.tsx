@@ -1,27 +1,35 @@
-import { Menu, MenuProps } from 'antd';
-import './Navbar.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useMatches } from 'react-router-dom';
 import { PAGES } from '../../app/types-constants';
 import DiaryIcons from './DiaryIcons';
+import clsx from 'clsx';
+import { useMemo } from 'react';
+// import './Navbar.css';
 
-const items: MenuProps['items'] = PAGES.map((page) => {
-  const iconKey = `${page[0].toUpperCase()}${page.slice(1)}NavIcon` as keyof typeof DiaryIcons;
-  const IconComponent = DiaryIcons[iconKey] || null;
-
-  return {
-    label: (
-      <Link to={`/${page.toLowerCase()}`}>
-        <IconComponent />
-      </Link>
-    ),
-    key: page.toLowerCase(),
-  };
-});
-
-function Navbar({ activeKey }: { activeKey: string | undefined }) {
+function Navbar() {
+  const location = useLocation();
+  const activeKey = useMemo(() => {
+    const path = location.pathname.slice(1);
+    return PAGES.includes(path) ? path : '';
+  }, [location]);
   return (
-    <nav className="diary-navbar">
-      <Menu selectedKeys={activeKey ? [activeKey] : []} mode="horizontal" items={items} />
+    <nav className="flex w-full items-center rounded-xl bg-white/90 px-8 shadow-xl backdrop-blur">
+      {PAGES.map((page) => {
+        const iconKey = `${page[0].toUpperCase()}${page.slice(1)}NavIcon` as keyof typeof DiaryIcons;
+        const IconComponent = DiaryIcons[iconKey] || null;
+
+        return (
+          <Link
+            key={page.toLowerCase()}
+            className={clsx(
+              'flex flex-grow items-center justify-center rounded-t-lg py-3',
+              activeKey === page ? 'text-[#376BED]' : 'text-[#9FC2D7]',
+            )}
+            to={`/${page.toLowerCase()}`}
+          >
+            <IconComponent className="text-2xl" />
+          </Link>
+        );
+      })}
     </nav>
   );
 }

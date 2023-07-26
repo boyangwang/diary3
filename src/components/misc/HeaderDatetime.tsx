@@ -15,7 +15,7 @@ function HeaderDatetime() {
   }, []);
 
   return (
-    <div className="text-center">
+    <div className="bg-gradient text-center">
       <h1>{formatDatetime(time)}</h1>
     </div>
   );
