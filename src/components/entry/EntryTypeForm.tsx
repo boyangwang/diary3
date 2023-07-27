@@ -9,7 +9,12 @@ import Button from '../button';
 
 const EntryTypeThemeColorsRadio = EntryTypeThemeColors.map((themeColorPair) => {
   return (
-    <Radio.Button key={themeColorPair[0]} value={JSON.stringify(themeColorPair)}>
+    <Radio.Button
+      key={themeColorPair[0]}
+      className="text-white"
+      style={{ background: `linear-gradient(90deg, #${themeColorPair[0]} 0%, #${themeColorPair[1]} 100%)` }}
+      value={JSON.stringify(themeColorPair)}
+    >
       {JSON.stringify(themeColorPair)}
     </Radio.Button>
   );
@@ -73,11 +78,10 @@ const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | En
   }, [props.isUpdate, props.updatingEntryType, form]);
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col gap-2">
       <h1 className="text-xl font-medium">Add Entry</h1>
-
       <Form
-        className="diary-entry-type-form"
+        className="flex flex-col gap-2"
         name="entry-type-form"
         form={form}
         initialValues={addInitialValues}
@@ -108,16 +112,18 @@ const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | En
           <Input placeholder="Title" prefix={<EntryNavIcon />} />
         </Form.Item>
 
-        <Form.Item
-          name="defaultPoints"
-          label="DefaultPoints"
-          rules={[{ required: true, message: 'defaultPoints is required' }]}
-        >
-          <InputNumber min={-60} max={60} step={0.5} size="large" />
-        </Form.Item>
-        <Form.Item name="pointStep" label="PointStep" rules={[{ required: true, message: 'pointStep is required' }]}>
-          <InputNumber min={0} max={60} step={0.5} size="large" />
-        </Form.Item>
+        <div className="flex items-center gap-4">
+          <Form.Item
+            name="defaultPoints"
+            label="DefaultPoints"
+            rules={[{ required: true, message: 'defaultPoints is required' }]}
+          >
+            <InputNumber min={-60} max={60} step={0.5} size="large" />
+          </Form.Item>
+          <Form.Item name="pointStep" label="PointStep" rules={[{ required: true, message: 'pointStep is required' }]}>
+            <InputNumber min={0} max={60} step={0.5} size="large" />
+          </Form.Item>
+        </div>
 
         <Form.Item name="routine" label="Routine" rules={[{ required: true, message: 'routine is required' }]}>
           <Radio.Group>

@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export interface EntryInstance {
   id: string; // timesstamp + random number
@@ -187,8 +187,8 @@ export class DiaryGlobalStats {
 }
 
 export const formatDatetime = (datetime: number | null) =>
-  datetime ? moment(datetime).format('h:mm:ssa | ddd YYYY-MMM-DD') : '';
-export const formatDate = (datetime: number | null) => (datetime ? moment(datetime).format('ddd DD MMM YYYY') : '');
+  datetime ? dayjs(datetime).format('h:mm:ssa | ddd YYYY-MMM-DD') : '';
+export const formatDate = (datetime: number | null) => (datetime ? dayjs(datetime).format('ddd DD MMM YYYY') : '');
 
 export const getDateStringFromEntryDay = (entryDay: EntryDay) => {
   const { year, month, day } = entryDay;
@@ -196,19 +196,19 @@ export const getDateStringFromEntryDay = (entryDay: EntryDay) => {
 };
 
 export const getDateStringFromTimestamp = (timestamp: number) => {
-  const m = moment(timestamp);
+  const m = dayjs(timestamp);
   // month is 0-indexed. maybe easier to index in an array [Jan, Feb, Mar, ...]
   // same goes for day of week
   return m.format('YYYY-MM-DD');
 };
 export const getDatetimeStringFromTimestampShortFormat = (timestamp: number) => {
-  const m = moment(timestamp);
+  const m = dayjs(timestamp);
   // month is 0-indexed. maybe easier to index in an array [Jan, Feb, Mar, ...]
   // same goes for day of week
   return m.format('YYYYMMDD-hhmmss');
 };
 export const getDatetimeStringFromTimestamp = (timestamp: number) => {
-  const m = moment(timestamp);
+  const m = dayjs(timestamp);
   // month is 0-indexed. maybe easier to index in an array [Jan, Feb, Mar, ...]
   // same goes for day of week
   return m.format('YYYY-MM-DD-hh-mm-ss');

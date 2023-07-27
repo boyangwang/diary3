@@ -18,7 +18,7 @@ export default function EntryPage() {
   const todayPoints = useAppSelector(selectTodayTotalPoints);
 
   return (
-    <div className="flex h-full flex-col items-center gap-4 overflow-auto px-5 py-10 text-center">
+    <div className="flex h-full flex-col items-center gap-4 overflow-auto px-4 py-6 text-center">
       <HeaderDatetime />
       <EntryProgressBar points={todayPoints} />
       <EntryInstanceList entryInstancesArray={todayEntryInstances} />

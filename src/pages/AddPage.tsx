@@ -13,13 +13,13 @@ export default function AddPage() {
     isUpdate && updatingEntryTypeId ? entryTypesArray.find((entryType) => entryType.id === updatingEntryTypeId) : null;
 
   return (
-    <>
+    <div className="flex h-full flex-col items-center gap-4 overflow-auto px-4 py-6 text-center">
       <EntryTypeForm isUpdate={isUpdate} updatingEntryType={updatingEntryType} entryTypeIds={entryTypeIds} />
       <StreaksTable entryTypesArray={entryTypesArray} routine={RoutineEnum.daily} />
       <StreaksTable entryTypesArray={entryTypesArray} routine={RoutineEnum.weekly} />
       <StreaksTable entryTypesArray={entryTypesArray} routine={RoutineEnum.monthly} />
       <StreaksTable entryTypesArray={entryTypesArray} routine={RoutineEnum.adhoc} />
       <EntryAllInOneTable />
-    </>
+    </div>
   );
 }

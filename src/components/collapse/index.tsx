@@ -5,10 +5,11 @@ interface CollapseProps {
   title?: string;
   renderTitle?: ({ isOpen }: { isOpen: boolean }) => ReactNode;
   children?: ReactNode;
+  initOpen?: boolean;
 }
 
-const Collapse: React.FC<CollapseProps> = ({ title, renderTitle, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Collapse: React.FC<CollapseProps> = ({ title, renderTitle, children, initOpen }) => {
+  const [isOpen, setIsOpen] = useState(initOpen ?? false);
 
   const toggleOpen = () => setIsOpen(!isOpen);
   const _renderTitle = useCallback(() => {

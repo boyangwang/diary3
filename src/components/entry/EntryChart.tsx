@@ -1,4 +1,4 @@
-import { Area, ResponsiveContainer, Tooltip, AreaChart, XAxis, YAxis, Legend, CartesianGrid } from 'recharts';
+import { Area, ResponsiveContainer, Tooltip, AreaChart, XAxis, YAxis, Legend, CartesianGrid, Brush } from 'recharts';
 import { selectAllDaysFilledBySomeEntryInstances, useAppSelector } from '../../app/store';
 import {
   barHighColor,
@@ -87,9 +87,9 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
 function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[] } }) {
   const dateRange = useAppSelector(selectAllDaysFilledBySomeEntryInstances);
   const { chartData, areas } = getChartDataAndAreasFromDaysAndEntriesDateMap(dateRange, props.entryInstancesMap);
-
+  console.log({ chartData });
   return (
-    <ResponsiveContainer width="98%" height={480}>
+    <ResponsiveContainer width="95%" height={480}>
       <AreaChart data={chartData} margin={{ top: 12, right: 16, left: -20, bottom: 12 }}>
         <XAxis dataKey="date" padding={{ left: 16, right: 16 }} />
         <YAxis padding={{ top: 0, bottom: 0 }} type="number" domain={[0, 18]} ticks={[0, 4, 8, 12, 16]} />
@@ -123,6 +123,13 @@ function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[]
               }}
             />
           )}
+        />
+        <Brush
+          dataKey="date"
+          height={30}
+          startIndex={Math.max(chartData.length - 7, 0)}
+          endIndex={chartData.length - 1}
+          stroke="#8884d8"
         />
         <CartesianGrid strokeDasharray="3 3" />
         {areas}

@@ -31,11 +31,12 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
 
   return (
     <Collapse
+      initOpen
       renderTitle={({ isOpen }) => (
         <MdExpandMore
           className={clsx(
             'fixed left-2 top-2 z-[1] h-9 w-9 cursor-pointer',
-            isOpen ? 'rotate-180 text-white' : 'rotate-0 text-diary-primary',
+            isOpen ? 'rotate-180 text-white' : 'rotate-0 text-gradient-home-from',
           )}
         />
       )}
@@ -53,7 +54,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <Button onClick={() => saveStateToGithub(state.loginUser)}>Save</Button>
                 <Button onClick={() => loadStateFromGithub(state.loginUser)}>Load</Button>
-                <Button onClick={onLogoutClick}>
+                <Button className="" onClick={onLogoutClick}>
                   <RiLogoutBoxRLine className="h-6 w-6" /> Logout
                 </Button>
               </div>
@@ -72,7 +73,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
         ) : (
           <p className="text-xl">
             Not logged in, Let&apos;s{' '}
-            <Link className="text-blue" to="/settings">
+            <Link className="mix-blend-plus-lighter" to="/settings">
               Get Started
             </Link>
           </p>
