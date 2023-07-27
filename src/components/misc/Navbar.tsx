@@ -3,7 +3,6 @@ import { PAGES } from '../../app/types-constants';
 import DiaryIcons from './DiaryIcons';
 import clsx from 'clsx';
 import { useMemo } from 'react';
-// import './Navbar.css';
 
 function Navbar() {
   const location = useLocation();

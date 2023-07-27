@@ -33,9 +33,9 @@
     "@ctrl/tinycolor" "^3.4.0"
 
 "@ant-design/cssinjs@^1.11.1", "@ant-design/cssinjs@^1.13.2":
-  version "1.14.0"
-  resolved "https://registry.npmmirror.com/@ant-design/cssinjs/-/cssinjs-1.14.0.tgz#ffc57e1ea03d3de40f0c0636991b7e5fe1c36882"
-  integrity sha512-9p137/dZkne1/LuQJ+jStX5wUF5cliCsIWBHvyKbQnk3ikmPWCWrK1LzbnFlv38U4hvkZ2azcu8xxvdExEcLaA==
+  version "1.15.0"
+  resolved "https://registry.npmmirror.com/@ant-design/cssinjs/-/cssinjs-1.15.0.tgz#8be07901ef3e87b85c70ad5bc672f9950356df02"
+  integrity sha512-nMw2v+JcHhzi5QD62CpNzzXDHSlOhyx1KkFpCCWfxWI59Osz5o1AkExnJ1jTA1Vo1rt4J7WJX9SxLGN6OLI1hA==
   dependencies:
     "@babel/runtime" "^7.11.1"
     "@emotion/hash" "^0.8.0"
@@ -2741,9 +2741,9 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^18.0.6":
-  version "18.2.16"
-  resolved "https://registry.npmmirror.com/@types/react/-/react-18.2.16.tgz#403dda0e933caccac9efde569923239ac426786c"
-  integrity sha512-LLFWr12ZhBJ4YVw7neWLe6Pk7Ey5R9OCydfuMsz1L8bZxzaawJj2p06Q8/EFEHDeTBQNFLF62X+CG7B2zIyu0Q==
+  version "18.2.17"
+  resolved "https://registry.npmmirror.com/@types/react/-/react-18.2.17.tgz#baa565b17ddb649c2dac85b5eaf9e9a1fe0f3b4e"
+  integrity sha512-u+e7OlgPPh+aryjOm5UJMX32OvB2E3QASOAqVMY6Ahs90djagxwv2ya0IctglNbNTexC12qCSMZG47KPfy1hAA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -4867,9 +4867,9 @@ ejs@^3.1.5, ejs@^3.1.6:
     jake "^10.8.5"
 
 electron-to-chromium@^1.4.431:
-  version "1.4.471"
-  resolved "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.471.tgz#14cb056d0ce4bfa99df57946d57fe46c2330dac3"
-  integrity sha512-GpmGRC1vTl60w/k6YpQ18pSiqnmr0j3un//5TV1idPi6aheNfkT1Ye71tMEabWyNDO6sBMgAR+95Eb0eUUr1tA==
+  version "1.4.473"
+  resolved "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.473.tgz#4853de13a335c70fe1f9df8d4029be54068767d1"
+  integrity sha512-aVfC8+440vGfl06l8HKKn8/PD5jRfSnLkTTD65EFvU46igbpQRri1gxSzW9/+TeUlwYzrXk1sw867T96zlyECA==
 
 emittery@^0.10.2:
   version "0.10.2"
@@ -5383,9 +5383,9 @@ execa@^5.0.0:
     strip-final-newline "^2.0.0"
 
 execa@^7.0.0:
-  version "7.1.1"
-  resolved "https://registry.npmmirror.com/execa/-/execa-7.1.1.tgz#3eb3c83d239488e7b409d48e8813b76bb55c9c43"
-  integrity sha512-wH0eMf/UXckdUYnO21+HDztteVv05rq2GXksxT4fCGeHkBhw1DROXh40wcjMcRqDOWE7iPJ4n3M7e2+YFP+76Q==
+  version "7.2.0"
+  resolved "https://registry.npmmirror.com/execa/-/execa-7.2.0.tgz#657e75ba984f42a70f38928cedc87d6f2d4fe4e9"
+  integrity sha512-UduyVP7TLB5IcAQl+OzLyLcS/l32W/GLg+AhHJ+ow40FOk2U3SAllPwR44v4vmdFwIWqpdwxxpQbF1n5ta9seA==
   dependencies:
     cross-spawn "^7.0.3"
     get-stream "^6.0.1"
