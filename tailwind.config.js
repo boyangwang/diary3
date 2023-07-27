@@ -7,8 +7,8 @@ module.exports = {
         center: true,
       },
       colors: {
-        'gradient-from': 'var(--gradient-from)',
-        'gradient-to': 'var(--gradient-to)',
+        blue: '#376BED',
+        'gradient-home-from': 'var(--gradient-home-from)',
       },
       backgroundImage: {
         gradient: 'var(--gradient)',

@@ -20,7 +20,7 @@ const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
         onClick={onClick}
         className={twMerge(
           clsx(
-            'flex cursor-pointer items-center justify-center gap-1 rounded-xl border border-white/80 bg-white px-4 py-3 text-xs backdrop-blur hover:bg-white/90',
+            'flex cursor-pointer items-center justify-center gap-1 rounded-xl border border-black/10 bg-white px-4 py-3 text-xs text-black backdrop-blur hover:opacity-90',
           ),
           className,
         )}

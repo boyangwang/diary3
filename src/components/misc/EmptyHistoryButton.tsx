@@ -1,5 +1,6 @@
 import { emptyEntryInstance } from '../../app/entry-instances-slice';
 import { useAppDispatch } from '../../app/store';
+import Button from '../button';
 
 function EmptyHistoryButton() {
   const dispatch = useAppDispatch();
@@ -8,6 +9,6 @@ function EmptyHistoryButton() {
     dispatch(emptyEntryInstance());
   };
 
-  return <button onClick={() => emptyHistory()}>empty history</button>;
+  return <Button onClick={() => emptyHistory()}>empty history</Button>;
 }
 export default EmptyHistoryButton;

@@ -8,7 +8,7 @@
     'diary-theme-3',
     'diary-theme-3',
     'diary-theme-4',
-  ][Math.floor(10 * Math.random())];
+  ][Math.floor(8 * Math.random())];
   const arr = nowTheme.split('-');
   window.theme = arr[arr.length - 1];
   !document.documentElement.classList.length && document.documentElement.classList.add(nowTheme);

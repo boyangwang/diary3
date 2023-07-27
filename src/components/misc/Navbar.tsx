@@ -21,7 +21,7 @@ function Navbar() {
             key={page.toLowerCase()}
             className={clsx(
               'flex flex-grow items-center justify-center rounded-t-lg py-4',
-              activeKey === page ? 'text-[#376BED]' : 'text-[#9FC2D7]',
+              activeKey === page ? 'text-blue' : 'text-[#9FC2D7]',
             )}
             to={`/${page.toLowerCase()}`}
           >

@@ -39,7 +39,7 @@ function App() {
       <Helmet>
         <title>Diary - {location.pathname}</title>
       </Helmet>
-      <div ref={appDivRef} className={clsx('flex flex-col')}>
+      <div ref={appDivRef} className={clsx('flex flex-col overflow-hidden')}>
         <UserHeader loginUser={loginUser} />
         <main className="min relative flex-grow overflow-auto scroll-smooth bg-[#F6F6F6]">
           <Outlet />
