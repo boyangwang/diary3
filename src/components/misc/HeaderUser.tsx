@@ -9,6 +9,10 @@ import EmptyHistoryButton from './EmptyHistoryButton';
 import { loadStateFromGithub, saveStateToGithub } from './GithubStorage';
 import { formatDatetime } from '@/app/types-constants';
 import { Link } from 'react-router-dom';
+import { MdExpandMore } from 'react-icons/md';
+import { useState } from 'react';
+import clsx from 'clsx';
+import Collapse from '../collapse';
 
 function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const dispatch = useAppDispatch();
@@ -26,44 +30,55 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const state = useAppSelector((state) => state);
 
   return (
-    <div
-      className={twMerge(
-        'flex flex-wrap items-center justify-center gap-4 bg-gradient-home-from px-4 py-3 text-white',
-        className,
+    <Collapse
+      renderTitle={({ isOpen }) => (
+        <MdExpandMore
+          className={clsx(
+            'fixed left-2 top-2 z-[1] h-9 w-9 cursor-pointer',
+            isOpen ? 'rotate-180 text-white' : 'rotate-0 text-diary-primary',
+          )}
+        />
       )}
     >
-      {loginUser.uid ? (
-        <>
-          <div className="flex flex-col items-center gap-2 text-sm">
-            <p>{loginUser.uid}</p>
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              <Button onClick={() => saveStateToGithub(state.loginUser)}>Save</Button>
-              <Button onClick={() => loadStateFromGithub(state.loginUser)}>Load</Button>
-              <Button onClick={onLogoutClick}>
-                <RiLogoutBoxRLine className="h-6 w-6" /> Logout
-              </Button>
+      <div
+        className={twMerge(
+          'flex flex-wrap items-center justify-center gap-4 overflow-auto bg-gradient-home-from px-4 py-3 text-white transition',
+          className,
+        )}
+      >
+        {loginUser.uid ? (
+          <>
+            <div className="flex flex-col items-center gap-2 text-sm">
+              <p>{loginUser.uid}</p>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <Button onClick={() => saveStateToGithub(state.loginUser)}>Save</Button>
+                <Button onClick={() => loadStateFromGithub(state.loginUser)}>Load</Button>
+                <Button onClick={onLogoutClick}>
+                  <RiLogoutBoxRLine className="h-6 w-6" /> Logout
+                </Button>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col items-center gap-2 text-sm">
-            <h1>Diary</h1>
-            <p className="text-base font-bold">v{packageJson.version}</p>
-          </div>
-          <ImportHistoryButton />
-          <EmptyHistoryButton />
-          <div className="flex flex-col items-center gap-2 text-sm">
-            <p>LastUse: {formatDatetime(loginUser.loginTime)}</p>
-            <p>Streak days: 12</p>
-          </div>
-        </>
-      ) : (
-        <p className="text-xl">
-          Not logged in, Let&apos;s{' '}
-          <Link className="text-blue" to="/settings">
-            Get Started
-          </Link>
-        </p>
-      )}
-    </div>
+            <div className="flex flex-col items-center gap-2 text-sm">
+              <h1>Diary</h1>
+              <p className="text-base font-bold">v{packageJson.version}</p>
+            </div>
+            <ImportHistoryButton />
+            <EmptyHistoryButton />
+            <div className="flex flex-col items-center gap-2 text-sm">
+              <p>LastUse: {formatDatetime(loginUser.loginTime)}</p>
+              <p>Streak days: 12</p>
+            </div>
+          </>
+        ) : (
+          <p className="text-xl">
+            Not logged in, Let&apos;s{' '}
+            <Link className="text-blue" to="/settings">
+              Get Started
+            </Link>
+          </p>
+        )}
+      </div>
+    </Collapse>
   );
 }
 

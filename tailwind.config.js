@@ -7,6 +7,10 @@ module.exports = {
         center: true,
       },
       colors: {
+        diary: {
+          primary: '#376BED',
+          danger: '#dc2626',
+        },
         blue: '#376BED',
         'gradient-home-from': 'var(--gradient-home-from)',
       },

@@ -31,8 +31,8 @@ const LoginForm = () => {
         <Input />
       </Form.Item>
       <Form.Item>
-        <Button htmlType="submit" className="w-full">
-          <AiFillGithub className="h-4 w-4" /> Login with Github
+        <Button htmlType="submit" className="flex w-full items-center justify-center gap-2 py-3">
+          <AiFillGithub className="h-6 w-6" /> Login with Github
         </Button>
       </Form.Item>
     </Form>

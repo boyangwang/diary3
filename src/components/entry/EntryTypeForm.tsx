@@ -1,11 +1,11 @@
-import { Button, Form, Input, InputNumber, Radio } from 'antd';
+import { Form, Input, InputNumber, Radio } from 'antd';
 import { EditNavIcon, EntryNavIcon } from '../misc/DiaryIcons';
 import { RoutineEnum, EntryTypeThemeColors, EntryTypeConstructor, EntryType } from '../../app/types-constants';
 import { useAppDispatch } from '../../app/store';
 import { createEntryType, updateEntryType } from '../../app/entry-types-slice';
 import { exitEntryTypeEdit } from '../../app/ui-slice';
 import { useEffect } from 'react';
-import './EntryTypeForm.css';
+import Button from '../button';
 
 const EntryTypeThemeColorsRadio = EntryTypeThemeColors.map((themeColorPair) => {
   return (
@@ -73,72 +73,81 @@ const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | En
   }, [props.isUpdate, props.updatingEntryType, form]);
 
   return (
-    <Form
-      className="diary-entry-type-form"
-      name="entry-type-form"
-      form={form}
-      initialValues={addInitialValues}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      onValuesChange={onValuesChange}
-    >
-      <Form.Item
-        name="id"
-        rules={[
-          { required: true, message: 'id is required' },
-          {
-            validator: (_, id) => {
-              if (props.isUpdate) {
-                return Promise.resolve();
-              } else {
-                return props.entryTypeIds.includes(id) ? Promise.reject('id already exists') : Promise.resolve();
-              }
-            },
-          },
-        ]}
+    <div className="flex flex-col items-center gap-2">
+      <h1 className="text-xl font-medium">Add Entry</h1>
+
+      <Form
+        className="diary-entry-type-form"
+        name="entry-type-form"
+        form={form}
+        initialValues={addInitialValues}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        onValuesChange={onValuesChange}
       >
-        <Input disabled />
-      </Form.Item>
+        <Form.Item
+          name="id"
+          label="ID"
+          rules={[
+            { required: true, message: 'id is required' },
+            {
+              validator: (_, id) => {
+                if (props.isUpdate) {
+                  return Promise.resolve();
+                } else {
+                  return props.entryTypeIds.includes(id) ? Promise.reject('id already exists') : Promise.resolve();
+                }
+              },
+            },
+          ]}
+        >
+          <Input disabled />
+        </Form.Item>
 
-      <Form.Item name="title" rules={[{ required: true, message: 'title is required' }]}>
-        <Input placeholder="Title" prefix={<EntryNavIcon />} />
-      </Form.Item>
+        <Form.Item name="title" label="Title" rules={[{ required: true, message: 'title is required' }]}>
+          <Input placeholder="Title" prefix={<EntryNavIcon />} />
+        </Form.Item>
 
-      <Form.Item name="defaultPoints" rules={[{ required: true, message: 'defaultPoints is required' }]}>
-        <InputNumber min={-60} max={60} step={0.5} size="large" />
-      </Form.Item>
-      <Form.Item name="pointStep" rules={[{ required: true, message: 'pointStep is required' }]}>
-        <InputNumber min={0} max={60} step={0.5} size="large" />
-      </Form.Item>
+        <Form.Item
+          name="defaultPoints"
+          label="DefaultPoints"
+          rules={[{ required: true, message: 'defaultPoints is required' }]}
+        >
+          <InputNumber min={-60} max={60} step={0.5} size="large" />
+        </Form.Item>
+        <Form.Item name="pointStep" label="PointStep" rules={[{ required: true, message: 'pointStep is required' }]}>
+          <InputNumber min={0} max={60} step={0.5} size="large" />
+        </Form.Item>
 
-      <Form.Item name="routine" rules={[{ required: true, message: 'routine is required' }]}>
-        <Radio.Group>
-          <Radio.Button key={RoutineEnum.adhoc} value={RoutineEnum.adhoc}>
-            {RoutineEnum.adhoc}
-          </Radio.Button>
-          <Radio.Button key={RoutineEnum.daily} value={RoutineEnum.daily}>
-            {RoutineEnum.daily}
-          </Radio.Button>
-          <Radio.Button key={RoutineEnum.weekly} value={RoutineEnum.weekly}>
-            {RoutineEnum.weekly}
-          </Radio.Button>
-          <Radio.Button key={RoutineEnum.monthly} value={RoutineEnum.monthly}>
-            {RoutineEnum.monthly}
-          </Radio.Button>
-        </Radio.Group>
-      </Form.Item>
+        <Form.Item name="routine" label="Routine" rules={[{ required: true, message: 'routine is required' }]}>
+          <Radio.Group>
+            <Radio.Button key={RoutineEnum.adhoc} value={RoutineEnum.adhoc}>
+              {RoutineEnum.adhoc}
+            </Radio.Button>
+            <Radio.Button key={RoutineEnum.daily} value={RoutineEnum.daily}>
+              {RoutineEnum.daily}
+            </Radio.Button>
+            <Radio.Button key={RoutineEnum.weekly} value={RoutineEnum.weekly}>
+              {RoutineEnum.weekly}
+            </Radio.Button>
+            <Radio.Button key={RoutineEnum.monthly} value={RoutineEnum.monthly}>
+              {RoutineEnum.monthly}
+            </Radio.Button>
+          </Radio.Group>
+        </Form.Item>
 
-      <Form.Item name="themeColors" rules={[{ required: true, message: 'themeColor is required' }]}>
-        <Radio.Group>{EntryTypeThemeColorsRadio}</Radio.Group>
-      </Form.Item>
+        <Form.Item name="themeColors" label="ThemeColors" rules={[{ required: true, message: 'themeColor is required' }]}>
+          <Radio.Group>{EntryTypeThemeColorsRadio}</Radio.Group>
+        </Form.Item>
 
-      <Form.Item>
-        <Button className="diary-entry-type-form-button" type="primary" htmlType="submit" block size="large">
-          <EditNavIcon /> {props.isUpdate ? 'Update' : 'Create'}
-        </Button>
-      </Form.Item>
-      {props.isUpdate && <Button onClick={onCancelUpdateClick}>Cancel</Button>}
-    </Form>
+        <Form.Item>
+          <Button type="primary" className="rounded-full font-bold" size="large" htmlType="submit">
+            <EditNavIcon /> {props.isUpdate ? 'Update' : 'Create'}
+          </Button>
+        </Form.Item>
+        {props.isUpdate && <Button onClick={onCancelUpdateClick}>Cancel</Button>}
+      </Form>
+    </div>
   );
 };
 
