@@ -54,7 +54,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <Button onClick={() => saveStateToGithub(state.loginUser)}>Save</Button>
                 <Button onClick={() => loadStateFromGithub(state.loginUser)}>Load</Button>
-                <Button className="" onClick={onLogoutClick}>
+                <Button className="flex items-center gap-2" onClick={onLogoutClick}>
                   <RiLogoutBoxRLine className="h-6 w-6" /> Logout
                 </Button>
               </div>

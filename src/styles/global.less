@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import './theme.css';
+@import './theme.less';
 
 @layer base {
   body {
@@ -16,5 +16,10 @@
   }
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
+  @font-face {
+    font-family: 'D-DIN';
+    font-weight: bold;
+    src: url('../assets/font/D-DIN-Bold.ttf');
   }
 }

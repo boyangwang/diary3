@@ -14,10 +14,6 @@ function HeaderDatetime() {
     };
   }, []);
 
-  return (
-    <div className="bg-gradient text-center">
-      <h1>{formatDatetime(time)}</h1>
-    </div>
-  );
+  return <h1 className="text-center font-DDin text-2xl font-bold">{formatDatetime(time)}</h1>;
 }
 export default HeaderDatetime;

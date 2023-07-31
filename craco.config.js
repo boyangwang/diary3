@@ -1,5 +1,5 @@
 const path = require('path');
-// const CracoLessPlugin = require('craco-less');
+const CracoLessPlugin = require('craco-less');
 const webpack = require('webpack');
 const resolve = (dir) => path.resolve(__dirname, dir);
 
@@ -9,7 +9,7 @@ module.exports = {
       plugins: [require('autoprefixer'), require('tailwindcss')],
     },
   },
-  // plugins: [{ plugin: CracoLessPlugin }],
+  plugins: [{ plugin: CracoLessPlugin }],
   webpack: {
     plugins: {
       add: [

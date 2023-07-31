@@ -22,6 +22,9 @@ module.exports = {
         'gradient-4': 'repeating-linear-gradient(to right, var(--gradient-4-from), var(--gradient-4-to))',
         'gradient-home': 'var(--gradient-home)',
       },
+      fontFamily: {
+        DDin: ['D-DIN'],
+      },
     },
   },
   plugins: [],
