@@ -27,7 +27,7 @@ const EntryInstanceList = (props: { entryInstancesArray: EntryInstance[] }) => {
         ? entryInstancesArray.map((item) => {
             const { id, points, notes, entryTypeId, createdAt, updatedAt } = item;
             return (
-              <div className="flex flex-col gap-2 rounded-lg border border-black/50 p-2" key={id}>
+              <div className="flex flex-col gap-1 rounded-lg border border-black/50 p-2" key={id}>
                 <div className="flex items-center gap-4">
                   ID:
                   <div className="flex-grow"> {id}</div>

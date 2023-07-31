@@ -1,10 +1,8 @@
 import { Progress } from 'antd';
-import './EntryProgressBar.css';
 
 function EntryProgressBar(props: { points: number }) {
   const points = props.points + 10;
   const percent = Math.ceil((points * 10000) / 24) / 100;
-  const current = (percent / 100) * 24;
   const gradient = {
     '0%': '#3385E4',
     '25%': '#6CD261',

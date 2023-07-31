@@ -1,16 +1,15 @@
-import { List } from 'antd';
 import { EntryType } from '../../app/types-constants';
 import EntryTypeCard from './EntryTypeCard';
 
-const EntryTypeListForCompletion = (props: { entryTypesArray: EntryType[] }) => (
-  <List
-    dataSource={props.entryTypesArray}
-    renderItem={(item: EntryType) => (
-      <List.Item>
-        <EntryTypeCard entryType={item} isEdit={false} />
-      </List.Item>
-    )}
-  />
-);
+const EntryTypeListForCompletion = (props: { entryTypesArray: EntryType[] }) => {
+  const { entryTypesArray } = props;
+  return (
+    <div className="flex flex-col gap-2">
+      {entryTypesArray?.length
+        ? entryTypesArray.map((item) => <EntryTypeCard key={item.id} entryType={item} isEdit={false} />)
+        : null}
+    </div>
+  );
+};
 
 export default EntryTypeListForCompletion;

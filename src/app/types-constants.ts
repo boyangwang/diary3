@@ -189,6 +189,7 @@ export class DiaryGlobalStats {
 export const formatDatetime = (datetime: number | null) =>
   datetime ? dayjs(datetime).format('h:mm:ssa | ddd YYYY-MMM-DD') : '';
 export const formatDate = (datetime: number | null) => (datetime ? dayjs(datetime).format('ddd DD MMM YYYY') : '');
+export const formatEntryCardDate = (datetime: number | null) => (datetime ? dayjs(datetime).format('YYYY/MM/DD') : '');
 
 export const getDateStringFromEntryDay = (entryDay: EntryDay) => {
   const { year, month, day } = entryDay;
