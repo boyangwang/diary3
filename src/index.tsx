@@ -6,6 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from './app/router';
 import { PersistGate } from 'redux-persist/integration/react';
 import './styles/global.less';
+import 'react-toastify/dist/ReactToastify.css';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);

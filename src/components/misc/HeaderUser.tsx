@@ -1,18 +1,18 @@
+import { formatDatetime } from '@/app/types-constants';
+import clsx from 'clsx';
+import { useCallback } from 'react';
+import { MdExpandMore } from 'react-icons/md';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 import ImportHistoryButton from 'src/components/misc/ImportHistoryButton';
 import { twMerge } from 'tailwind-merge';
 import packageJson from '../../../package.json';
 import { LoginUserState, onCloseUpdateLastUseTime, onLogoutClickClearState } from '../../app/login-user-slice';
 import { useAppDispatch, useAppSelector } from '../../app/store';
 import Button from '../button';
+import Collapse from '../collapse';
 import EmptyHistoryButton from './EmptyHistoryButton';
 import { loadStateFromGithub, saveStateToGithub } from './GithubStorage';
-import { formatDatetime } from '@/app/types-constants';
-import { Link } from 'react-router-dom';
-import { MdExpandMore } from 'react-icons/md';
-import { useState } from 'react';
-import clsx from 'clsx';
-import Collapse from '../collapse';
 
 function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const dispatch = useAppDispatch();
@@ -26,9 +26,9 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const onLogoutClick = () => {
     dispatch(onLogoutClickClearState());
   };
-
   const state = useAppSelector((state) => state);
-
+  const save = useCallback(() => saveStateToGithub(state.loginUser), [state.loginUser]);
+  const loaded = useCallback(() => loadStateFromGithub(state.loginUser), [state.loginUser]);
   return (
     <Collapse
       initOpen
@@ -52,8 +52,8 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
             <div className="flex flex-col items-center gap-2 text-sm">
               <p>{loginUser.uid}</p>
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <Button onClick={() => saveStateToGithub(state.loginUser)}>Save</Button>
-                <Button onClick={() => loadStateFromGithub(state.loginUser)}>Load</Button>
+                <Button onClick={save}>Save</Button>
+                <Button onClick={loaded}>Load</Button>
                 <Button className="flex items-center gap-2" onClick={onLogoutClick}>
                   <RiLogoutBoxRLine className="h-6 w-6" /> Logout
                 </Button>
