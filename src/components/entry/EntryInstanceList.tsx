@@ -22,35 +22,34 @@ const EntryInstanceList = (props: { entryInstancesArray: EntryInstance[] }) => {
   const { entryInstancesArray } = props;
   console.log({ entryInstancesArray });
   return (
-    <div className="flex flex-wrap justify-center gap-3">
+    <div className="flex flex-col items-center gap-2">
       {entryInstancesArray?.length
         ? entryInstancesArray.map((item) => {
             const { id, points, notes, entryTypeId, createdAt, updatedAt } = item;
             return (
-              <div className="flex flex-col gap-1 rounded-lg border border-black/50 p-2" key={id}>
-                <div className="flex items-center gap-4">
-                  ID:
-                  <div className="flex-grow"> {id}</div>
+              <div className="flex gap-4 rounded-lg border border-black/50 p-2 text-xs md:flex-wrap" key={id}>
+                <div className="flex flex-col items-center gap-1">
+                  ID<div>{id}</div>
                 </div>
-                <div className="flex items-center gap-4">
-                  entryTypeId:
-                  <div className="flex-grow"> {entryTypeId}</div>
+                <div className="flex flex-col items-center gap-1">
+                  entryTypeId
+                  <div className="rounded-lg border border-black p-1"> {entryTypeId}</div>
                 </div>
-                <div className="flex items-center gap-4">
-                  points:
-                  <div className="flex-grow"> {points}</div>
+                <div className="flex flex-col items-center gap-1">
+                  points
+                  <div className="font-DDin text-xl font-bold"> {points}</div>
                 </div>
-                <div className="flex items-center gap-4">
-                  notes:
-                  <div className="flex-grow"> {notes || <span className="text-gray-400">Empty</span>}</div>
+                <div className="flex  flex-col items-center gap-1">
+                  notes
+                  <div> {notes || <span className="text-gray-400">Empty</span>}</div>
                 </div>
-                <div className="flex items-center gap-4">
-                  createdAt:
-                  <div className="flex-grow">{formatDate(createdAt)}</div>
+                <div className="flex flex-col items-center gap-1">
+                  createdAt
+                  <div>{formatDate(createdAt)}</div>
                 </div>
-                <div className="flex items-center gap-4">
-                  updatedAt:
-                  <div className="flex-grow">{formatDate(updatedAt)}</div>
+                <div className="flex flex-col items-center gap-1">
+                  updatedAt
+                  <div>{formatDate(updatedAt)}</div>
                 </div>
                 <EntryInstanceCardDeleteButton key={id} entryInstance={item} />
               </div>

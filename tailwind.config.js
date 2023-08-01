@@ -6,6 +6,15 @@ module.exports = {
       container: {
         center: true,
       },
+      screens: {
+        xs: { max: '480px' },
+        sm: { max: '640px' },
+        md: { max: '768px' },
+        lg: { min: '769px', max: '1024px' },
+        xl: { min: '1025px', max: '1365px' },
+        '2xl': '1366px',
+        '4xl': '1920px',
+      },
       colors: {
         diary: {
           primary: '#376BED',

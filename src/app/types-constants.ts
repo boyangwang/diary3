@@ -24,7 +24,6 @@ export interface EntryType {
 
   defaultPoints: number;
   pointStep: number;
-
   // when not completed in a cycle, deduct default points
   routine: RoutineEnum;
 
