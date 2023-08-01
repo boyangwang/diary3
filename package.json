@@ -1,6 +1,6 @@
 {
   "name": "diary3",
-  "version": "0.1.148",
+  "version": "0.1.149",
   "private": true,
   "scripts": {
     "start": "craco start",
