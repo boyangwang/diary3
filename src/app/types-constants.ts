@@ -33,6 +33,13 @@ export interface EntryType {
   themeColors: string[];
 }
 
+export enum StreakStatus {
+  UNCREATED = 'uncreated',
+  INCOMPLETE = 'incomplete',
+  COMPLETED = 'completed',
+  WARNING = 'warning', // 本周期还未完成 快失败了
+}
+
 export const EntryTypeConstructor = ({
   id = '',
   title = '',

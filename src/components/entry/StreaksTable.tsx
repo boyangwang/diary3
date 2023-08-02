@@ -3,9 +3,14 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 import _ from 'lodash-es';
 import { Fragment, useCallback, useLayoutEffect, useMemo, useRef } from 'react';
-import { EntryType, RoutineEnum, getDatePeriods } from '../../app/types-constants';
+import { EntryType, RoutineEnum, StreakStatus, getDatePeriods } from '../../app/types-constants';
 
-const tempColor = ['bg-green-500', 'bg-red-500'];
+const statusColor: { [key in StreakStatus]: string } = {
+  [StreakStatus.UNCREATED]: 'bg-white/80',
+  [StreakStatus.COMPLETED]: 'bg-green-500',
+  [StreakStatus.INCOMPLETE]: 'bg-red-500',
+  [StreakStatus.WARNING]: 'bg-orange-500',
+};
 function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnum }) {
   const { routine, entryTypesArray } = props;
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -25,16 +30,79 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
     },
     [routine],
   );
+  const getStatus = useCallback(
+    (period: { start: string; end: string }, entryType: EntryType, isLatest?: boolean): StreakStatus => {
+      const { id, createdAt } = entryType;
+      const { start, end } = period;
+      const createAt = dayjs(createdAt);
+      const s = dayjs(start);
+      const e = dayjs(end);
+      switch (routine) {
+        case RoutineEnum.daily: {
+          // s~e 这一天有过一次就是胜利
+          if (createAt.isAfter(e)) return StreakStatus.UNCREATED;
+          const entries = entryInstancesMap[s.format('YYYY-MM-DD')];
+          if (!entries?.length) return isLatest ? StreakStatus.WARNING : StreakStatus.INCOMPLETE;
+          const isDone = entries.findIndex(({ entryTypeId }) => entryTypeId === id) !== -1;
+          if (isDone) return StreakStatus.COMPLETED;
+          else return isLatest ? StreakStatus.WARNING : StreakStatus.INCOMPLETE;
+        }
+        case RoutineEnum.weekly: {
+          // s~e 这一周有过一次就是胜利
+          if (createAt.isAfter(e)) return StreakStatus.UNCREATED;
+          for (let day = s; day.isBefore(e) || day.isSame(e); day = day.add(1, 'day')) {
+            const entries = entryInstancesMap[day.format('YYYY-MM-DD')];
+            if (entries?.length && entries.findIndex(({ entryTypeId }) => entryTypeId === id) !== -1) {
+              return StreakStatus.COMPLETED;
+            }
+          }
+          return isLatest ? StreakStatus.WARNING : StreakStatus.INCOMPLETE;
+        }
+        case RoutineEnum.monthly: {
+          // s~e 这一月有过一次就是胜利
+          if (createAt.isAfter(e)) return StreakStatus.UNCREATED;
+          for (let day = s; day.isBefore(e) || day.isSame(e); day = day.add(1, 'day')) {
+            const entries = entryInstancesMap[day.format('YYYY-MM-DD')];
+            if (entries?.length && entries.findIndex(({ entryTypeId }) => entryTypeId === id) !== -1) {
+              return StreakStatus.COMPLETED;
+            }
+          }
+          return isLatest ? StreakStatus.WARNING : StreakStatus.INCOMPLETE;
+        }
+        default:
+          return StreakStatus.UNCREATED;
+      }
+    },
+    [entryInstancesMap, routine],
+  );
+  const historyLongestArr = useMemo(() => {
+    if (!filterEntryTypes?.length || !periods?.length) return [];
+    return filterEntryTypes.map((item, idx) => {
+      let preStatus = getStatus(periods[0], item);
+      let sum = preStatus === StreakStatus.COMPLETED ? 1 : 0;
+      let maxSum = sum;
+      for (let i = 1; i < periods.length; ++i) {
+        const curStatus = getStatus(periods[i], item);
+        if (curStatus === StreakStatus.COMPLETED) {
+          sum++;
+        } else sum = 0;
+        maxSum = Math.max(maxSum, sum);
+        preStatus = curStatus;
+      }
+      return maxSum;
+    });
+  }, [filterEntryTypes, getStatus, periods]);
+
   useLayoutEffect(() => {
     if (!scrollContainerRef?.current) return;
     const scrollContainer = scrollContainerRef.current;
     scrollContainer.scrollTo({
       left: scrollContainer.scrollWidth,
-      behavior: 'smooth', // 设置滚动行为为平滑
+      behavior: 'smooth',
     });
   }, []);
 
-  console.log(routine, periods, { filterEntryTypes, entryInstancesMap });
+  // console.log(routine, periods, { filterEntryTypes, entryInstancesMap });
   if (!periods.length)
     return (
       <div className="flex w-full flex-col gap-2">
@@ -52,7 +120,7 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
     <div className="flex w-full flex-col gap-2">
       <h2>{`${routine} Streaks Table`}</h2>
       <div className={clsx('flex w-full gap-1', { '-mt-6': routine !== RoutineEnum.weekly })}>
-        <div className="mt-12 flex flex-col items-center gap-1">
+        <div className="mt-11 flex flex-col items-center gap-1">
           {filterEntryTypes.map((item) => (
             <div
               className="flex h-6 w-[5rem] items-center overflow-hidden text-ellipsis whitespace-nowrap text-xs"
@@ -66,29 +134,31 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
           {filterEntryTypes.map((item, idx) => (
             <Fragment key={item.id}>
               {idx === 0 && (
-                <div className="flex w-fit gap-1">
-                  {periods.map((item, idx) => (
+                <div className="flex w-full gap-1">
+                  {periods.map((period, idx) => (
                     <div
-                      key={`header${item.start}${idx}`}
-                      className="flex h-12 w-14 items-end justify-center text-center text-sm"
+                      key={`header${period.start}${idx}`}
+                      className="flex h-10 min-w-[3.5rem] flex-grow items-end justify-center text-center text-sm"
                     >
-                      {getHeader(item)}
+                      {getHeader(period)}
                     </div>
                   ))}
                 </div>
               )}
-              <div className="flex w-fit gap-1">
-                {periods.map((v, idx) => (
-                  <div key={idx} className={clsx('h-6 w-14', tempColor[_.random(0, 1)])} />
-                ))}
+              <div className="flex w-full gap-1">
+                {periods.map((period, idx) => {
+                  const status = getStatus(period, item, idx === periods.length - 1);
+                  console.log('==============', period, item.id, status);
+                  return <div key={idx} className={clsx('h-6 w-14 min-w-[3.5rem] flex-grow', statusColor[status])} />;
+                })}
               </div>
             </Fragment>
           ))}
         </div>
-        <div className="mt-12 flex flex-col items-center gap-1">
-          {filterEntryTypes.map((item) => (
-            <div className="h-6 w-6 text-xs" key={item.id}>
-              6
+        <div className="mt-11 flex flex-col items-center gap-1">
+          {historyLongestArr.map((value) => (
+            <div className="h-6 w-6 text-xs" key={value}>
+              {value}
             </div>
           ))}
         </div>
