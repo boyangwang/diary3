@@ -221,3 +221,20 @@ export const getDatetimeStringShortFormatFromNow = () => getDatetimeStringFromTi
 export const getEntryInstanceIdFromEntryType = (entryType: EntryType) => {
   return `${entryType.id}-${new Date().toISOString()}-${Math.floor(Math.random() * 120)}`;
 };
+export const getDatePeriods = (type: RoutineEnum, cycle = 7) => {
+  if (type === RoutineEnum.adhoc) return [];
+  let dayType = {
+    [RoutineEnum.daily]: 'day',
+    [RoutineEnum.weekly]: 'week',
+    [RoutineEnum.monthly]: 'month',
+  };
+  const t = dayType[type] as 'day' | 'week' | 'month';
+  const nowDate = dayjs();
+  const periods = [];
+  for (let i = 0; i < cycle; i++) {
+    const start = nowDate.subtract(i, t).startOf(t).format('YYYY-MM-DD HH:mm:ss');
+    const end = nowDate.subtract(i, t).endOf(t).format('YYYY-MM-DD HH:mm:ss');
+    periods.unshift({ start, end });
+  }
+  return periods;
+};

@@ -13,7 +13,7 @@ export default function AddPage() {
     isUpdate && updatingEntryTypeId ? entryTypesArray.find((entryType) => entryType.id === updatingEntryTypeId) : null;
   console.log({ entryTypesArray });
   return (
-    <div className="flex h-full flex-col items-center gap-4 overflow-auto px-4 py-6 text-center">
+    <div className="flex h-full flex-col items-center gap-8 overflow-auto px-4 py-6 text-center">
       <EntryTypeForm isUpdate={isUpdate} updatingEntryType={updatingEntryType} entryTypeIds={entryTypeIds} />
       <StreaksTable entryTypesArray={entryTypesArray} routine={RoutineEnum.daily} />
       <StreaksTable entryTypesArray={entryTypesArray} routine={RoutineEnum.weekly} />
