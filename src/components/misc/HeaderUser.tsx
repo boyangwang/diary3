@@ -29,6 +29,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const state = useAppSelector((state) => state);
   const save = useCallback(() => saveStateToGithub(state.loginUser), [state.loginUser]);
   const loaded = useCallback(() => loadStateFromGithub(state.loginUser), [state.loginUser]);
+
   return (
     <Collapse
       initOpen
@@ -50,7 +51,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
         {loginUser.uid ? (
           <>
             <div className="flex flex-col items-center gap-2 text-sm">
-              <p>LastUse: {formatDatetime(loginUser.loginTime)}</p>
+              <p>LastUse: {formatDatetime(loginUser.lastUseTime)}</p>
               <p>Streak days: 12</p>
             </div>
             <div className="flex flex-col items-center gap-2 text-sm">

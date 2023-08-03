@@ -30,7 +30,6 @@ export const loginUserSlice = createSlice({
     },
     onCloseUpdateLastUseTime: (state) => {
       const now = dayjs();
-      console.log('=============onCloseUpdateLastUseTime', now.format('YYYY MM DD hh:mm:ss'), now.valueOf());
       state.lastUseTime = now.valueOf();
     },
     onLogoutClickClearState: (state) => {
