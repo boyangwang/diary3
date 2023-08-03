@@ -148,16 +148,17 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
               <div className="flex w-full gap-1">
                 {periods.map((period, idx) => {
                   const status = getStatus(period, item, idx === periods.length - 1);
-                  console.log('==============', period, item.id, status);
-                  return <div key={idx} className={clsx('h-6 w-14 min-w-[3.5rem] flex-grow', statusColor[status])} />;
+                  return (
+                    <div key={`streakCell-${idx}`} className={clsx('h-6 w-14 min-w-[3.5rem] flex-grow', statusColor[status])} />
+                  );
                 })}
               </div>
             </Fragment>
           ))}
         </div>
         <div className="mt-11 flex flex-col items-center gap-1">
-          {historyLongestArr.map((value) => (
-            <div className="h-6 w-6 text-xs" key={value}>
+          {historyLongestArr.map((value, idx) => (
+            <div className="h-6 w-6 text-xs" key={`${value}-${idx}`}>
               {value}
             </div>
           ))}
