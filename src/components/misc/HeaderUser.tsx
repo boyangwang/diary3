@@ -43,12 +43,16 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
     >
       <div
         className={twMerge(
-          'flex flex-wrap items-center justify-center gap-4 overflow-auto bg-gradient-home-from px-4 py-3 text-white transition',
+          'flex flex-wrap items-center justify-center gap-2 overflow-auto bg-gradient-home-from px-4 py-3 text-white transition',
           className,
         )}
       >
         {loginUser.uid ? (
           <>
+            <div className="flex flex-col items-center gap-2 text-sm">
+              <p>LastUse: {formatDatetime(loginUser.loginTime)}</p>
+              <p>Streak days: 12</p>
+            </div>
             <div className="flex flex-col items-center gap-2 text-sm">
               <p>{loginUser.uid}</p>
               <div className="flex flex-wrap items-center justify-center gap-2">
@@ -63,12 +67,8 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
               <h1>Diary</h1>
               <p className="text-base font-bold">v{packageJson.version}</p>
             </div>
-            <ImportHistoryButton />
-            <EmptyHistoryButton />
-            <div className="flex flex-col items-center gap-2 text-sm">
-              <p>LastUse: {formatDatetime(loginUser.loginTime)}</p>
-              <p>Streak days: 12</p>
-            </div>
+            {/* <ImportHistoryButton />
+            <EmptyHistoryButton /> */}
           </>
         ) : (
           <p className="text-xl">
