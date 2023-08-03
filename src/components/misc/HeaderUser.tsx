@@ -18,10 +18,10 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const dispatch = useAppDispatch();
   const { loginUser, className } = props;
 
-  window.addEventListener('beforeunload', (ev) => {
-    ev.preventDefault();
-    dispatch(onCloseUpdateLastUseTime());
-  });
+  // window.addEventListener('beforeunload', (ev) => {
+  //   ev.preventDefault();
+  //   dispatch(onCloseUpdateLastUseTime());
+  // });
 
   const onLogoutClick = () => {
     dispatch(onLogoutClickClearState());
