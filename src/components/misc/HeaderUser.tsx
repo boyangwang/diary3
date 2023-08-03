@@ -13,15 +13,15 @@ import Button from '../button';
 import Collapse from '../collapse';
 import EmptyHistoryButton from './EmptyHistoryButton';
 import { loadStateFromGithub, saveStateToGithub } from './GithubStorage';
+import { useBeforeunload } from 'react-beforeunload';
 
 function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const dispatch = useAppDispatch();
   const { loginUser, className } = props;
 
-  // window.addEventListener('beforeunload', (ev) => {
-  //   ev.preventDefault();
-  //   dispatch(onCloseUpdateLastUseTime());
-  // });
+  useBeforeunload(() => {
+    dispatch(onCloseUpdateLastUseTime());
+  });
 
   const onLogoutClick = () => {
     dispatch(onLogoutClickClearState());

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import dayjs from 'dayjs';
 
 export interface LoginUserState {
   uid: string | null;
@@ -28,7 +29,9 @@ export const loginUserSlice = createSlice({
       }
     },
     onCloseUpdateLastUseTime: (state) => {
-      state.lastUseTime = Number(Date.now());
+      const now = dayjs();
+      console.log('=============onCloseUpdateLastUseTime', now.format('YYYY MM DD hh:mm:ss'), now.valueOf());
+      state.lastUseTime = now.valueOf();
     },
     onLogoutClickClearState: (state) => {
       state.uid = null;
