@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash-es';
 import { Fragment, useCallback, useLayoutEffect, useMemo, useRef } from 'react';
 import { EntryType, RoutineEnum, StreakStatus, getDatePeriods } from '../../app/types-constants';
+import { calcEntryTypeLongestStreaks } from '@/utils/entry';
 
 const statusColor: { [key in StreakStatus]: string } = {
   [StreakStatus.UNCREATED]: 'bg-white/80',
@@ -77,21 +78,8 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
   );
   const historyLongestArr = useMemo(() => {
     if (!filterEntryTypes?.length || !periods?.length) return [];
-    return filterEntryTypes.map((item, idx) => {
-      let preStatus = getStatus(periods[0], item);
-      let sum = preStatus === StreakStatus.COMPLETED ? 1 : 0;
-      let maxSum = sum;
-      for (let i = 1; i < periods.length; ++i) {
-        const curStatus = getStatus(periods[i], item);
-        if (curStatus === StreakStatus.COMPLETED) {
-          sum++;
-        } else sum = 0;
-        maxSum = Math.max(maxSum, sum);
-        preStatus = curStatus;
-      }
-      return maxSum;
-    });
-  }, [filterEntryTypes, getStatus, periods]);
+    return filterEntryTypes.map((item) => calcEntryTypeLongestStreaks(item, entryInstancesMap));
+  }, [entryInstancesMap, filterEntryTypes, periods?.length]);
 
   useLayoutEffect(() => {
     if (!scrollContainerRef?.current) return;

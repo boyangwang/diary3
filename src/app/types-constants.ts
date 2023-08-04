@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-
 export interface EntryInstance {
   id: string; // timesstamp + random number
   entryTypeId: string;
@@ -181,16 +180,6 @@ export const setOpacity = (s: string, a: number) => {
 export const isNumOrStrAndNotNaN = (a: any) => {
   return (typeof a === 'number' || typeof a === 'string') && !isNaN(a as number);
 };
-
-export class DiaryGlobalStats {
-  registedSince = -1;
-  entryDays = -1;
-
-  historicalLongestStreakByEntry = -1;
-  currentStreakByentry = -1;
-
-  totalEntries = -1;
-}
 
 export const formatDatetime = (datetime: number | null) =>
   datetime ? dayjs(datetime).format('h:mm:ssa | ddd YYYY-MMM-DD') : '';
