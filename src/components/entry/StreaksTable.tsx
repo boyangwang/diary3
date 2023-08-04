@@ -76,10 +76,16 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
     },
     [entryInstancesMap, routine],
   );
+
+  const { entryTypeMaxStreaks } = useMemo(
+    () => calcEntryTypeLongestStreaks(entryInstancesMap, routine),
+    [entryInstancesMap, routine],
+  );
+
   const historyLongestArr = useMemo(() => {
     if (!filterEntryTypes?.length || !periods?.length) return [];
-    return filterEntryTypes.map((item) => calcEntryTypeLongestStreaks(item, entryInstancesMap));
-  }, [entryInstancesMap, filterEntryTypes, periods?.length]);
+    return filterEntryTypes.map((item) => entryTypeMaxStreaks?.[item.id] ?? 0);
+  }, [entryTypeMaxStreaks, filterEntryTypes, periods?.length]);
 
   useLayoutEffect(() => {
     if (!scrollContainerRef?.current) return;

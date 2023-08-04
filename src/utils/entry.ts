@@ -54,31 +54,28 @@ const groupByMonth = (dates: string[]): Record<string, string[]> => {
   return grouped;
 };
 
-export const calcEntryTypeLongestStreaks = (entryType: EntryType, entryInstancesMap: { [key: string]: EntryInstance[] }) => {
-  const { id, routine } = entryType;
-  let maxStreaks = 0;
+export const calcEntryTypeLongestStreaks = (entryInstancesMap: { [key: string]: EntryInstance[] }, routine?: RoutineEnum) => {
   const sortedDates = Object.keys(entryInstancesMap).sort();
   const entryTypeStreaks: Record<string, number> = {};
   const entryTypeMaxStreaks: Record<string, number> = {};
-
   switch (routine) {
     case RoutineEnum.daily: {
-      for (const [idx, date] of sortedDates.entries()) {
+      for (const date of sortedDates) {
         const entries = entryInstancesMap[date]; // date - > 2023-08-01
         const entryTypesToday = new Set(entries.map((entry) => entry.entryTypeId));
 
         // 检查每个 entryType 是否连续
         for (const entryType of entryTypesToday) {
           let streak = 1; // 默认开始新的连胜计数
-          if (idx > 0) {
-            const previousDate = dayjs(date).subtract(1, 'day').format('YYYY-MM-DD');
-            const previousEntryTypes = entryInstancesMap?.[previousDate]?.length
-              ? new Set(entryInstancesMap[previousDate].map((entry) => entry.entryTypeId))
-              : new Set();
-            if (previousEntryTypes.has(entryType)) {
-              streak = (entryTypeStreaks[entryType] || 0) + 1; // 如果连续，则增加连胜计数
-            }
+          // if (idx > 0) {
+          const previousDate = dayjs(date).subtract(1, 'day').format('YYYY-MM-DD');
+          const previousEntryTypes = entryInstancesMap?.[previousDate]?.length
+            ? new Set(entryInstancesMap[previousDate].map((entry) => entry.entryTypeId))
+            : new Set();
+          if (previousEntryTypes.has(entryType)) {
+            streak = (entryTypeStreaks[entryType] || 0) + 1; // 如果连续，则增加连胜计数
           }
+          // }
 
           entryTypeStreaks[entryType] = streak;
           entryTypeMaxStreaks[entryType] = Math.max(entryTypeMaxStreaks[entryType] || 0, streak);
@@ -92,7 +89,7 @@ export const calcEntryTypeLongestStreaks = (entryType: EntryType, entryInstances
           }
         }
       }
-      return entryTypeMaxStreaks?.[entryType.id] ?? 0;
+      return { entryTypeMaxStreaks };
     }
     case RoutineEnum.weekly: {
       const groupedByWeek = groupByWeek(sortedDates); /** {
@@ -104,9 +101,8 @@ export const calcEntryTypeLongestStreaks = (entryType: EntryType, entryInstances
 				]
 		} */
       const weekKeys = Object.keys(groupedByWeek).sort();
-      for (const [idx, week] of weekKeys.entries()) {
+      for (const week of weekKeys) {
         const entriesKeys = groupedByWeek[week]; // ['2023-08-01', '2023-08-02', '2023-08-03']
-
         const entryTypeCurWeek = new Set(
           entriesKeys
             .map((key) => entryInstancesMap[key])
@@ -116,31 +112,28 @@ export const calcEntryTypeLongestStreaks = (entryType: EntryType, entryInstances
         // 检查每个 entryType 是否连续
         for (const entryType of entryTypeCurWeek) {
           let streak = 1;
-          if (idx > 0) {
-            const [y, w] = week.split('-').map((v) => parseInt(v, 10));
-            let previousWeek;
-            if (!(w - 1)) {
-              previousWeek = `${y - 1}-${dayjs()
-                .year(y - 1)
-                .endOf('year')
-                .week()}`;
-            } else previousWeek = `${y}-${w - 1}`;
+          // if (idx > 0) {
+          const [y, w] = week.split('-').map((v) => parseInt(v, 10));
+          let previousWeek;
+          if (!(w - 1)) {
+            previousWeek = `${y - 1}-${dayjs()
+              .year(y - 1)
+              .endOf('year')
+              .week()}`;
+          } else previousWeek = `${y}-${w - 1}`;
 
-            const previousEntryTypes = groupedByWeek?.[previousWeek]?.length
-              ? new Set(
-                  groupedByWeek[previousWeek]
-                    .map((key) => entryInstancesMap[key])
-                    .flat(1)
-                    .map((entry) => entry?.entryTypeId),
-                )
-              : new Set();
-
-            if (previousEntryTypes.has(entryType)) {
-              streak = (entryTypeStreaks[entryType] || 0) + 1; // 如果连续，则增加连胜计数
-            } else {
-              streak = 0;
-            }
+          const previousEntryTypes = groupedByWeek?.[previousWeek]?.length
+            ? new Set(
+                groupedByWeek[previousWeek]
+                  .map((key) => entryInstancesMap[key])
+                  .flat(1)
+                  .map((entry) => entry?.entryTypeId),
+              )
+            : new Set();
+          if (previousEntryTypes.has(entryType)) {
+            streak = (entryTypeStreaks[entryType] || 0) + 1; // 如果连续，则增加连胜计数
           }
+          // }
           entryTypeStreaks[entryType] = streak;
           entryTypeMaxStreaks[entryType] = Math.max(entryTypeMaxStreaks[entryType] || 0, streak);
         }
@@ -152,7 +145,7 @@ export const calcEntryTypeLongestStreaks = (entryType: EntryType, entryInstances
           }
         }
       }
-      return entryTypeMaxStreaks?.[entryType.id] ?? 0;
+      return { entryTypeMaxStreaks };
     }
     case RoutineEnum.monthly: {
       const groupedByMonth = groupByMonth(sortedDates); /** {
@@ -164,7 +157,7 @@ export const calcEntryTypeLongestStreaks = (entryType: EntryType, entryInstances
 				]
 		} */
       const monthKeys = Object.keys(groupedByMonth).sort();
-      for (const [idx, month] of monthKeys.entries()) {
+      for (const month of monthKeys) {
         const entriesKeys = groupedByMonth[month];
 
         const entryTypeCurMonth = new Set(
@@ -177,29 +170,22 @@ export const calcEntryTypeLongestStreaks = (entryType: EntryType, entryInstances
         // 检查每个 entryType 是否连续
         for (const entryType of entryTypeCurMonth) {
           let streak = 1;
+          const previousMonth = dayjs(month).subtract(1, 'month').format('YYYY-MM');
+          const previousEntryTypes = groupedByMonth?.[previousMonth]?.length
+            ? new Set(
+                groupedByMonth[previousMonth]
+                  .map((key) => entryInstancesMap[key])
+                  .flat(1)
+                  .map((entry) => entry?.entryTypeId),
+              )
+            : new Set();
 
-          if (idx > 0) {
-            const previousMonth = dayjs(month).subtract(1, 'month').format('YYYY-MM');
-            const previousEntryTypes = groupedByMonth?.[previousMonth]?.length
-              ? new Set(
-                  groupedByMonth[previousMonth]
-                    .map((key) => entryInstancesMap[key])
-                    .flat(1)
-                    .map((entry) => entry?.entryTypeId),
-                )
-              : new Set();
-
-            if (previousEntryTypes.has(entryType)) {
-              streak = (entryTypeStreaks[entryType] || 0) + 1; // 如果连续，则增加连胜计数
-            } else {
-              streak = 0;
-            }
+          if (previousEntryTypes.has(entryType)) {
+            streak = (entryTypeStreaks[entryType] || 0) + 1; // 如果连续，则增加连胜计数
           }
-
           entryTypeStreaks[entryType] = streak;
           entryTypeMaxStreaks[entryType] = Math.max(entryTypeMaxStreaks[entryType] || 0, streak);
         }
-
         // 如果某个 entryType 在本月没有完成，则重置其连胜计数
         for (const entryType in entryTypeStreaks) {
           if (!entryTypeCurMonth.has(entryType)) {
@@ -208,10 +194,10 @@ export const calcEntryTypeLongestStreaks = (entryType: EntryType, entryInstances
           }
         }
       }
-      return entryTypeMaxStreaks?.[entryType.id] ?? 0;
+      return { entryTypeMaxStreaks };
     }
     case RoutineEnum.adhoc:
     default:
-      return maxStreaks;
+      return { entryTypeMaxStreaks: {} };
   }
 };
