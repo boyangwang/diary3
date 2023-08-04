@@ -1,5 +1,5 @@
 import { selectEntryInstancesMap, selectLoginUser, useAppSelector } from '@/app/store';
-import { calcRecordedLongestStreaks } from '@/utils/entry';
+import { calcRecordedCurrentStreaks, calcRecordedLongestStreaks } from '@/utils/entry';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
@@ -11,14 +11,12 @@ function GlobalStats() {
     const registeredSince = now.diff(dayjs(loginUser.loginTime), 'day');
     const entryKeys = Object.keys(entryInstancesMap);
     const totalEntries = entryKeys.reduce((pre, cur) => pre + (entryInstancesMap[cur]?.length ?? 0), 0);
-    const historicalLongestStreakByEntry = calcRecordedLongestStreaks(entryInstancesMap);
-    console.log('==========GlobalStats ', entryKeys, entryInstancesMap, historicalLongestStreakByEntry);
     return {
       registeredSince,
       entryDays: entryKeys?.length ?? 0,
       totalEntries,
-      historicalLongestStreakByEntry: historicalLongestStreakByEntry,
-      currentStreakByEntry: -1,
+      historicalLongestStreakByEntry: calcRecordedLongestStreaks(entryInstancesMap),
+      currentStreakByEntry: calcRecordedCurrentStreaks(entryInstancesMap),
     };
   }, [entryInstancesMap, loginUser.loginTime]);
   return (

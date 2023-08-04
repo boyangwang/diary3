@@ -29,6 +29,19 @@ export const calcRecordedLongestStreaks = (entryInstancesMap: { [key: string]: E
   return longestStreak;
 };
 
+// 任何entry维度 从今天往回算, 连续记录多少天,
+export const calcRecordedCurrentStreaks = (entryInstancesMap: { [key: string]: EntryInstance[] }) => {
+  const entryKeys = Object.keys(entryInstancesMap);
+  const sortedDates = entryKeys.sort();
+  let now = dayjs();
+  let currentStreak = 0;
+  while (entryInstancesMap[now.format('YYYY-MM-DD')]?.length) {
+    currentStreak++;
+    now = now.subtract(1, 'day');
+  }
+  return currentStreak;
+};
+
 const groupByWeek = (dates: string[]): Record<string, string[]> => {
   const grouped: Record<string, string[]> = {};
   for (const date of dates) {
