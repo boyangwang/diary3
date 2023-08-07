@@ -88,6 +88,26 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
     return filterEntryTypes.map((item) => entryTypeMaxStreaks?.[item.id] ?? 0);
   }, [entryTypeMaxStreaks, filterEntryTypes, periods?.length]);
 
+  const adhocSumArr = useMemo(
+    () =>
+      filterEntryTypes.map((item) => {
+        let sum = 0;
+        for (const entryInsArrKey in entryInstancesMap) {
+          if (Object.hasOwn(entryInstancesMap, entryInsArrKey)) {
+            const entryInsArr = entryInstancesMap[entryInsArrKey];
+            for (const entryIns of entryInsArr) {
+              if (entryIns.entryTypeId === item.id) sum++;
+            }
+          }
+        }
+        return (
+          <div className="flex h-10 items-center justify-center text-xl" key={item.id}>
+            {sum}
+          </div>
+        );
+      }),
+    [entryInstancesMap, filterEntryTypes],
+  );
   useLayoutEffect(() => {
     if (!scrollContainerRef?.current) return;
     const scrollContainer = scrollContainerRef.current;
@@ -96,18 +116,18 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
       behavior: 'smooth',
     });
   }, []);
-
   // console.log(routine, periods, { filterEntryTypes, entryInstancesMap });
   if (!periods.length)
     return (
       <div className="flex w-full flex-col gap-2">
         <h2>{`${routine} Streaks Table`}</h2>
-        <div className="flex flex-col gap-2">
-          {filterEntryTypes.map((item) => (
-            <div className="flex text-center text-xs" key={item.id}>
-              {item.title}
-            </div>
-          ))}
+        <div className="flex justify-center gap-3">
+          <div className="flex max-w-xl flex-grow flex-col gap-2">
+            {filterEntryTypes.map((item) => (
+              <EntryTypeCard key={item.id} entryType={item} isEdit className="h-10 w-full" />
+            ))}
+          </div>
+          <div className="flex flex-col gap-2 font-DDin font-bold">{adhocSumArr}</div>
         </div>
       </div>
     );
