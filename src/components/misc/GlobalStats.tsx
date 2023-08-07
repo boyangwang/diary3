@@ -10,7 +10,7 @@ function GlobalStats() {
     const now = dayjs();
     const registeredSince = now.diff(dayjs(loginUser.loginTime), 'day');
     const entryKeys = Object.keys(entryInstancesMap);
-    const totalEntries = entryKeys.reduce((pre, cur) => pre + (entryInstancesMap[cur]?.length ?? 0), 0);
+    const totalEntries = entryKeys?.length ? entryKeys.reduce((pre, cur) => pre + (entryInstancesMap[cur]?.length ?? 0), 0) : 0;
     return {
       registeredSince,
       entryDays: entryKeys?.length ?? 0,

@@ -16,10 +16,12 @@ export default function EntryPage() {
   const selectedDay = useMemo(() => selectedChartDate || dayjs().format('YYYY-MM-DD'), [selectedChartDate]);
   const selectedTotalPoints = useMemo(
     () =>
-      entryInstancesMap[selectedDay].reduce(
-        (pre, cur) => pre + (typeof cur?.points === 'number' ? cur.points : parseFloat(cur.points)),
-        0,
-      ),
+      entryInstancesMap[selectedDay]?.length
+        ? entryInstancesMap[selectedDay].reduce(
+            (pre, cur) => pre + (typeof cur?.points === 'number' ? cur.points : parseFloat(cur.points)),
+            0,
+          )
+        : 0,
     [entryInstancesMap, selectedDay],
   );
   const entryInstancesArray = useMemo(() => entryInstancesMap[selectedDay], [entryInstancesMap, selectedDay]);
