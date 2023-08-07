@@ -5,6 +5,7 @@ import _ from 'lodash-es';
 import { Fragment, useCallback, useLayoutEffect, useMemo, useRef } from 'react';
 import { EntryType, RoutineEnum, StreakStatus, getDatePeriods } from '../../app/types-constants';
 import { calcEntryTypeLongestStreaks } from '@/utils/entry';
+import EntryTypeCard from './EntryTypeCard';
 
 const statusColor: { [key in StreakStatus]: string } = {
   [StreakStatus.UNCREATED]: 'bg-white/80',
@@ -114,14 +115,9 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
     <div className="flex w-full flex-col gap-2">
       <h2>{`${routine} Streaks Table`}</h2>
       <div className={clsx('flex w-full gap-1', { '-mt-6': routine !== RoutineEnum.weekly })}>
-        <div className="mt-11 flex flex-col items-center gap-1">
+        <div className="mt-11 flex flex-col gap-1">
           {filterEntryTypes.map((item) => (
-            <div
-              className="flex h-6 w-[5rem] items-center overflow-hidden text-ellipsis whitespace-nowrap text-xs"
-              key={item.id}
-            >
-              {item.title}
-            </div>
+            <EntryTypeCard key={item.id} entryType={item} isEdit className="h-10" />
           ))}
         </div>
         <div ref={scrollContainerRef} className="flex w-full flex-col gap-1 overflow-auto scroll-smooth">
@@ -143,7 +139,10 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
                 {periods.map((period, idx) => {
                   const status = getStatus(period, item, idx === periods.length - 1);
                   return (
-                    <div key={`streakCell-${idx}`} className={clsx('h-6 w-14 min-w-[3.5rem] flex-grow', statusColor[status])} />
+                    <div
+                      key={`streakCell-${idx}`}
+                      className={clsx('h-10 w-14 min-w-[3.5rem] flex-grow', statusColor[status])}
+                    />
                   );
                 })}
               </div>
@@ -152,7 +151,7 @@ function StreaksTable(props: { entryTypesArray: EntryType[]; routine: RoutineEnu
         </div>
         <div className="mt-11 flex flex-col items-center gap-1">
           {historyLongestArr.map((value, idx) => (
-            <div className="h-6 w-6 text-xs" key={`${value}-${idx}`}>
+            <div className="h-10 w-6 text-xs" key={`${value}-${idx}`}>
               {value}
             </div>
           ))}

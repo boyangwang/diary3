@@ -4,23 +4,8 @@ import { RoutineEnum, EntryTypeThemeColors, EntryTypeConstructor, EntryType } fr
 import { useAppDispatch } from '../../app/store';
 import { createEntryType, updateEntryType } from '../../app/entry-types-slice';
 import { exitEntryTypeEdit } from '../../app/ui-slice';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import Button from '../button';
-
-const EntryTypeThemeColorsRadio = EntryTypeThemeColors.map((themeColorPair) => {
-  return (
-    <div key={themeColorPair[0]} className="inline-block p-4">
-      <input
-        style={{ background: `linear-gradient(90deg, #${themeColorPair[0]} 0%, #${themeColorPair[1]} 100%)` }}
-        className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-8 w-8 appearance-none rounded-full border-2 border-solid border-neutral-300 bg-origin-padding p-1 before:pointer-events-none before:absolute before:h-5 before:w-5 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-blue checked:before:opacity-[0.16] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-blue checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
-        type="radio"
-        name="themeColors"
-        id={themeColorPair[0]}
-        value={JSON.stringify(themeColorPair)}
-      />
-    </div>
-  );
-});
 
 const addInitialValues = {
   routine: RoutineEnum.adhoc,
@@ -67,6 +52,27 @@ const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | En
   const onCancelUpdateClick = () => {
     dispatch(exitEntryTypeEdit());
   };
+  const entryTypeThemeColorsRadios = useMemo(
+    () =>
+      EntryTypeThemeColors.map((themeColorPair) => {
+        const value = JSON.stringify(themeColorPair);
+        return (
+          <Radio.Button
+            key={themeColorPair[0]}
+            style={{
+              background: `linear-gradient(90deg, #${themeColorPair[0]} 0%, #${themeColorPair[1]} 100%)`,
+              borderRadius: '9999px',
+            }}
+            className="relative w-7 appearance-none rounded-full border-2 border-solid border-neutral-300 bg-origin-padding before:pointer-events-none before:absolute before:h-6 before:w-6 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_8px_transparent] before:content-[''] checked:border-blue checked:before:opacity-[0.16] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_8px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_8px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-blue checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_8px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
+            type="radio"
+            name="themeColors"
+            id={themeColorPair[0]}
+            value={value}
+          />
+        );
+      }),
+    [],
+  );
 
   useEffect(() => {
     if (props.isUpdate) {
@@ -143,17 +149,19 @@ const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | En
             </Radio.Button>
           </Radio.Group>
         </Form.Item>
-
-        <Form.Item name="themeColors" label="ThemeColors" rules={[{ required: true, message: 'themeColor is required' }]}>
-          <div className="flex justify-center">{EntryTypeThemeColorsRadio}</div>
+        <Form.Item name="themeColors" label="themeColors" rules={[{ required: true, message: 'themeColors is required' }]}>
+          <Radio.Group className="flex flex-wrap items-center gap-3">{entryTypeThemeColorsRadios}</Radio.Group>
         </Form.Item>
-
-        <Form.Item>
+        <div className="mt-4 flex items-center justify-center gap-4">
           <Button type="primary" className="rounded-full font-bold" size="large" htmlType="submit">
             <EditNavIcon /> {props.isUpdate ? 'Update' : 'Create'}
           </Button>
-        </Form.Item>
-        {props.isUpdate && <Button onClick={onCancelUpdateClick}>Cancel</Button>}
+          {props.isUpdate && (
+            <Button size="large" className="rounded-full font-bold" onClick={onCancelUpdateClick}>
+              Cancel
+            </Button>
+          )}
+        </div>
       </Form>
     </div>
   );

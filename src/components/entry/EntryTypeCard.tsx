@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { twMerge } from 'tailwind-merge';
 import { deleteEntryType } from '../../app/entry-types-slice';
 import { useAppDispatch } from '../../app/store';
 import { EntryType, formatEntryCardDate } from '../../app/types-constants';
@@ -6,7 +6,6 @@ import { enterEntryTypeEdit } from '../../app/ui-slice';
 import Button from '../button';
 import { CheckIcon } from '../misc/DiaryIcons';
 import EntryTypeCompletionForm from './EntryTypeCompletionForm';
-import clsx from 'clsx';
 
 const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {
   const dispatch = useAppDispatch();
@@ -15,6 +14,7 @@ const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {
     <Button
       danger
       ghost
+      size="small"
       onClick={() => {
         dispatch(deleteEntryType(props.entryType.id));
       }}
@@ -24,33 +24,35 @@ const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {
   );
 };
 
-const EntryTypeCardUpdateButton = (props: { entryType: EntryType }) => {
+const EntryTypeCardEditButton = (props: { entryType: EntryType }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <Button type="primary" ghost onClick={() => dispatch(enterEntryTypeEdit({ entryTypeId: props.entryType.id }))}>
-      Update
+    <Button size="small" type="primary" ghost onClick={() => dispatch(enterEntryTypeEdit({ entryTypeId: props.entryType.id }))}>
+      Edit
     </Button>
   );
 };
 
-const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean }) => {
-  const { entryType, isEdit } = props;
+const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className?: string }) => {
+  const { entryType, isEdit, className } = props;
   const { title, routine, themeColors, createdAt, updatedAt, pointStep, defaultPoints } = entryType;
   return isEdit ? (
-    <div
-      className="flex flex-col items-center gap-3 rounded-lg p-2 text-white"
-      style={{ background: `linear-gradient(90deg, #${themeColors[0]} 0%, #${themeColors[1]} 100%)` }}
-    >
-      <div className="flex items-center gap-1.5 text-xl font-medium">{title} </div>
-      <div className="flex flex-col items-center gap-2">
-        <EntryTypeCardUpdateButton entryType={entryType} />
+    <div className={twMerge('flex justify-between gap-2 bg-white text-white', className)}>
+      <div
+        className="flex flex-grow items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg pl-1 text-center text-sm font-bold"
+        style={{ background: `linear-gradient(90deg, #${themeColors[0]} 0%, #${themeColors[1]} 100%)` }}
+      >
+        {title}
+      </div>
+      <div className="flex gap-2">
+        <EntryTypeCardEditButton entryType={entryType} />
         <EntryTypeCardDeleteButton entryType={entryType} />
       </div>
     </div>
   ) : (
     <div
-      className="flex flex-wrap items-center gap-3 rounded-lg px-4 py-2 text-white"
+      className={twMerge('flex flex-wrap items-center gap-3 rounded-lg px-4 py-2 text-white', className)}
       style={{ background: `linear-gradient(90deg, #${themeColors[0]} 0%, #${themeColors[1]} 100%)` }}
     >
       <div className="flex w-10 items-center justify-center">

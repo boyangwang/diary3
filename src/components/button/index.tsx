@@ -10,7 +10,7 @@ const ButtonClass = {
     small: 'px-1',
   },
   typeClass: {
-    default: 'border-black/10 bg-white text-black enabled:hover:border-diary-primary enabled:hover:text-diary-primary',
+    default: 'border-black/40 bg-white text-black enabled:hover:border-diary-primary enabled:hover:text-diary-primary',
     primary: 'border-diary-primary bg-diary-primary text-white enabled:hover:opacity-80',
     link: 'border-transparent enabled:hover:text-diary-primary',
   },
