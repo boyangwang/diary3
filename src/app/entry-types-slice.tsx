@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EntryType } from './types-constants';
+import { toast } from 'react-toastify';
 
 export interface EntryTypesState {
   entryTypesArray: EntryType[];
@@ -14,6 +15,7 @@ export const entryTypesSlice = createSlice({
   reducers: {
     createEntryType: (state, action: PayloadAction<EntryType>) => {
       state.entryTypesArray.push(action.payload);
+      toast.success(`Create ${action.payload.title} successfully`);
     },
     updateEntryType: (state, action: PayloadAction<EntryType>) => {
       const indexToUpdate = state.entryTypesArray.findIndex((entryType) => entryType.id === action.payload.id);

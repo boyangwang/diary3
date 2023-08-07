@@ -9,14 +9,16 @@ import Button from '../button';
 
 const EntryTypeThemeColorsRadio = EntryTypeThemeColors.map((themeColorPair) => {
   return (
-    <Radio.Button
-      key={themeColorPair[0]}
-      className="text-white"
-      style={{ background: `linear-gradient(90deg, #${themeColorPair[0]} 0%, #${themeColorPair[1]} 100%)` }}
-      value={JSON.stringify(themeColorPair)}
-    >
-      {JSON.stringify(themeColorPair)}
-    </Radio.Button>
+    <div key={themeColorPair[0]} className="inline-block p-4">
+      <input
+        style={{ background: `linear-gradient(90deg, #${themeColorPair[0]} 0%, #${themeColorPair[1]} 100%)` }}
+        className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-8 w-8 appearance-none rounded-full border-2 border-solid border-neutral-300 bg-origin-padding p-1 before:pointer-events-none before:absolute before:h-5 before:w-5 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-blue checked:before:opacity-[0.16] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-blue checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
+        type="radio"
+        name="themeColors"
+        id={themeColorPair[0]}
+        value={JSON.stringify(themeColorPair)}
+      />
+    </div>
   );
 });
 
@@ -143,7 +145,7 @@ const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | En
         </Form.Item>
 
         <Form.Item name="themeColors" label="ThemeColors" rules={[{ required: true, message: 'themeColor is required' }]}>
-          <Radio.Group>{EntryTypeThemeColorsRadio}</Radio.Group>
+          <div className="flex justify-center">{EntryTypeThemeColorsRadio}</div>
         </Form.Item>
 
         <Form.Item>
