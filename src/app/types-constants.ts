@@ -183,7 +183,7 @@ export const isNumOrStrAndNotNaN = (a: any) => {
 
 export const formatDatetime = (datetime: number | null) =>
   datetime ? dayjs(datetime).format('h:mm:ssa | ddd YYYY-MMM-DD') : '';
-export const formatDate = (datetime: number | null) => (datetime ? dayjs(datetime).format('ddd DD MMM YYYY') : '');
+export const formatInstanceDate = (datetime: number | null) => (datetime ? dayjs(datetime).format('YYYY-MM-DD\nHH:mm:ss') : '');
 export const formatEntryCardDate = (datetime: number | null) => (datetime ? dayjs(datetime).format('YYYY/MM/DD') : '');
 
 export const getDateStringFromEntryDay = (entryDay: EntryDay) => {

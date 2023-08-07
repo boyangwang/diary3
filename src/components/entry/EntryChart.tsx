@@ -10,6 +10,9 @@ import {
 } from '../../app/types-constants';
 import { barLowValue, barHighValue } from '../../app/types-constants';
 import EntryChartTooltip, { TooltipPayload } from './EntryChartTooltip';
+import { useSetAtom } from 'jotai';
+import { selectedChartDateAtom } from '@/store/app';
+import { useCallback } from 'react';
 
 const getChartDataAndAreasFromDaysAndEntriesDateMap = (
   dateRange: string[],
@@ -88,9 +91,16 @@ function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[]
   const dateRange = useAppSelector(selectAllDaysFilledBySomeEntryInstances);
   const { chartData, areas } = getChartDataAndAreasFromDaysAndEntriesDateMap(dateRange, props.entryInstancesMap);
   console.log({ chartData });
+  const setSelectedChartDate = useSetAtom(selectedChartDateAtom);
+  const handleChartClick = useCallback(
+    (data: any) => {
+      setSelectedChartDate(data?.activeLabel ?? null);
+    },
+    [setSelectedChartDate],
+  );
   return (
     <ResponsiveContainer width="95%" height={480}>
-      <AreaChart data={chartData} margin={{ top: 12, right: 16, left: -20, bottom: 12 }}>
+      <AreaChart onClick={handleChartClick} data={chartData} margin={{ top: 12, right: 16, left: -20, bottom: 12 }}>
         <XAxis dataKey="date" padding={{ left: 16, right: 16 }} />
         <YAxis padding={{ top: 0, bottom: 0 }} type="number" domain={[0, 18]} ticks={[0, 4, 8, 12, 16]} />
         <Legend
