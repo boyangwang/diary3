@@ -118,6 +118,26 @@ export const EntryTypeThemeColors = [
   ['09BDA0', '3E90FF'],
   ['3592FF', '6865FF'],
   ['6865FF', '9E3EEF'],
+
+  ['FDEB71', 'F8D800'],
+  ['ABDCFF', '0396FF'],
+  ['FEB692', 'EA5455'],
+  ['CE9FFC', '7367F0'],
+
+  ['90F7EC', '32CCBC'],
+  ['FFF6B7', 'F6416C'],
+  ['81FBB8', '28C76F'],
+  ['E2B0FF', '9F44D3'],
+
+  ['5EFCE8', '736EFE'],
+  ['FAD7A1', 'E96D71'],
+  ['FEC163', 'DE4313'],
+  ['FFF886', 'F072B6'],
+
+  ['FFF720', '3CD500'],
+  ['FDD819', 'E80505'],
+  ['FFDDE1', 'EE9CA7'],
+  ['6190E8', 'A7BFE8'],
 ];
 
 export const barLowValue = 8;
