@@ -102,7 +102,7 @@ export const calcEntryTypeLongestStreaks = (entryInstancesMap: { [key: string]: 
           }
         }
       }
-      return { entryTypeMaxStreaks };
+      return entryTypeMaxStreaks;
     }
     case RoutineEnum.weekly: {
       const groupedByWeek = groupByWeek(sortedDates); /** {
@@ -158,7 +158,7 @@ export const calcEntryTypeLongestStreaks = (entryInstancesMap: { [key: string]: 
           }
         }
       }
-      return { entryTypeMaxStreaks };
+      return entryTypeMaxStreaks;
     }
     case RoutineEnum.monthly: {
       const groupedByMonth = groupByMonth(sortedDates); /** {
@@ -207,10 +207,10 @@ export const calcEntryTypeLongestStreaks = (entryInstancesMap: { [key: string]: 
           }
         }
       }
-      return { entryTypeMaxStreaks };
+      return entryTypeMaxStreaks;
     }
     case RoutineEnum.adhoc:
     default:
-      return { entryTypeMaxStreaks: {} };
+      return entryTypeMaxStreaks;
   }
 };
