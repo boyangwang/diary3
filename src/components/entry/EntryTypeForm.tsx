@@ -11,7 +11,7 @@ const addInitialValues = {
   routine: RoutineEnum.adhoc,
   themeColors: JSON.stringify(EntryTypeThemeColors[(EntryTypeThemeColors.length * Math.random()) | 0]),
   defaultPoints: 1,
-  pointStep: 1,
+  pointStep: 0,
   id: '',
   title: '',
 };

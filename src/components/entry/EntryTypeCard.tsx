@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge';
 import { deleteEntryType } from '../../app/entry-types-slice';
 import { useAppDispatch } from '../../app/store';
-import { EntryType, formatEntryCardDate } from '../../app/types-constants';
+import { EntryType, formatDatetime, formatEntryCardDate } from '../../app/types-constants';
 import { enterEntryTypeEdit } from '../../app/ui-slice';
 import Button from '../button';
 import { CheckIcon } from '../misc/DiaryIcons';
@@ -40,10 +40,23 @@ const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className
   return isEdit ? (
     <div className={twMerge('flex justify-between gap-2 bg-white text-white', className)}>
       <div
-        className="flex flex-grow items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg pl-1 text-center text-sm font-bold"
+        className="flex flex-grow items-center gap-1.5 rounded-lg px-2"
         style={{ background: `linear-gradient(90deg, #${themeColors[0]} 0%, #${themeColors[1]} 100%)` }}
       >
-        {title}
+        <div className="flex flex-col">
+          <div className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold">{title}</div>
+          <p className="text-xs">{formatEntryCardDate(createdAt)}</p>
+        </div>
+        <div className="flex flex-grow flex-col items-center justify-center whitespace-nowrap text-xs">
+          <p className="flex items-center gap-1">
+            points <span className="font-DDin text-base/5 font-bold">{defaultPoints}</span>
+          </p>
+          {pointStep ? (
+            <p className="flex items-center gap-1">
+              pointStep <span className="font-DDin text-base/5 font-bold">{pointStep}</span>
+            </p>
+          ) : null}
+        </div>
       </div>
       <div className="flex gap-2">
         <EntryTypeCardEditButton entryType={entryType} />
