@@ -213,8 +213,8 @@ export const getDateStringFromNow = () => getDateStringFromTimestamp(Number(new 
 export const getDatetimeStringFromNow = () => getDateStringFromTimestamp(Number(new Date()));
 export const getDatetimeStringShortFormatFromNow = () => getDatetimeStringFromTimestampShortFormat(Number(new Date()));
 
-export const getEntryInstanceIdFromEntryType = (entryType: EntryType) => {
-  return `${entryType.id}-${new Date().toISOString()}-${Math.floor(Math.random() * 120)}`;
+export const getEntryInstanceIdFromEntryType = (entryType: EntryType, date = dayjs()) => {
+  return `${entryType.id}-${date.toISOString()}-${Math.floor(Math.random() * 120)}`;
 };
 export const getDatePeriods = (type: RoutineEnum, cycle = 7) => {
   if (type === RoutineEnum.adhoc) return [];

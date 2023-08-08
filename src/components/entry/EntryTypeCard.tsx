@@ -34,8 +34,8 @@ const EntryTypeCardEditButton = (props: { entryType: EntryType }) => {
   );
 };
 
-const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className?: string }) => {
-  const { entryType, isEdit, className } = props;
+const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className?: string; selectedDayStr?: string }) => {
+  const { entryType, isEdit, className, selectedDayStr } = props;
   const { title, routine, themeColors, createdAt, updatedAt, pointStep, defaultPoints } = entryType;
   return isEdit ? (
     <div className={twMerge('flex justify-between gap-2 bg-white text-white', className)}>
@@ -52,11 +52,11 @@ const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className
     </div>
   ) : (
     <div
-      className={twMerge('flex flex-wrap items-center gap-3 rounded-lg px-4 py-2 text-white', className)}
+      className={twMerge('relative flex flex-wrap items-center gap-3 rounded-lg px-4 py-2 text-white', className)}
       style={{ background: `linear-gradient(90deg, #${themeColors[0]} 0%, #${themeColors[1]} 100%)` }}
     >
       <div className="flex w-10 items-center justify-center">
-        <CheckIcon className="text-xl" />
+        <CheckIcon className="text-xl opacity-0" />
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-1.5 text-xl font-medium">
@@ -71,7 +71,7 @@ const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className
         <p>defaultPoints {defaultPoints} </p>
         <p>pointStep {pointStep}</p>
       </div>
-      <EntryTypeCompletionForm entryType={props.entryType} />
+      <EntryTypeCompletionForm entryType={props.entryType} selectedDayStr={selectedDayStr} />
     </div>
   );
 };
