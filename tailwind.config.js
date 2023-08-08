@@ -19,6 +19,8 @@ module.exports = {
         diary: {
           primary: '#376BED',
           danger: '#dc2626',
+          dialog: '#282828',
+          'dialog-mask': '000000CC',
         },
         blue: '#376BED',
         'gradient-home-from': 'var(--gradient-home-from)',

@@ -14,6 +14,9 @@ import Collapse from '../../collapse';
 import EmptyHistoryButton from './EmptyHistoryButton';
 import { loadStateFromGithub, saveStateToGithub } from './GithubStorage';
 import { useBeforeunload } from 'react-beforeunload';
+import { useAtom, useSetAtom } from 'jotai';
+import { loadDialogOpenAtom } from '@/store/app';
+import GithubLoadDialog from '@/components/app/GithubLoadDialog';
 
 function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const dispatch = useAppDispatch();
@@ -29,6 +32,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const state = useAppSelector((state) => state);
   const save = useCallback(() => saveStateToGithub(state.loginUser), [state.loginUser]);
   const loaded = useCallback(() => loadStateFromGithub(state.loginUser), [state.loginUser]);
+  const setLoadOpen = useSetAtom(loadDialogOpenAtom);
 
   return (
     <Collapse
@@ -58,7 +62,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
               <p>{loginUser.uid}</p>
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <Button onClick={save}>Save</Button>
-                <Button onClick={loaded}>Load</Button>
+                <Button onClick={() => setLoadOpen(true)}>Load</Button>
                 <Button className="flex items-center gap-2" onClick={onLogoutClick}>
                   <RiLogoutBoxRLine className="h-6 w-6" /> Logout
                 </Button>
@@ -70,6 +74,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
             </div>
             {/* <ImportHistoryButton />
             <EmptyHistoryButton /> */}
+            <GithubLoadDialog />
           </>
         ) : (
           <p className="text-xl">

@@ -59,7 +59,7 @@ function EntryTypeCompletionForm(props: { entryType: EntryType; selectedDayStr?:
         />
         {errors?.points && <span className="text-red-500">{errors.points.message}</span>}
       </label>
-      <Button htmlType="submit" type="unstyle" className="absolute inset-y-0 left-4 flex w-10 items-center justify-center">
+      <Button htmlType="submit" type="unstyle" className="absolute left-4 top-4 flex w-10 items-center justify-center">
         <CheckIcon className="text-xl" />
       </Button>
     </form>
