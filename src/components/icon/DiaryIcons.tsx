@@ -6,7 +6,6 @@ import { ReactComponent as reminderSvg } from 'src/assets/icons/reminder-icon.sv
 import { ReactComponent as settingsSvg } from 'src/assets/icons/settings-icon.svg';
 import { ReactComponent as editSvg } from 'src/assets/icons/edit-icon.svg';
 import { ReactComponent as checkSvg } from 'src/assets/icons/check.svg';
-import { ReactComponent as closeSvg } from 'src/assets/icons/close.svg';
 
 export function EntryNavIcon(props: Partial<CustomIconComponentProps>) {
   return <Icon component={homeSvg} {...props} />;
@@ -26,9 +25,6 @@ export function EditNavIcon(props: Partial<CustomIconComponentProps>) {
 export function CheckIcon(props: Partial<CustomIconComponentProps>) {
   return <Icon component={checkSvg} {...props} />;
 }
-export function CloseIcon(props: Partial<CustomIconComponentProps>) {
-  return <Icon component={closeSvg} {...props} />;
-}
 const DiaryIcons = {
   EntryNavIcon,
   AddNavIcon,
@@ -36,7 +32,6 @@ const DiaryIcons = {
   SettingsNavIcon,
   EditNavIcon,
   CheckIcon,
-  CloseIcon,
 };
 export const ICON_KEYS = Object.keys(DiaryIcons);
 export default DiaryIcons;
