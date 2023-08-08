@@ -9,6 +9,7 @@ import Button from '../button';
 import Dialog from '../dialog';
 import { isIncompleteGithubInfo } from '../layout/header/GithubStorage';
 import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export type GithubLoadDialogProps = {};
 
@@ -88,9 +89,9 @@ const GithubLoadDialog: FunctionComponent<GithubLoadDialogProps> = (props) => {
             data?.map((commit) => (
               <div
                 key={commit?.url}
-                className={clsx(
+                className={twMerge(
                   'flex cursor-pointer justify-between gap-2 overflow-auto bg-zinc-700 py-2 text-center text-white hover:bg-zinc-600',
-                  { 'bg-zinc-600': commit?.message === path },
+                  clsx({ 'bg-zinc-500': commit?.message === path }),
                 )}
                 onClick={() => setPath(commit.message)}
               >
