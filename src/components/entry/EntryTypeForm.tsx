@@ -1,5 +1,5 @@
 import { Form, Input, InputNumber, Radio } from 'antd';
-import { EditNavIcon, EntryNavIcon } from '../misc/DiaryIcons';
+import { EditNavIcon, EntryNavIcon } from '../icon/DiaryIcons';
 import { RoutineEnum, EntryTypeThemeColors, EntryTypeConstructor, EntryType } from '../../app/types-constants';
 import { useAppDispatch } from '../../app/store';
 import { createEntryType, updateEntryType } from '../../app/entry-types-slice';

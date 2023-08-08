@@ -1,6 +1,6 @@
-import { emptyEntryInstance } from '../../app/entry-instances-slice';
-import { useAppDispatch } from '../../app/store';
-import Button from '../button';
+import { emptyEntryInstance } from '../../../app/entry-instances-slice';
+import { useAppDispatch } from '../../../app/store';
+import Button from '../../button';
 
 function EmptyHistoryButton() {
   const dispatch = useAppDispatch();

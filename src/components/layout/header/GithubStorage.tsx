@@ -1,8 +1,8 @@
 import { Octokit } from '@octokit/rest';
 import { Buffer } from 'buffer';
-import { persistor } from '../../app/store';
-import { LoginUserState } from '../../app/login-user-slice';
-import { getDatetimeStringShortFormatFromNow } from '../../app/types-constants';
+import { persistor } from '../../../app/store';
+import { LoginUserState } from '../../../app/login-user-slice';
+import { getDatetimeStringShortFormatFromNow } from '../../../app/types-constants';
 import { message } from 'antd';
 import { toast } from 'react-toastify';
 

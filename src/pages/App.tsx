@@ -6,9 +6,9 @@ import { initDayEntryInstances } from '../app/entry-instances-slice';
 import { selectLoginUser, useAppDispatch, useAppSelector } from '../app/store';
 import { getDateStringFromNow } from '../app/types-constants';
 import { initDateStr } from '../app/ui-slice';
-import Navbar from '../components/misc/Navbar';
-import UserHeader from '@/components/misc/HeaderUser';
+import Navbar from '../components/layout/Navbar';
 import { ToastContainer } from 'react-toastify';
+import UserHeader from '@/components/layout/header/HeaderUser';
 
 function App() {
   const location = useLocation();

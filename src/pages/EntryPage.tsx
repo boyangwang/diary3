@@ -1,16 +1,15 @@
-import EntryChart from '../components/entry/EntryChart';
-import EntryProgressBar from '../components/entry/EntryProgressBar';
-import EntryTypeListForCompletion from '../components/entry/EntryTypeListForCompletion';
-import { selectEntryInstancesMap, selectEntryTypesArray, useAppSelector } from '../app/store';
-import EntryInstanceList from '../components/entry/EntryInstanceList';
-import HeaderDatetime from '@/components/misc/HeaderDatetime';
-import { useMemo } from 'react';
-import { useAtomValue } from 'jotai';
+import HeaderDatetime from '@/components/entry/HeaderDatetime';
 import { selectedChartDateAtom } from '@/store/app';
 import dayjs from 'dayjs';
+import { useAtomValue } from 'jotai';
+import { useMemo } from 'react';
+import { selectEntryInstancesMap, useAppSelector } from '../app/store';
+import EntryChart from '../components/entry/EntryChart';
+import EntryInstanceList from '../components/entry/EntryInstanceList';
+import EntryProgressBar from '../components/entry/EntryProgressBar';
+import EntryTypeListForCompletion from '../components/entry/EntryTypeListForCompletion';
 
 export default function EntryPage() {
-  const entryTypesArray = useAppSelector(selectEntryTypesArray);
   const entryInstancesMap = useAppSelector(selectEntryInstancesMap);
   const selectedChartDate = useAtomValue(selectedChartDateAtom);
   const selectedDay = useMemo(() => selectedChartDate || dayjs().format('YYYY-MM-DD'), [selectedChartDate]);

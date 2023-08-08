@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import packageJson from '../../../package.json';
+import packageJson from '../../../../package.json';
 import { Provider } from 'react-redux';
 import { store } from 'src/app/store';
 import React from 'react';

@@ -1,6 +1,6 @@
 import { Link, useLocation, useMatches } from 'react-router-dom';
 import { PAGES } from '../../app/types-constants';
-import DiaryIcons from './DiaryIcons';
+import DiaryIcons from '../icon/DiaryIcons';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 

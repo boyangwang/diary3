@@ -4,7 +4,7 @@ import { useAppDispatch } from '../../app/store';
 import { EntryType, formatDatetime, formatEntryCardDate } from '../../app/types-constants';
 import { enterEntryTypeEdit } from '../../app/ui-slice';
 import Button from '../button';
-import { CheckIcon } from '../misc/DiaryIcons';
+import { CheckIcon } from '../icon/DiaryIcons';
 import EntryTypeCompletionForm from './EntryTypeCompletionForm';
 
 const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {

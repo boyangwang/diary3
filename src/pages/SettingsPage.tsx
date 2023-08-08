@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { selectLoginUser, useAppSelector } from '../app/store';
-import GlobalStats from '../components/misc/GlobalStats';
-import LoginForm from '../components/misc/LoginForm';
+import LoginForm from '@/components/my/LoginForm';
+import GlobalStats from '@/components/my/GlobalStats';
 
 export default function SettingsPage() {
   const loginUser = useAppSelector(selectLoginUser);

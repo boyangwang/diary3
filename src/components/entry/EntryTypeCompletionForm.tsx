@@ -3,7 +3,7 @@ import { createEntryInstance } from '../../app/entry-instances-slice';
 import { useAppDispatch } from '../../app/store';
 import { EntryType, formatDatetime, formatInstanceDate, getEntryInstanceIdFromEntryType } from '../../app/types-constants';
 import Button from '../button';
-import { CheckIcon } from '../misc/DiaryIcons';
+import { CheckIcon } from '../icon/DiaryIcons';
 import dayjs from 'dayjs';
 
 function EntryTypeCompletionForm(props: { entryType: EntryType; selectedDayStr?: string }) {
