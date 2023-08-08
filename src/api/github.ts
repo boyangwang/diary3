@@ -18,7 +18,7 @@ export const useFetchCommits = () => {
         owner,
         repo,
       });
-      return commits.data.map((item) => item.commit);
+      return commits.data.filter(({ commit }) => commit?.message?.startsWith(`dairy-save-`)).map((item) => item.commit);
     },
     {
       enabled: !!loginUser,

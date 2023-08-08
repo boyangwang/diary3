@@ -81,7 +81,7 @@ const GithubLoadDialog: FunctionComponent<GithubLoadDialogProps> = (props) => {
       // className="h-auto"
       onOpenChange={(open) => setOpen(open)}
       render={({ close }) => (
-        <div className="flex flex-col justify-center gap-2 p-2">
+        <div className="flex flex-col justify-center gap-2 p-2 pb-8">
           {isLoading ? (
             <p>Loading...</p>
           ) : (
