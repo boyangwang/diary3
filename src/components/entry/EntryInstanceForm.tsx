@@ -1,18 +1,19 @@
 import { useCallback } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { deleteEntryInstance, updateEntryInstance } from '../../app/entry-instances-slice';
 import { useAppDispatch } from '../../app/store';
 import { EntryInstance, formatInstanceDate } from '../../app/types-constants';
 import Button from '../button';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
+import { InputNumber } from 'antd';
 
 const EntryInstanceForm = ({ entryInstance }: { entryInstance: EntryInstance }) => {
   const dispatch = useAppDispatch();
   const { id, points, notes, entryTypeId, createdAt, updatedAt } = entryInstance;
 
   console.log('=======entryInstance', entryInstance);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, control } = useForm();
   const onSubmit = useCallback(
     (data: any) => {
       console.log('=======onSubmit data', data);
@@ -42,11 +43,14 @@ const EntryInstanceForm = ({ entryInstance }: { entryInstance: EntryInstance }) 
       </div>
       <div className="flex flex-col items-center gap-1">
         points
-        <input
-          type="number"
+        <Controller
+          name="points"
+          control={control}
+          rules={{ required: 'points is required' }}
           defaultValue={points}
-          className="w-12 font-DDin text-xl font-bold"
-          {...register('points', { required: true })}
+          render={({ field }) => (
+            <InputNumber className="w-16 border bg-transparent font-DDin text-xl font-bold" type="number" {...field} />
+          )}
         />
       </div>
       <div className="flex  flex-col items-center gap-1">
