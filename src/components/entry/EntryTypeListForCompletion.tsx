@@ -23,7 +23,6 @@ const EntryTypeListForCompletion = ({ selectedDateStr }: { selectedDateStr: stri
   }, [entryInstancesMap, entryTypesArray, selectedDateStr]);
   return (
     <div className="flex flex-col gap-2">
-      <div className="mt-4 flex items-center justify-center pt-2 text-xl font-semibold">Selected Date {selectedDateStr}</div>
       {restList?.length
         ? restList.map((item) => (
             <EntryTypeCard key={item.id} entryType={item} isEdit={false} selectedDayStr={selectedDateStr} />

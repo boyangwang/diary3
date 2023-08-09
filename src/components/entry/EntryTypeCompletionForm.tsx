@@ -1,14 +1,16 @@
-import { useForm } from 'react-hook-form';
+import { InputNumber } from 'antd';
+import dayjs from 'dayjs';
+import { Controller, useForm } from 'react-hook-form';
 import { createEntryInstance } from '../../app/entry-instances-slice';
 import { useAppDispatch } from '../../app/store';
-import { EntryType, formatDatetime, formatInstanceDate, getEntryInstanceIdFromEntryType } from '../../app/types-constants';
+import { EntryType, getEntryInstanceIdFromEntryType } from '../../app/types-constants';
 import Button from '../button';
 import { CheckIcon } from '../icon/DiaryIcons';
-import dayjs from 'dayjs';
 
 function EntryTypeCompletionForm(props: { entryType: EntryType; selectedDayStr?: string }) {
   const { selectedDayStr } = props;
   const {
+    control,
     register,
     handleSubmit,
     setValue,
@@ -51,11 +53,13 @@ function EntryTypeCompletionForm(props: { entryType: EntryType; selectedDayStr?:
       </label>
       <label className="flex flex-wrap items-center gap-2">
         Points
-        <input
-          className="border bg-transparent p-2"
-          type="number"
-          step={props.entryType.pointStep}
-          {...register('points', { required: 'points is required' })}
+        <Controller
+          name="points"
+          control={control}
+          rules={{ required: 'points is required' }}
+          render={({ field }) => (
+            <InputNumber className="border bg-transparent p-2" type="number" step={props.entryType.pointStep} {...field} />
+          )}
         />
         {errors?.points && <span className="text-red-500">{errors.points.message}</span>}
       </label>

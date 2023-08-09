@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge';
 import { deleteEntryType } from '../../app/entry-types-slice';
 import { useAppDispatch } from '../../app/store';
-import { EntryType, formatDatetime, formatEntryCardDate } from '../../app/types-constants';
+import { EntryType, formatEntryCardDate } from '../../app/types-constants';
 import { enterEntryTypeEdit } from '../../app/ui-slice';
 import Button from '../button';
 import { CheckIcon } from '../icon/DiaryIcons';

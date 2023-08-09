@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/store';
 import Button from '../../button';
 import Collapse from '../../collapse';
 import { saveStateToGithub } from './GithubStorage';
+import dayjs from 'dayjs';
 
 function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const dispatch = useAppDispatch();
@@ -49,7 +50,9 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
                   <span className="font-semibold">{loginUser.uid}</span>
                   {' ‘s Diary'}
                 </p>
-                <p className="text-xs text-black/40">LastUse: {formatDatetime(loginUser.lastUseTime)}</p>
+                <p className="text-xs text-black/40">
+                  LastUse: {dayjs(loginUser?.lastUseTime).format('h:mma | ddd YYYY-MMM-DD')}
+                </p>
               </div>
               <div className="flex items-center gap-1">
                 <div className="text-right text-xs">STREAK DAYS</div>
