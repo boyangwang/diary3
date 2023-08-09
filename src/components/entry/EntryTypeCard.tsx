@@ -1,12 +1,13 @@
+import { formatDate } from '@/utils/date';
+import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 import { twMerge } from 'tailwind-merge';
 import { deleteEntryType } from '../../app/entry-types-slice';
 import { useAppDispatch } from '../../app/store';
-import { EntryType, formatEntryCardDate } from '../../app/types-constants';
+import { EntryType } from '../../app/types-constants';
 import { enterEntryTypeEdit } from '../../app/ui-slice';
 import Button from '../button';
 import { CheckIcon } from '../icon/DiaryIcons';
 import EntryTypeCompletionForm from './EntryTypeCompletionForm';
-import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
 
 const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {
   const dispatch = useAppDispatch();
@@ -53,7 +54,7 @@ const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className
       >
         <div className="flex flex-col">
           <div className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold">{title}</div>
-          <p className="text-xs">{formatEntryCardDate(createdAt)}</p>
+          <p className="text-xs">{formatDate(createdAt)}</p>
         </div>
         <div className="flex flex-grow flex-col items-center justify-center whitespace-nowrap text-xs">
           <p className="flex items-center gap-1">
@@ -85,7 +86,7 @@ const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className
         </div>
 
         <div>
-          {formatEntryCardDate(createdAt)} - {formatEntryCardDate(updatedAt)}
+          {formatDate(createdAt)} - {formatDate(updatedAt)}
         </div>
       </div>
       <div className="flex flex-col items-center gap-2 font-DDin font-bold">

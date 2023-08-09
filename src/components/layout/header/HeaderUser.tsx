@@ -1,7 +1,6 @@
-import { formatDatetime } from '@/app/types-constants';
-import GithubLoadDialog from '@/components/app/GithubLoadDialog';
 import { globalStateAtom, loadDialogOpenAtom } from '@/store/app';
 import clsx from 'clsx';
+import dayjs from 'dayjs';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback, useMemo } from 'react';
 import { useBeforeunload } from 'react-beforeunload';
@@ -14,7 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/store';
 import Button from '../../button';
 import Collapse from '../../collapse';
 import { saveStateToGithub } from './GithubStorage';
-import dayjs from 'dayjs';
+import { formatDateTime } from '@/utils/date';
 
 function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const dispatch = useAppDispatch();
@@ -50,9 +49,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
                   <span className="font-semibold">{loginUser.uid}</span>
                   {' ‘s Diary'}
                 </p>
-                <p className="text-xs text-black/40">
-                  LastUse: {dayjs(loginUser?.lastUseTime).format('h:mma | ddd YYYY-MMM-DD')}
-                </p>
+                <p className="text-xs text-black/40">LastUse: {formatDateTime(loginUser?.lastUseTime, false)}</p>
               </div>
               <div className="flex items-center gap-1">
                 <div className="text-right text-xs">STREAK DAYS</div>

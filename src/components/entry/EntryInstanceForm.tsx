@@ -2,11 +2,11 @@ import { useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { deleteEntryInstance, updateEntryInstance } from '../../app/entry-instances-slice';
 import { useAppDispatch } from '../../app/store';
-import { EntryInstance, formatInstanceDate } from '../../app/types-constants';
+import { EntryInstance } from '../../app/types-constants';
 import Button from '../button';
-import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import { InputNumber } from 'antd';
+import { formatDateTime } from '@/utils/date';
 
 const EntryInstanceForm = ({ entryInstance }: { entryInstance: EntryInstance }) => {
   const dispatch = useAppDispatch();
@@ -59,11 +59,11 @@ const EntryInstanceForm = ({ entryInstance }: { entryInstance: EntryInstance }) 
       </div>
       <div className="flex flex-col items-center gap-1">
         createdAt
-        <div>{formatInstanceDate(createdAt)}</div>
+        <div>{formatDateTime(createdAt)}</div>
       </div>
       <div className="flex flex-col items-center gap-1">
         updatedAt
-        <div>{formatInstanceDate(updatedAt)}</div>
+        <div>{formatDateTime(updatedAt)}</div>
       </div>
       <Button type="primary" htmlType="submit">
         Update

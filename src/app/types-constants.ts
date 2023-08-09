@@ -201,10 +201,6 @@ export const isNumOrStrAndNotNaN = (a: any) => {
   return (typeof a === 'number' || typeof a === 'string') && !isNaN(a as number);
 };
 
-export const formatDatetime = (datetime: number | null) => (datetime ? dayjs(datetime).format('h:mma | ddd YYYY-MMM-DD') : '');
-export const formatInstanceDate = (datetime: number | null) => (datetime ? dayjs(datetime).format('YYYY-MM-DD\nHH:mm:ss') : '');
-export const formatEntryCardDate = (datetime: number | null) => (datetime ? dayjs(datetime).format('YYYY/MM/DD') : '');
-
 export const getDateStringFromEntryDay = (entryDay: EntryDay) => {
   const { year, month, day } = entryDay;
   return `${year}-${month}-${day}`;

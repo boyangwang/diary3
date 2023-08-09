@@ -8,6 +8,7 @@ import EntryChart from '../components/entry/EntryChart';
 import EntryInstanceList from '../components/entry/EntryInstanceList';
 import EntryProgressBar from '../components/entry/EntryProgressBar';
 import EntryTypeListForCompletion from '../components/entry/EntryTypeListForCompletion';
+import { formatDate } from '@/utils/date';
 
 export default function EntryPage() {
   const entryInstancesMap = useAppSelector(selectEntryInstancesMap);
@@ -30,7 +31,9 @@ export default function EntryPage() {
     <div className="flex h-full flex-col gap-4 overflow-auto px-4 py-6 text-center">
       <HeaderDatetime />
       <EntryProgressBar points={selectedTotalPoints} />
-      <div className="mt-4 flex items-center justify-center pt-2 text-xl font-semibold">Selected Date {selectedDay}</div>
+      <div className="mt-4 flex items-center justify-center pt-2 text-xl font-semibold">
+        Selected Date {formatDate(selectedDay)}
+      </div>
       <EntryChart entryInstancesMap={entryInstancesMap} />
       <EntryInstanceList entryInstancesArray={entryInstancesArray} />
       <EntryTypeListForCompletion selectedDateStr={selectedDay} />
