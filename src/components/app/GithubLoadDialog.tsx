@@ -81,7 +81,7 @@ const GithubLoadDialog: FunctionComponent<GithubLoadDialogProps> = (props) => {
       showCloseButton={false}
       // className="h-auto"
       onOpenChange={(open) => setOpen(open)}
-      render={({ close }) => (
+      render={() => (
         <div className="flex flex-col justify-center gap-2 p-2 pb-8">
           {isLoading ? (
             <p>Loading...</p>
@@ -101,7 +101,7 @@ const GithubLoadDialog: FunctionComponent<GithubLoadDialogProps> = (props) => {
           )}
         </div>
       )}
-      renderFooter={() => (
+      renderFooter={({ close }) => (
         <div className="flex items-center justify-center gap-4">
           <Button onClick={close}>Cancel</Button>
           <Button onClick={() => loaded(path)} type="primary">

@@ -22,6 +22,18 @@ export const entryTypesSlice = createSlice({
       // update this index in state.entryTypesArray
       state.entryTypesArray[indexToUpdate] = action.payload;
     },
+    updateEntryTypeId: (
+      state,
+      action: PayloadAction<{ preEntryTypeId: string; changeEntryTypeId: string; newEntryType: EntryType }>,
+    ) => {
+      const { preEntryTypeId, changeEntryTypeId, newEntryType } = action.payload;
+      const { title, id, ...rest } = newEntryType;
+      const indexToUpdate = state.entryTypesArray.findIndex((entryType) => entryType.id === preEntryTypeId);
+      // update this index in state.entryTypesArray
+      Object.assign(state.entryTypesArray[indexToUpdate], { ...rest });
+      state.entryTypesArray[indexToUpdate].id = changeEntryTypeId;
+      state.entryTypesArray[indexToUpdate].title = title;
+    },
     deleteEntryType: (state, action: PayloadAction<string>) => {
       const indexToDelte = state.entryTypesArray.findIndex((entryType) => entryType.id === action.payload);
       // delete this index from state.entryTypesArray
@@ -30,4 +42,4 @@ export const entryTypesSlice = createSlice({
   },
 });
 
-export const { createEntryType, updateEntryType, deleteEntryType } = entryTypesSlice.actions;
+export const { createEntryType, updateEntryType, updateEntryTypeId, deleteEntryType } = entryTypesSlice.actions;

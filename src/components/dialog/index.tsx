@@ -36,8 +36,8 @@ type DialogProps = {
   children?: JSX.Element;
   className?: string;
   scroll?: boolean;
-  renderHeader?: () => React.ReactNode;
-  renderFooter?: () => React.ReactNode;
+  renderHeader?: (props: { close: () => void }) => React.ReactNode;
+  renderFooter?: (props: { close: () => void }) => React.ReactNode;
   maskClass?: string;
 };
 
@@ -83,7 +83,7 @@ function Dialog({
   const { getReferenceProps, getFloatingProps } = useInteractions([useClick(context), useRole(context), useDismiss(context)]);
 
   const _renderHeader = useCallback(() => {
-    if (renderHeader) return renderHeader?.();
+    if (renderHeader) return renderHeader?.({ close: () => onClose(false) });
     if (!title && !showCloseButton) return null;
     return (
       <div className="relative mb-4 h-auto text-center text-xl font-medium leading-[22px]">
@@ -145,7 +145,7 @@ function Dialog({
                   </main>
                   {renderFooter && (
                     <footer className="absolute bottom-0 left-0 right-0 rounded-b-[10px] px-6 py-6 backdrop-blur-xl">
-                      {renderFooter?.()}
+                      {renderFooter?.({ close: () => onClose(false) })}
                     </footer>
                   )}
                 </motion.div>

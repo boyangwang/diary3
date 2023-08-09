@@ -1,11 +1,15 @@
 import { Form, Input, InputNumber, Radio } from 'antd';
 import { EditNavIcon, EntryNavIcon } from '../icon/DiaryIcons';
 import { RoutineEnum, EntryTypeThemeColors, EntryTypeConstructor, EntryType } from '../../app/types-constants';
-import { useAppDispatch } from '../../app/store';
-import { createEntryType, updateEntryType } from '../../app/entry-types-slice';
+import { selectEntryInstancesMap, useAppDispatch, useAppSelector } from '../../app/store';
+import { createEntryType, updateEntryType, updateEntryTypeId } from '../../app/entry-types-slice';
 import { exitEntryTypeEdit } from '../../app/ui-slice';
 import { useEffect, useMemo } from 'react';
 import Button from '../button';
+import dayjs from 'dayjs';
+import { updateChangeEntryIdEntryInstance } from '@/app/entry-instances-slice';
+import { toast } from 'react-toastify';
+import { updateReturn } from 'typescript';
 
 const addInitialValues = {
   routine: RoutineEnum.adhoc,
@@ -19,6 +23,7 @@ const addInitialValues = {
 const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | EntryType; entryTypeIds: string[] }) => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
+  const entryInstancesMap = useAppSelector(selectEntryInstancesMap);
 
   const onValuesChange = (changedValues: any, allValues: any) => {
     if (changedValues.title) {
@@ -34,17 +39,42 @@ const EntryTypeForm = (props: { isUpdate: boolean; updatingEntryType?: null | En
   const onFinish = (values: any) => {
     console.log('Success:', values);
     values.themeColors = JSON.parse(values.themeColors);
-    const entryType = EntryTypeConstructor(values);
-    if (props.isUpdate) {
-      entryType.updatedAt = Number(new Date());
-      dispatch(updateEntryType(entryType));
+    const newEntryType = EntryTypeConstructor(values);
+    const { updatingEntryType, isUpdate, entryTypeIds } = props;
+    if (isUpdate) {
+      const { createdAt, id } = updatingEntryType!;
+      newEntryType.createdAt = createdAt ?? dayjs().valueOf();
+      newEntryType.updatedAt = dayjs().valueOf();
+      if (newEntryType.id !== id) {
+        // 变更了title
+        if (entryTypeIds.includes(newEntryType.id)) {
+          toast.error('id already exists');
+          return;
+        }
+        dispatch(updateChangeEntryIdEntryInstance({ preEntryTypeId: id, changeEntryTypeId: newEntryType.id }));
+        // dispatch(updateEntryType(newEntryType));
+        dispatch(
+          updateEntryTypeId({
+            preEntryTypeId: id,
+            changeEntryTypeId: newEntryType.id,
+            newEntryType,
+          }),
+        );
+        dispatch(exitEntryTypeEdit());
+        console.log('change id ==== preEntryType', updatingEntryType, ' newEntryType', newEntryType);
+        return;
+      }
+      console.log('preEntryType', updatingEntryType, ' newEntryType', newEntryType);
+
+      dispatch(updateEntryType(newEntryType));
       dispatch(exitEntryTypeEdit());
     } else {
-      dispatch(createEntryType(entryType));
+      dispatch(createEntryType(newEntryType));
       form.resetFields();
     }
   };
 
+  console.log('================entryInstancesMap', entryInstancesMap);
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };

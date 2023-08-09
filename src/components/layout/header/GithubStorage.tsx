@@ -5,6 +5,7 @@ import { LoginUserState } from '../../../app/login-user-slice';
 import { getDatetimeStringShortFormatFromNow } from '../../../app/types-constants';
 import { message } from 'antd';
 import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 
 export const isIncompleteGithubInfo = (loginUser: LoginUserState) => {
   return !loginUser.githubSecret || !loginUser.uid || !loginUser.repo || !loginUser.email;
@@ -81,7 +82,7 @@ export const saveStateToGithub = (loginUser: LoginUserState) => {
         auth: loginUser.githubSecret,
         userAgent: 'diary-app',
       });
-      const path = `dairy-save-${loginUser.uid}-${getDatetimeStringShortFormatFromNow()}.json`;
+      const path = `dairy-save-${loginUser.uid}-${dayjs().format('YYYYMMDD-HHmmss')}.json`;
       octokit.rest.repos
         .createOrUpdateFileContents({
           owner: loginUser.uid!,
