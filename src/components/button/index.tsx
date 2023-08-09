@@ -89,7 +89,7 @@ const Button = forwardRef(
             ? className
             : twMerge(
                 clsx(
-                  'box-border rounded-md border transition focus:outline-none',
+                  'box-border rounded-2xl border font-semibold transition focus:outline-none',
                   sizeClass[size ?? 'middle'],
                   _chooseClass[type ?? 'default'],
                   _disabled ? 'disabled:cursor-not-allowed disabled:opacity-60' : 'cursor-pointer',

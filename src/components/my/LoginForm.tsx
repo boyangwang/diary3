@@ -3,8 +3,9 @@ import { firstLogin } from '../../app/login-user-slice';
 import { useAppDispatch } from '../../app/store';
 import { AiFillGithub } from 'react-icons/ai';
 import Button from '../button';
+import clsx from 'clsx';
 
-const LoginForm = () => {
+const LoginForm = ({ className }: { className?: string }) => {
   const dispatch = useAppDispatch();
 
   const onFinish = (values: any) => {
@@ -17,7 +18,13 @@ const LoginForm = () => {
   };
 
   return (
-    <Form name="login-form" className="flex flex-col" initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+    <Form
+      name="login-form"
+      className={clsx('flex flex-col justify-end', className)}
+      initialValues={{}}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+    >
       <Form.Item label="github-username" name="uid" rules={[{ required: true }]}>
         <Input />
       </Form.Item>

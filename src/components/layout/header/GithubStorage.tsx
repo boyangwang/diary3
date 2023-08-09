@@ -1,11 +1,9 @@
 import { Octokit } from '@octokit/rest';
 import { Buffer } from 'buffer';
-import { persistor } from '../../../app/store';
-import { LoginUserState } from '../../../app/login-user-slice';
-import { getDatetimeStringShortFormatFromNow } from '../../../app/types-constants';
-import { message } from 'antd';
-import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
+import { LoginUserState } from '../../../app/login-user-slice';
+import { persistor } from '../../../app/store';
 
 export const isIncompleteGithubInfo = (loginUser: LoginUserState) => {
   return !loginUser.githubSecret || !loginUser.uid || !loginUser.repo || !loginUser.email;

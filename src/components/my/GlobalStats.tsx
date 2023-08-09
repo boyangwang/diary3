@@ -1,32 +1,85 @@
-import { selectEntryInstancesMap, selectLoginUser, useAppSelector } from '@/app/store';
+import { selectEntryInstancesMap, selectLoginUser, useAppDispatch, useAppSelector } from '@/app/store';
+import { GlobalState, globalStateAtom, loadDialogOpenAtom } from '@/store/app';
 import { calcRecordedCurrentStreaks, calcRecordedLongestStreaks } from '@/utils/entry';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { useAtom, useSetAtom } from 'jotai';
+import { useCallback, useEffect } from 'react';
+import { saveStateToGithub } from '../layout/header/GithubStorage';
+import Button from '../button';
+import { onLogoutClickClearState } from '@/app/login-user-slice';
+import clsx from 'clsx';
 
-function GlobalStats() {
+function GlobalStats({ className }: { className?: string }) {
   const loginUser = useAppSelector(selectLoginUser);
   const entryInstancesMap = useAppSelector(selectEntryInstancesMap);
-  const globalStats = useMemo(() => {
+  const save = useCallback(() => saveStateToGithub(loginUser), [loginUser]);
+  const setLoadOpen = useSetAtom(loadDialogOpenAtom);
+  const [globalState, setGlobalState] = useAtom(globalStateAtom);
+  const dispatch = useAppDispatch();
+
+  const onLogoutClick = () => {
+    dispatch(onLogoutClickClearState());
+  };
+  useEffect(() => {
     const now = dayjs();
     const registeredSince = now.diff(dayjs(loginUser.loginTime), 'day');
     const entryKeys = Object.keys(entryInstancesMap);
     const totalEntries = entryKeys?.length ? entryKeys.reduce((pre, cur) => pre + (entryInstancesMap[cur]?.length ?? 0), 0) : 0;
-    return {
+    const states: GlobalState = {
       registeredSince,
       entryDays: entryKeys?.length ?? 0,
       totalEntries,
       historicalLongestStreakByEntry: calcRecordedLongestStreaks(entryInstancesMap),
       currentStreakByEntry: calcRecordedCurrentStreaks(entryInstancesMap),
     };
-  }, [entryInstancesMap, loginUser.loginTime]);
+    setGlobalState(states);
+  }, [entryInstancesMap, loginUser.loginTime, setGlobalState]);
   return (
-    <div>
-      <h1>DiaryGlobalStats</h1>
-      <p>You have signed up for Diary for {globalStats?.registeredSince} days.</p>
-      <p>You recorded entries in Diary for {globalStats?.entryDays} days.</p>
-      <p>You recorded in total {globalStats?.totalEntries} entries.</p>
-      <p>In your historical longest streak, you recorded entries for {globalStats?.historicalLongestStreakByEntry} days.</p>
-      <p>In your current streak, you recorded entries for {globalStats?.currentStreakByEntry} days.</p>
+    <div className={clsx('flex flex-col justify-between gap-10 text-white', className)}>
+      <div className="flex flex-col items-center gap-2">
+        <img
+          className="h-20 w-20 rounded-full border-2 border-white bg-white/30"
+          src="https://fakeimg.pl/200x200/?text=Avatar"
+          alt="avatar"
+        />
+        <h1 className="text-2xl font-bold">{loginUser.uid}</h1>
+      </div>
+      <div className="flex flex-col gap-5 text-lg">
+        <p>
+          You have signed up for Diary for <span className="font-DDin text-2xl font-bold">{globalState?.registeredSince}</span>{' '}
+          days.
+        </p>
+        <p>
+          You recorded entries in Diary for <span className="font-DDin text-2xl font-bold">{globalState?.entryDays}</span> days.
+        </p>
+        <p>
+          You recorded in total <span className="font-DDin text-2xl font-bold">{globalState?.totalEntries}</span> entries.
+        </p>
+        <p>
+          In your historical longest streak, you recorded entries for{' '}
+          <span className="font-DDin text-2xl font-bold">{globalState?.historicalLongestStreakByEntry}</span> days.
+        </p>
+        <p>
+          In your current streak, you recorded entries for{' '}
+          <span className="font-DDin text-2xl font-bold">{globalState?.currentStreakByEntry}</span> days.
+        </p>
+      </div>
+      <div className="mt-auto flex flex-col gap-2">
+        <Button size="large" className="h-12 rounded-full border-none hover:opacity-90" onClick={save}>
+          Save
+        </Button>
+        <Button size="large" className="h-12 rounded-full border-none hover:opacity-90" onClick={() => setLoadOpen(true)}>
+          Load
+        </Button>
+        <Button
+          size="large"
+          className="h-12 rounded-full border-none text-black hover:opacity-90"
+          type="link"
+          onClick={onLogoutClick}
+        >
+          Logout
+        </Button>
+      </div>
     </div>
   );
 }

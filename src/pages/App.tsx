@@ -9,6 +9,7 @@ import { initDateStr } from '../app/ui-slice';
 import Navbar from '../components/layout/Navbar';
 import { ToastContainer } from 'react-toastify';
 import UserHeader from '@/components/layout/header/HeaderUser';
+import GithubLoadDialog from '@/components/app/GithubLoadDialog';
 
 function App() {
   const location = useLocation();
@@ -42,10 +43,11 @@ function App() {
       </Helmet>
       <div ref={appDivRef} className={clsx('flex flex-col overflow-hidden')}>
         <ToastContainer autoClose={3000} position="top-center" />
-        <UserHeader loginUser={loginUser} />
+        {location.pathname !== '/settings' && <UserHeader loginUser={loginUser} />}
         <main className="min relative flex-grow overflow-auto scroll-smooth bg-[#F6F6F6]">
           <Outlet />
         </main>
+        <GithubLoadDialog />
         <Navbar />
       </div>
     </>
