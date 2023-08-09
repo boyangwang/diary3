@@ -4,12 +4,14 @@ import { useAppDispatch } from '../../app/store';
 import { AiFillGithub } from 'react-icons/ai';
 import Button from '../button';
 import clsx from 'clsx';
+import { toast } from 'react-toastify';
 
 const LoginForm = ({ className }: { className?: string }) => {
   const dispatch = useAppDispatch();
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
+    toast.success(`${values?.uid} Login successfully!`);
     dispatch(firstLogin(values));
   };
 

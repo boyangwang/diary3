@@ -15,6 +15,7 @@ const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {
       danger
       ghost
       size="small"
+      className="rounded-lg"
       onClick={() => {
         dispatch(deleteEntryType(props.entryType.id));
       }}
@@ -28,7 +29,13 @@ const EntryTypeCardEditButton = (props: { entryType: EntryType }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <Button size="small" type="primary" ghost onClick={() => dispatch(enterEntryTypeEdit({ entryTypeId: props.entryType.id }))}>
+    <Button
+      size="small"
+      className="rounded-lg"
+      type="primary"
+      ghost
+      onClick={() => dispatch(enterEntryTypeEdit({ entryTypeId: props.entryType.id }))}
+    >
       Edit
     </Button>
   );

@@ -10,13 +10,14 @@ import Navbar from '../components/layout/Navbar';
 import { ToastContainer } from 'react-toastify';
 import UserHeader from '@/components/layout/header/HeaderUser';
 import GithubLoadDialog from '@/components/app/GithubLoadDialog';
+import { useInitGlobalState } from '@/hooks/app';
 
 function App() {
   const location = useLocation();
   const loginUser = useAppSelector(selectLoginUser);
   const dispatch = useAppDispatch();
   const appDivRef = useRef<HTMLDivElement>(null);
-
+  useInitGlobalState();
   useEffect(() => {
     const dateStrNow = getDateStringFromNow();
     dispatch(initDateStr({ dateStr: dateStrNow }));

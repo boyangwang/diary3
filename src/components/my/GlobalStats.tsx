@@ -1,39 +1,22 @@
-import { selectEntryInstancesMap, selectLoginUser, useAppDispatch, useAppSelector } from '@/app/store';
-import { GlobalState, globalStateAtom, loadDialogOpenAtom } from '@/store/app';
-import { calcRecordedCurrentStreaks, calcRecordedLongestStreaks } from '@/utils/entry';
-import dayjs from 'dayjs';
-import { useAtom, useSetAtom } from 'jotai';
-import { useCallback, useEffect } from 'react';
-import { saveStateToGithub } from '../layout/header/GithubStorage';
-import Button from '../button';
 import { onLogoutClickClearState } from '@/app/login-user-slice';
+import { selectLoginUser, useAppDispatch, useAppSelector } from '@/app/store';
+import { globalStateAtom, loadDialogOpenAtom } from '@/store/app';
 import clsx from 'clsx';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { useCallback } from 'react';
+import Button from '../button';
+import { saveStateToGithub } from '../layout/header/GithubStorage';
 
 function GlobalStats({ className }: { className?: string }) {
   const loginUser = useAppSelector(selectLoginUser);
-  const entryInstancesMap = useAppSelector(selectEntryInstancesMap);
   const save = useCallback(() => saveStateToGithub(loginUser), [loginUser]);
   const setLoadOpen = useSetAtom(loadDialogOpenAtom);
-  const [globalState, setGlobalState] = useAtom(globalStateAtom);
+  const globalState = useAtomValue(globalStateAtom);
   const dispatch = useAppDispatch();
 
   const onLogoutClick = () => {
     dispatch(onLogoutClickClearState());
   };
-  useEffect(() => {
-    const now = dayjs();
-    const registeredSince = now.diff(dayjs(loginUser.loginTime), 'day');
-    const entryKeys = Object.keys(entryInstancesMap);
-    const totalEntries = entryKeys?.length ? entryKeys.reduce((pre, cur) => pre + (entryInstancesMap[cur]?.length ?? 0), 0) : 0;
-    const states: GlobalState = {
-      registeredSince,
-      entryDays: entryKeys?.length ?? 0,
-      totalEntries,
-      historicalLongestStreakByEntry: calcRecordedLongestStreaks(entryInstancesMap),
-      currentStreakByEntry: calcRecordedCurrentStreaks(entryInstancesMap),
-    };
-    setGlobalState(states);
-  }, [entryInstancesMap, loginUser.loginTime, setGlobalState]);
   return (
     <div className={clsx('flex flex-col justify-between gap-10 text-white', className)}>
       <div className="flex flex-col items-center gap-2">

@@ -3,7 +3,7 @@ import GithubLoadDialog from '@/components/app/GithubLoadDialog';
 import { globalStateAtom, loadDialogOpenAtom } from '@/store/app';
 import clsx from 'clsx';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useBeforeunload } from 'react-beforeunload';
 import { MdExpandMore } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -30,10 +30,11 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
   const state = useAppSelector((state) => state);
   const save = useCallback(() => saveStateToGithub(state.loginUser), [state.loginUser]);
   const setLoadOpen = useSetAtom(loadDialogOpenAtom);
+  const logged = useMemo(() => !!loginUser?.uid, [loginUser]);
   return (
     <Collapse
-      initOpen={!!loginUser.uid}
-      disabled={!!loginUser.uid}
+      initOpen={logged}
+      disabled={!logged}
       renderTitle={({ isOpen }) => (
         <div
           className={clsx(
@@ -41,7 +42,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
             isOpen ? 'rounded-none' : 'rounded-b-2xl',
           )}
         >
-          {loginUser.uid ? (
+          {logged ? (
             <>
               <div className="flex flex-col gap-2 text-sm">
                 <p className="text-base">
@@ -67,7 +68,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
         </div>
       )}
     >
-      {loginUser.uid ? (
+      {logged && (
         <div
           className={twMerge(
             'flex flex-wrap items-center justify-center gap-4 rounded-b-2xl bg-white px-4 pb-4 transition',
@@ -90,7 +91,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
           {/* <ImportHistoryButton />
             <EmptyHistoryButton /> */}
         </div>
-      ) : null}
+      )}
     </Collapse>
   );
 }
