@@ -52,7 +52,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
               </div>
               <div className="flex items-center gap-1">
                 <div className="text-right text-xs">STREAK DAYS</div>
-                <div className="font-DDin text-2xl/8 font-bold">{globalState?.historicalLongestStreakByEntry ?? 0}</div>
+                <div className="font-DDin text-2xl/8 font-bold">{globalState?.currentStreakByEntry ?? 0}</div>
                 <MdExpandMore className={clsx('z-[1] h-9 w-9 cursor-pointer text-black', isOpen ? 'rotate-180' : 'rotate-0')} />
               </div>
             </>
