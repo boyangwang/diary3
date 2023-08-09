@@ -13,7 +13,7 @@ import { twMerge } from 'tailwind-merge';
 
 export type GithubLoadDialogProps = {};
 
-const GithubLoadDialog: FunctionComponent<GithubLoadDialogProps> = (props) => {
+const GithubLoadDialog: FunctionComponent<GithubLoadDialogProps> = () => {
   const [isOpen, setOpen] = useAtom(loadDialogOpenAtom);
   const loginUser = useAppSelector(selectLoginUser);
   const { data, isLoading } = useFetchCommits();
@@ -43,7 +43,7 @@ const GithubLoadDialog: FunctionComponent<GithubLoadDialogProps> = (props) => {
 
         if (Array.isArray(file.data)) {
           // If file.data is an array, it's a directory object
-          toast.update(loadMsg, { render: 'Cannot download directory', type: 'error', isLoading: false, autoClose: 3000 });
+          toast.update(loadMsg, { render: 'Cannot download directory', type: 'error', isLoading: false, autoClose: 2000 });
           return;
         } else {
           // If file.data is an object, it's a file object
@@ -56,15 +56,17 @@ const GithubLoadDialog: FunctionComponent<GithubLoadDialogProps> = (props) => {
           const stateToLoad = await fileResponse.json();
           localStorage.setItem('persist:diary', JSON.stringify(stateToLoad));
         } else {
-          toast.update(loadMsg, { render: 'Download URL is not available', type: 'error', isLoading: false, autoClose: 3000 });
+          toast.update(loadMsg, { render: 'Download URL is not available', type: 'error', isLoading: false, autoClose: 2000 });
           return;
         }
-        toast.update(loadMsg, { render: 'Loaded Successfully', type: 'success', isLoading: false, autoClose: 3000 });
+        toast.update(loadMsg, { render: 'Loaded Successfully', type: 'success', isLoading: false, autoClose: 2000 });
+        setOpen(false);
+        window?.location?.reload();
       } catch (e: any) {
-        toast.update(loadMsg, { render: e?.message ?? 'Loaded Error', type: 'error', isLoading: false, autoClose: 3000 });
+        toast.update(loadMsg, { render: e?.message ?? 'Loaded Error', type: 'error', isLoading: false, autoClose: 2000 });
       }
     },
-    [loginUser],
+    [loginUser, setOpen],
   );
   useEffect(() => {
     if (!data?.length) {

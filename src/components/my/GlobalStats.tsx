@@ -27,7 +27,7 @@ function GlobalStats({ className }: { className?: string }) {
         />
         <h1 className="text-2xl font-bold">{loginUser.uid}</h1>
       </div>
-      <div className="flex flex-col gap-5 text-lg">
+      <div className="flex flex-col gap-4 text-lg">
         <p>
           You have signed up for Diary for <span className="font-DDin text-2xl font-bold">{globalState?.registeredSince}</span>{' '}
           days.

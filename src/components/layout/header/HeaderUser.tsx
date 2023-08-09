@@ -39,7 +39,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
       renderTitle={({ isOpen }) => (
         <div
           className={clsx(
-            'relative flex cursor-pointer justify-between gap-2 bg-white px-4 py-4',
+            'relative flex cursor-pointer justify-between bg-white px-4 py-4',
             isOpen ? 'rounded-none' : 'rounded-b-2xl',
           )}
         >
@@ -74,7 +74,7 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
       {logged && (
         <div
           className={twMerge(
-            'flex flex-wrap items-center justify-center gap-4 rounded-b-2xl bg-white px-4 pb-4 transition',
+            'flex flex-wrap items-center justify-center gap-2 rounded-b-2xl bg-white px-4 pb-4 transition',
             className,
           )}
         >
@@ -84,9 +84,13 @@ function UserHeader(props: { loginUser: LoginUserState; className?: string }) {
           </div>
           <div className="flex flex-col items-center gap-2 text-sm">
             <div className="flex flex-wrap items-center justify-center gap-2">
-              <Button onClick={save}>Save</Button>
-              <Button onClick={() => setLoadOpen(true)}>Load</Button>
-              <Button type="link" className="flex items-center gap-2" onClick={onLogoutClick}>
+              <Button size="large" onClick={save}>
+                Save
+              </Button>
+              <Button size="large" onClick={() => setLoadOpen(true)}>
+                Load
+              </Button>
+              <Button size="large" type="link" className="flex items-center gap-2" onClick={onLogoutClick}>
                 Logout
               </Button>
             </div>

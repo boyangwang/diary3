@@ -7,9 +7,8 @@ export default function SettingsPage() {
   const loginUser = useAppSelector(selectLoginUser);
 
   return (
-    <div className={clsx('flex h-full flex-col items-center gap-4 bg-gradient-home px-5 py-10 text-center')}>
-      <h1 className="text-[2.375rem]/[3.125rem] font-bold text-white">Time Is Your Most Valuable Asset - Til Immortality</h1>
-      {loginUser.uid ? <GlobalStats className="flex-grow" /> : <LoginForm className="flex-grow" />}
+    <div className={clsx('flex h-full flex-col items-center gap-4 bg-gradient-home px-4 py-10 text-center')}>
+      {loginUser.uid ? <GlobalStats /> : <LoginForm />}
     </div>
   );
 }

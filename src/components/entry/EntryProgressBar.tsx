@@ -2,7 +2,7 @@ import { Progress } from 'antd';
 import { useMemo } from 'react';
 
 function EntryProgressBar(props: { points: number }) {
-  const points = props.points + 10;
+  const points = props.points;
   const percent = Math.ceil((points * 10000) / 24) / 100;
   const gradient = {
     '0%': '#3385E4',
@@ -36,7 +36,7 @@ function EntryProgressBar(props: { points: number }) {
 
       <div
         className="clip-path-message absolute top-0 w-fit -translate-x-1/2 -translate-y-[85%] bg-black px-1 pb-1.5 pt-0.5 text-[#FAFAFA]"
-        style={{ left: `calc(${percent}% - 0.4rem)` }}
+        style={{ left: `calc(${Math.min(percent, 100)}% - 0.4rem)` }}
       >
         {indicate.toFixed(1)}
       </div>
