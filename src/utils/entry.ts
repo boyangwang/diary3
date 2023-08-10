@@ -1,6 +1,8 @@
 import { EntryInstance, EntryType, RoutineEnum } from '@/app/types-constants';
+import { DateRange } from '@/components/entry/EntryChart';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+import { getDaysFromDateToDateNow, getMonthsFromDateToDateNow, getWeeksFromDateToDateNow } from './date';
 dayjs.extend(weekOfYear);
 
 // 任何entry维度 今天记录了任何entry, 就算你用了. 你连续坚持记录了多少天
@@ -212,5 +214,22 @@ export const calcEntryTypeLongestStreaks = (entryInstancesMap: { [key: string]: 
     case RoutineEnum.adhoc:
     default:
       return entryTypeMaxStreaks;
+  }
+};
+
+export const getEntryInstanceDateRange = (entryInstancesMap: { [key: string]: EntryInstance[] }, range: DateRange) => {
+  const now = dayjs();
+  const dates = Object.keys(entryInstancesMap).sort();
+  let earliestDay = dates[0];
+  const pre7Day = now.subtract(6, 'day');
+  if (pre7Day.isBefore(earliestDay)) earliestDay = pre7Day.format('YYYY-MM-DD');
+  switch (range) {
+    case 'week':
+      return getWeeksFromDateToDateNow(earliestDay);
+    case 'month':
+      return getMonthsFromDateToDateNow(earliestDay);
+    case 'day':
+    default:
+      return getDaysFromDateToDateNow(earliestDay);
   }
 };

@@ -1,3 +1,4 @@
+import { isStrOrNotNaNNum } from '@/utils';
 import { isNumOrStrAndNotNaN } from '../../app/types-constants';
 
 function shallowEqual(a: any, b: any) {
@@ -21,9 +22,6 @@ export interface TooltipPayload {
   color?: string;
   fill?: string;
 }
-const defaultFormatter = (value: any) =>
-  Array.isArray(value) && isNumOrStrAndNotNaN(value[0]) && isNumOrStrAndNotNaN(value[1]) ? value.join(' ~ ') : value;
-
 interface EntryChartTooltipProps {
   filter: (tooltipPayload: TooltipPayload) => boolean;
   separator?: string;
@@ -42,12 +40,17 @@ const PropsDefaults = {
   labelStyle: {},
 };
 
-function EntryChartToolip(props: EntryChartTooltipProps) {
-  const { label, labelFormatter, wrapperStyle } = props;
-  let { labelStyle } = props;
-  if (!labelStyle) {
-    labelStyle = {};
-  }
+function EntryChartTooltip(props: EntryChartTooltipProps) {
+  const {
+    label,
+    labelFormatter,
+    labelStyle = {},
+    payload,
+    filter,
+    separator = ' : ',
+    wrapperStyle = {},
+    itemStyle = {},
+  } = props;
 
   const finalStyle = {
     margin: 0,
@@ -69,20 +72,6 @@ function EntryChartToolip(props: EntryChartTooltipProps) {
   }
 
   function renderContent() {
-    const { payload, formatter, filter } = props;
-    let { separator } = props;
-    if (!separator) {
-      separator = ' : ';
-    }
-    let { wrapperStyle } = props;
-    if (!wrapperStyle) {
-      wrapperStyle = {};
-    }
-    let { itemStyle } = props;
-    if (!itemStyle) {
-      itemStyle = {};
-    }
-
     if (payload?.length) {
       const listStyle = { padding: 0, margin: 0 };
 
@@ -96,20 +85,16 @@ function EntryChartToolip(props: EntryChartTooltipProps) {
             color: entry.color || '#000',
             ...itemStyle,
           };
-          const hasName = isNumOrStrAndNotNaN(entry.name);
-          const finalFormatter = formatter || defaultFormatter;
-
           if (filter && !filter(entry)) {
             return null;
           }
 
           return (
             <li className="recharts-tooltip-item" key={`tooltip-item-${i}`} style={finalItemStyle}>
-              {hasName ? <span className="recharts-tooltip-item-name">{entry.name}</span> : null}
-              {hasName ? <span className="recharts-tooltip-item-separator">{separator}</span> : null}
-              <span className="recharts-tooltip-item-value">
-                {finalFormatter ? finalFormatter(entry.value, entry.name, entry, i) : entry.value}
-              </span>
+              <span className="recharts-tooltip-item-name">{entry.name}</span>
+              <span className="recharts-tooltip-item-separator">{separator}</span>
+
+              <span className="recharts-tooltip-item-value">{entry.value}</span>
               <span className="recharts-tooltip-item-unit">{entry.unit || ''}</span>
             </li>
           );
@@ -134,4 +119,4 @@ function EntryChartToolip(props: EntryChartTooltipProps) {
     </div>
   );
 }
-export default EntryChartToolip;
+export default EntryChartTooltip;

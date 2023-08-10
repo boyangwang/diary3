@@ -75,7 +75,6 @@ const GithubLoadDialog: FunctionComponent<GithubLoadDialogProps> = () => {
     }
     setPath(data[0].message);
   }, [data]);
-  console.log('=============commits==', data);
   return (
     <Dialog
       open={isOpen}
