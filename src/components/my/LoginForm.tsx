@@ -22,26 +22,26 @@ const LoginForm = ({ className }: { className?: string }) => {
     dispatch(firstLogin(values));
   };
 
-  const onError = useCallback(() => {
+  const onError = useCallback((errors: any) => {
     for (let field in errors) {
       if (errors?.[field]?.message) {
-        toast.error((errors?.[field]?.message as string) || 'Login Error!');
+        toast.error(errors?.[field]?.message?.toString() as string);
         return;
       }
     }
 
     toast.error('Login Error!');
-  }, [errors]);
+  }, []);
 
   return (
     <form className="flex flex-col items-center gap-4 text-white" onSubmit={handleSubmit(onSubmit, onError)}>
       <div className="flex items-center gap-2">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
-            <div className="h-4 text-red-500 mix-blend-plus-lighter">*</div>
+            <div className="h-4 text-red-400">*</div>
             <label htmlFor="uid">github-username</label>
           </div>
-          {errors?.uid?.message && <p className="text-red-500 mix-blend-plus-lighter">{errors?.uid?.message.toString()}</p>}
+          {errors?.uid?.message && <p className="text-red-400">{errors?.uid?.message.toString()}</p>}
         </div>
         <input
           aria-label="uid"
@@ -60,10 +60,10 @@ const LoginForm = ({ className }: { className?: string }) => {
       <div className="flex items-center gap-2">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
-            <div className="h-4 text-red-500 mix-blend-plus-lighter">*</div>
+            <div className="h-4 text-red-400">*</div>
             <label htmlFor="email">github-email</label>
           </div>
-          {errors?.email?.message && <p className="text-red-500 mix-blend-plus-lighter">{errors?.email?.message.toString()}</p>}
+          {errors?.email?.message && <p className="text-red-400">{errors?.email?.message.toString()}</p>}
         </div>
         <input
           aria-label="email"
