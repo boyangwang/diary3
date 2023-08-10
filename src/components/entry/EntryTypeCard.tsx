@@ -91,7 +91,7 @@ const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className
       </div>
       <div className="flex flex-col items-center gap-2 font-DDin font-bold">
         <p>defaultPoints {defaultPoints} </p>
-        <p>pointStep {pointStep}</p>
+        {pointStep ? <p>pointStep {pointStep}</p> : null}
       </div>
       <EntryTypeCompletionForm entryType={props.entryType} selectedDayStr={selectedDayStr} />
     </div>

@@ -1,15 +1,14 @@
-import { Form, Input, InputNumber, Radio } from 'antd';
-import { EditNavIcon, EntryNavIcon } from '../icon/DiaryIcons';
-import { RoutineEnum, EntryTypeThemeColors, EntryTypeConstructor, EntryType } from '../../app/types-constants';
-import { selectEntryInstancesMap, useAppDispatch, useAppSelector } from '../../app/store';
-import { createEntryType, updateEntryType, updateEntryTypeId } from '../../app/entry-types-slice';
-import { exitEntryTypeEdit } from '../../app/ui-slice';
-import { useEffect, useMemo } from 'react';
-import Button from '../button';
-import dayjs from 'dayjs';
 import { updateChangeEntryIdEntryInstance } from '@/app/entry-instances-slice';
+import { Form, Input, InputNumber, Radio } from 'antd';
+import dayjs from 'dayjs';
+import { useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
-import { updateReturn } from 'typescript';
+import { createEntryType, updateEntryType, updateEntryTypeId } from '../../app/entry-types-slice';
+import { selectEntryInstancesMap, useAppDispatch, useAppSelector } from '../../app/store';
+import { EntryType, EntryTypeConstructor, EntryTypeThemeColors, RoutineEnum } from '../../app/types-constants';
+import { exitEntryTypeEdit } from '../../app/ui-slice';
+import Button from '../button';
+import { EditNavIcon, EntryNavIcon } from '../icon/DiaryIcons';
 
 const addInitialValues = {
   routine: RoutineEnum.adhoc,
