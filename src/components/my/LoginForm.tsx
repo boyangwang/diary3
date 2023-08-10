@@ -34,7 +34,7 @@ const LoginForm = ({ className }: { className?: string }) => {
   }, []);
 
   return (
-    <form className="flex flex-col items-center gap-4 text-white" onSubmit={handleSubmit(onSubmit, onError)}>
+    <form className={clsx('flex flex-col items-center gap-4 text-white', className)} onSubmit={handleSubmit(onSubmit, onError)}>
       <div className="flex items-center gap-2">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
