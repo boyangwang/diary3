@@ -35,9 +35,9 @@ export const entryTypesSlice = createSlice({
       state.entryTypesArray[indexToUpdate].title = title;
     },
     deleteEntryType: (state, action: PayloadAction<string>) => {
-      const indexToDelte = state.entryTypesArray.findIndex((entryType) => entryType.id === action.payload);
+      const indexToDelete = state.entryTypesArray.findIndex((entryType) => entryType.id === action.payload);
       // delete this index from state.entryTypesArray
-      state.entryTypesArray.splice(indexToDelte, 1);
+      state.entryTypesArray.splice(indexToDelete, 1);
     },
   },
 });

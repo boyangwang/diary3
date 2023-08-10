@@ -1,18 +1,18 @@
+import { selectEntryTypesArray, useAppSelector } from '@/app/store';
 import { chartDateRangeAtom, selectedChartDateAtom } from '@/store/app';
 import { getEntryInstanceDateRange } from '@/utils/entry';
 import dayjs from 'dayjs';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
-import { Area, AreaChart, Brush, CartesianGrid, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, Brush, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import {
   EntryInstance,
+  EntryType,
+  EntryTypeThemeColors,
   barHighColor,
   barHighValue,
   barLowColor,
   barLowValue,
-  chartColorPanel,
-  setOpacity,
-  stringHashCode,
 } from '../../app/types-constants';
 import Segmented from '../segmented';
 import EntryChartTooltip, { TooltipPayload } from './EntryChartTooltip';
@@ -23,11 +23,11 @@ const options = [
   { label: 'By Week', value: 'week' },
   { label: 'By Month', value: 'month' },
 ];
-
 const getChartDataAndAreasFromDaysAndEntriesDateMap = (
   dateRange: string[],
   entryInstancesMap: { [key: string]: EntryInstance[] },
   selectedRange: DateRange,
+  entryTypesArray: EntryType[],
 ) => {
   const allKeys: Set<string> = new Set();
   if (!dateRange?.length) return { areas: [], chartData: [] };
@@ -80,14 +80,29 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
       });
       return dataPoint;
     });
-  const areas = [...allKeys.keys(), '_barLow', '_barHigh'].sort().map((key: string) => {
-    const colorIdx = Math.abs(stringHashCode(key)) % chartColorPanel.length;
+  const areas = [...allKeys.keys(), '_barLow', '_barHigh'].sort().map((entryTypeId: string) => {
+    const entryType = entryTypesArray.find((item) => item.id === entryTypeId);
+    const colorId = (entryType?.themeColors?.[0] ?? '') + (entryType?.themeColors?.[1] ?? '');
+    const [startColor, endColor] = entryType?.themeColors ?? [];
+    console.log(
+      '============startColor endColor colorId',
+      entryTypeId,
+      entryType,
+      startColor,
+      `#${startColor || '000000'}`,
+      '-',
+      endColor,
+      '-',
+      colorId,
+    );
+
     const props = {
       type: 'linear' as 'linear',
-      dataKey: key,
+      dataKey: entryTypeId,
       stackId: '3',
-      stroke: chartColorPanel[colorIdx],
-      fill: setOpacity(chartColorPanel[colorIdx], 0.36),
+      stroke: `#${startColor || '000000'}`,
+      fill: `url(#${colorId || 'default'})`,
+      // setOpacity(chartColorPanel[colorIdx], 0.36),
       dot: false,
       label: {
         formatter: (label: number | string) => {
@@ -99,7 +114,7 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
         position: 'right',
       },
     };
-    if (key === '_barLow') {
+    if (entryTypeId === '_barLow') {
       Object.assign(props, {
         stackId: '1',
         stroke: barLowColor,
@@ -109,8 +124,9 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
         strokeDasharray: '5 4',
         strokeOpacity: 0.8,
         label: false,
+        activeDot: false,
       });
-    } else if (key === '_barHigh') {
+    } else if (entryTypeId === '_barHigh') {
       Object.assign(props, {
         stackId: '2',
         stroke: barHighColor,
@@ -120,9 +136,10 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
         strokeDasharray: '5 4',
         strokeOpacity: 0.8,
         label: false,
+        activeDot: false,
       });
     }
-    return <Area key={key} {...props} />;
+    return <Area key={entryTypeId} {...props} />;
   });
   return { areas, chartData };
 };
@@ -130,8 +147,15 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
 function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[] } }) {
   const [selectedRange, setSelectedRange] = useState<DateRange>('day');
   const { entryInstancesMap } = props;
+  const entryTypesArray = useAppSelector(selectEntryTypesArray);
+
   const [dateRange, setDateRange] = useAtom(chartDateRangeAtom);
-  const { chartData, areas } = getChartDataAndAreasFromDaysAndEntriesDateMap(dateRange, entryInstancesMap, selectedRange);
+  const { chartData, areas } = getChartDataAndAreasFromDaysAndEntriesDateMap(
+    dateRange,
+    entryInstancesMap,
+    selectedRange,
+    entryTypesArray,
+  );
   const setSelectedChartDate = useSetAtom(selectedChartDateAtom);
   const handleChartClick = useCallback(
     (data: any) => {
@@ -139,7 +163,6 @@ function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[]
     },
     [setSelectedChartDate],
   );
-
   useEffect(() => {
     const dates = getEntryInstanceDateRange(entryInstancesMap, selectedRange);
     setDateRange(dates);
@@ -151,6 +174,22 @@ function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[]
       <Segmented defaultValue={selectedRange} onChange={(value) => setSelectedRange(value as DateRange)} options={options} />
       <ResponsiveContainer width="95%" height={480}>
         <AreaChart onClick={handleChartClick} data={chartData} margin={{ top: 12, right: 16, left: -20, bottom: 12 }}>
+          <defs>
+            <linearGradient id="default" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#FF4AF8" stopOpacity={0.45} />
+              <stop offset="95%" stopColor="#FF4AF8" stopOpacity={0} />
+            </linearGradient>
+            {EntryTypeThemeColors.map((themeColors, idx) => {
+              const [startColor, endColor] = themeColors;
+              const colorId = startColor + endColor;
+              return (
+                <linearGradient key={colorId + idx} id={colorId} x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor={`#${endColor}`} stopOpacity={1} />
+                  <stop offset="100%" stopColor={`#${startColor}`} stopOpacity={0} />
+                </linearGradient>
+              );
+            })}
+          </defs>
           <XAxis dataKey="_date" padding={{ left: 16, right: 16 }} />
           <YAxis padding={{ top: 0, bottom: 0 }} type="number" domain={[0, 18]} />
           <Legend

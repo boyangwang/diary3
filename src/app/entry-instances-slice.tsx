@@ -54,6 +54,16 @@ export const entryInstancesSlice = createSlice({
       // delete the entryInstance at that index
       state.entryInstancesMap[dateStr].splice(indexToDelete, 1);
     },
+    deleteEntryInstanceByEntryTypeId: (state, action: PayloadAction<string>) => {
+      const deleteEntryTypeId = action.payload;
+      const { entryInstancesMap } = state;
+
+      console.log('updateChangeEntryIdEntryInstance============', { entryInstancesMap });
+      for (const key in entryInstancesMap) {
+        if (!entryInstancesMap?.[key]?.length) continue;
+        entryInstancesMap[key] = entryInstancesMap[key].filter(({ entryTypeId }) => entryTypeId !== deleteEntryTypeId);
+      }
+    },
     emptyEntryInstance: (state) => {
       state.entryInstancesMap = {};
     },
@@ -67,4 +77,5 @@ export const {
   updateChangeEntryIdEntryInstance,
   deleteEntryInstance,
   emptyEntryInstance,
+  deleteEntryInstanceByEntryTypeId,
 } = entryInstancesSlice.actions;

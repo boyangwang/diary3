@@ -8,6 +8,7 @@ import { enterEntryTypeEdit } from '../../app/ui-slice';
 import Button from '../button';
 import { CheckIcon } from '../icon/DiaryIcons';
 import EntryTypeCompletionForm from './EntryTypeCompletionForm';
+import { deleteEntryInstanceByEntryTypeId } from '@/app/entry-instances-slice';
 
 const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {
   const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {
       className="rounded-lg"
       onClick={() => {
         dispatch(deleteEntryType(props.entryType.id));
+        dispatch(deleteEntryInstanceByEntryTypeId(props.entryType.id));
       }}
     >
       <AiFillDelete className="h-full w-6" />
