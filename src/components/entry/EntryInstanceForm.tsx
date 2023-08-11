@@ -12,15 +12,12 @@ const EntryInstanceForm = ({ entryInstance }: { entryInstance: EntryInstance }) 
   const dispatch = useAppDispatch();
   const { id, points, notes, entryTypeId, createdAt, updatedAt } = entryInstance;
 
-  console.log('=======entryInstance', entryInstance);
   const { register, handleSubmit, control } = useForm();
   const onSubmit = useCallback(
     (data: any) => {
-      console.log('=======onSubmit data', data);
       const points = data?.points ? parseFloat(data.points) : entryInstance.points;
       const notes = data?.notes ?? entryInstance.notes;
       const newEntryInstance = { ...entryInstance, points, notes, updatedAt: dayjs().valueOf() };
-      console.log('=======newEntryInstance ', newEntryInstance);
       dispatch(updateEntryInstance(newEntryInstance));
     },
     [dispatch, entryInstance],

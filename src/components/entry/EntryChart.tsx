@@ -2,10 +2,11 @@ import { selectEntryTypesArray, useAppSelector } from '@/app/store';
 import { chartDateRangeAtom, selectedChartDateAtom } from '@/store/app';
 import { getEntryInstanceDateRange } from '@/utils/entry';
 import dayjs from 'dayjs';
-import { useAtom, useSetAtom } from 'jotai';
-import { useCallback, useEffect, useState } from 'react';
+import { useAtom } from 'jotai';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Area, AreaChart, Brush, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import {
+  DateRange,
   EntryInstance,
   EntryType,
   EntryTypeThemeColors,
@@ -17,7 +18,6 @@ import {
 import Segmented from '../segmented';
 import EntryChartTooltip, { TooltipPayload } from './EntryChartTooltip';
 
-export type DateRange = 'day' | 'week' | 'month';
 const options = [
   { label: 'By Day', value: 'day' },
   { label: 'By Week', value: 'week' },
@@ -35,8 +35,8 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
     .map((date) => {
       const res: { [key: string]: number | string } = {
         _date: date,
-        _barLow: barLowValue,
-        _barHigh: barHighValue,
+        _barLow: barLowValue[selectedRange],
+        _barHigh: barHighValue[selectedRange],
         Sum: 0,
       };
       let entries: EntryInstance[] = [];
@@ -62,7 +62,6 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
         default:
           entries = entryInstancesMap[date];
       }
-      console.log('===========startDate', startDate.format('YYYY-MM-DD'), '===========entries', entries);
 
       if (!entries?.length) return res;
       entries.forEach((entry) => {
@@ -83,18 +82,7 @@ const getChartDataAndAreasFromDaysAndEntriesDateMap = (
   const areas = [...allKeys.keys(), '_barLow', '_barHigh'].sort().map((entryTypeId: string) => {
     const entryType = entryTypesArray.find((item) => item.id === entryTypeId);
     const colorId = (entryType?.themeColors?.[0] ?? '') + (entryType?.themeColors?.[1] ?? '');
-    const [startColor, endColor] = entryType?.themeColors ?? [];
-    console.log(
-      '============startColor endColor colorId',
-      entryTypeId,
-      entryType,
-      startColor,
-      `#${startColor || '000000'}`,
-      '-',
-      endColor,
-      '-',
-      colorId,
-    );
+    const [startColor] = entryType?.themeColors ?? [];
 
     const props = {
       type: 'linear' as 'linear',
@@ -148,7 +136,6 @@ function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[]
   const [selectedRange, setSelectedRange] = useState<DateRange>('day');
   const { entryInstancesMap } = props;
   const entryTypesArray = useAppSelector(selectEntryTypesArray);
-
   const [dateRange, setDateRange] = useAtom(chartDateRangeAtom);
   const { chartData, areas } = getChartDataAndAreasFromDaysAndEntriesDateMap(
     dateRange,
@@ -156,7 +143,7 @@ function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[]
     selectedRange,
     entryTypesArray,
   );
-  const setSelectedChartDate = useSetAtom(selectedChartDateAtom);
+  const [selectedChartDate, setSelectedChartDate] = useAtom(selectedChartDateAtom);
   const handleChartClick = useCallback(
     (data: any) => {
       setSelectedChartDate(data?.activeLabel ?? null);
@@ -167,8 +154,53 @@ function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[]
     const dates = getEntryInstanceDateRange(entryInstancesMap, selectedRange);
     setDateRange(dates);
   }, [entryInstancesMap, selectedRange, setDateRange]);
-  console.log('==================chartData==', { chartData });
 
+  const { startIndex, endIndex } = useMemo(() => {
+    let startIndex = Math.max(chartData.length - 7, 0);
+    let endIndex = chartData.length - 1;
+    const selectedDateStr = selectedChartDate || dayjs().format('YYYY-MM-DD');
+
+    if ((chartData?.length || 0) < 8)
+      return {
+        startIndex,
+        endIndex,
+      };
+    switch (selectedRange) {
+      case 'week': {
+        const start = dayjs(selectedDateStr).startOf('week').format('YYYY-MM-DD');
+        const idx = chartData.findIndex(({ _date }) => _date === start);
+        if (idx === -1) break;
+        endIndex = idx;
+        startIndex = Math.max(endIndex - 4, 0);
+        endIndex = Math.min(startIndex + 4, chartData.length - 1);
+        break;
+      }
+      case 'month': {
+        const start = dayjs(selectedDateStr).startOf('month').format('YYYY-MM');
+        const idx = chartData.findIndex(({ _date }) => _date === start);
+        if (idx === -1) break;
+        endIndex = idx;
+        startIndex = Math.max(endIndex - 3, 0);
+        endIndex = Math.min(startIndex + 3, chartData.length - 1);
+        break;
+      }
+      case 'day':
+      default: {
+        const idx = chartData.findIndex(({ _date }) => _date === selectedDateStr);
+        if (idx === -1) break;
+        endIndex = idx;
+        startIndex = Math.max(endIndex - 7, 0);
+        endIndex = Math.min(startIndex + 7, chartData.length - 1);
+        break;
+      }
+    }
+    console.log('=======EntryChart======', { selectedDateStr, startIndex, endIndex, chartData });
+
+    return {
+      startIndex,
+      endIndex,
+    };
+  }, [chartData, selectedChartDate, selectedRange]);
   return (
     <div>
       <Segmented defaultValue={selectedRange} onChange={(value) => setSelectedRange(value as DateRange)} options={options} />
@@ -222,13 +254,7 @@ function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[]
               />
             )}
           />
-          <Brush
-            dataKey="date"
-            height={30}
-            startIndex={Math.max(chartData.length - 7, 0)}
-            endIndex={chartData.length - 1}
-            stroke="#8884d8"
-          />
+          <Brush dataKey="date" height={30} startIndex={startIndex} endIndex={endIndex} stroke="#8884d8" />
           <CartesianGrid strokeDasharray="3 3" />
           {areas}
         </AreaChart>

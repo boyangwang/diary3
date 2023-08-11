@@ -140,8 +140,9 @@ export const EntryTypeThemeColors = [
   ['6190E8', 'A7BFE8'],
 ];
 
-export const barLowValue = 8;
-export const barHighValue = 16;
+export type DateRange = 'day' | 'week' | 'month';
+export const barLowValue: { [key: string]: number } = { day: 8, week: 16, month: 32 };
+export const barHighValue: { [key: string]: number } = { day: 16, week: 32, month: 64 };
 export const barLowColor = '#990000';
 export const barHighColor = '#006600';
 export const isNumOrStrAndNotNaN = (a: any) => {

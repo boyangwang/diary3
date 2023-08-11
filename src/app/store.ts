@@ -42,7 +42,6 @@ export const selectLoginUser = (state: RootState) => state.loginUser;
 export const selectDateStr = (state: RootState) => state.uiState.app.dateStr;
 
 export const selectEntryTypeIds = createSelector(selectEntryTypesArray, (entryTypes) => {
-  console.log('================Memo selector: selectEntryTypeIds', entryTypes);
   return entryTypes.map((entryType) => entryType.id);
 });
 

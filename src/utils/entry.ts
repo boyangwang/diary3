@@ -1,5 +1,4 @@
-import { EntryInstance, EntryType, RoutineEnum } from '@/app/types-constants';
-import { DateRange } from '@/components/entry/EntryChart';
+import { DateRange, EntryInstance, EntryType, RoutineEnum } from '@/app/types-constants';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { getDaysFromDateToDateNow, getMonthsFromDateToDateNow, getWeeksFromDateToDateNow } from './date';
