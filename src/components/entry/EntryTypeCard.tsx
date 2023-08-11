@@ -9,7 +9,11 @@ import Button from '../button';
 import { CheckIcon } from '../icon/DiaryIcons';
 import EntryTypeCompletionForm from './EntryTypeCompletionForm';
 import { deleteEntryInstanceByEntryTypeId } from '@/app/entry-instances-slice';
-
+import Tooltip from '../tooltip';
+import { PiStepsDuotone } from 'react-icons/pi';
+import clsx from 'clsx';
+import Collapse from '../collapse';
+import { MdExpandMore } from 'react-icons/md';
 const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {
   const dispatch = useAppDispatch();
 
@@ -85,25 +89,39 @@ const EntryTypeCard = (props: EntryTypeCardProps) => {
       className={twMerge('relative flex flex-wrap items-center gap-3 rounded-lg px-4 py-2 text-white', className)}
       style={{ background: `linear-gradient(90deg, #${themeColors[0]} 0%, #${themeColors[1]} 100%)` }}
     >
-      {!isDone && (
-        <div className="flex w-10 items-center justify-center">
-          <CheckIcon className="text-xl opacity-0" />{' '}
-        </div>
-      )}
-      <div className="flex flex-col gap-2">
+      <div className="flex w-10 items-center justify-center">
+        <CheckIcon className="text-xl opacity-0" />
+      </div>
+      <div className="flex flex-grow flex-col gap-2">
         <div className="flex items-center gap-1.5 text-xl font-medium">
-          {title} <div className="rounded border border-white bg-white/25 p-1 font-DDin text-xs font-bold">{routine}</div>
+          {title}
+          <Tooltip placement="top" offsetX={8} title="routine">
+            <div className="rounded border border-white bg-white/25 p-1 font-DDin text-xs font-bold">{routine}</div>
+          </Tooltip>
+          {pointStep ? (
+            <Tooltip placement="top" offsetX={8} title="pointStep">
+              <div className="flex items-center gap-1 rounded border border-white bg-white/25 px-1 py-0.5 font-DDin text-sm font-bold">
+                <PiStepsDuotone className="text-base" />
+                {pointStep}
+              </div>
+            </Tooltip>
+          ) : null}
         </div>
-
-        <div>
-          {formatDate(createdAt)} - {formatDate(updatedAt)}
+        <div className="flex justify-between gap-1 text-left">
+          <div className="flex flex-col">
+            <p className="opacity-60">Create at</p>
+            <p>{formatDate(createdAt)} </p>
+          </div>
+          <div className="flex flex-col">
+            <p className="opacity-60">Update at</p>
+            <p>{formatDate(updatedAt)} </p>
+          </div>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-2 font-DDin font-bold">
-        <p>defaultPoints {defaultPoints} </p>
-        {pointStep ? <p>pointStep {pointStep}</p> : null}
-      </div>
-      {!isDone && <EntryTypeCompletionForm entryType={props.entryType} selectedDayStr={selectedDayStr} />}
+      <Tooltip placement="top" offsetX={8} title="defaultPoints">
+        <div className="flex flex-grow flex-col items-center gap-2 font-DDin text-3xl font-bold">{defaultPoints}</div>
+      </Tooltip>
+      <EntryTypeCompletionForm entryType={props.entryType} selectedDayStr={selectedDayStr} />
     </div>
   );
 };

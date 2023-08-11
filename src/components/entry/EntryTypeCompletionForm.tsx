@@ -49,7 +49,7 @@ function EntryTypeCompletionForm(props: { entryType: EntryType; selectedDayStr?:
     <form className="flex flex-wrap items-center gap-2" onSubmit={handleSubmit(onSubmit)}>
       <label className="flex flex-wrap items-center gap-2">
         Notes
-        <textarea className="h-12 border bg-transparent p-2" {...register('notes')} rows={3} />
+        <textarea className="h-12 border bg-transparent p-2" {...register('notes')} rows={2} />
       </label>
       <label className="flex flex-wrap items-center gap-2">
         Points
