@@ -39,7 +39,7 @@ export const Segmented = ({ options, defaultValue, onChange, className, id }: Se
             onClick={() => select(value)}
             key={value}
           >
-            {label}
+            {label ?? value}
             {isSelected(value) && (
               <motion.div layoutId={`segmented_selected_${id ?? 'default'}`} className="absolute inset-0 rounded bg-blue/10" />
             )}

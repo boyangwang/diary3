@@ -44,9 +44,15 @@ const EntryTypeCardEditButton = (props: { entryType: EntryType }) => {
     </Button>
   );
 };
-
-const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className?: string; selectedDayStr?: string }) => {
-  const { entryType, isEdit, className, selectedDayStr } = props;
+export type EntryTypeCardProps = {
+  entryType: EntryType;
+  isEdit: boolean;
+  className?: string;
+  selectedDayStr?: string;
+  isDone?: boolean;
+};
+const EntryTypeCard = (props: EntryTypeCardProps) => {
+  const { entryType, isEdit, className, selectedDayStr, isDone } = props;
   const { title, routine, themeColors, createdAt, updatedAt, pointStep, defaultPoints } = entryType;
   return isEdit ? (
     <div className={twMerge('flex justify-between gap-2 bg-white text-white', className)}>
@@ -79,9 +85,11 @@ const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className
       className={twMerge('relative flex flex-wrap items-center gap-3 rounded-lg px-4 py-2 text-white', className)}
       style={{ background: `linear-gradient(90deg, #${themeColors[0]} 0%, #${themeColors[1]} 100%)` }}
     >
-      <div className="flex w-10 items-center justify-center">
-        <CheckIcon className="text-xl opacity-0" />
-      </div>
+      {!isDone && (
+        <div className="flex w-10 items-center justify-center">
+          <CheckIcon className="text-xl opacity-0" />{' '}
+        </div>
+      )}
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-1.5 text-xl font-medium">
           {title} <div className="rounded border border-white bg-white/25 p-1 font-DDin text-xs font-bold">{routine}</div>
@@ -95,7 +103,7 @@ const EntryTypeCard = (props: { entryType: EntryType; isEdit: boolean; className
         <p>defaultPoints {defaultPoints} </p>
         {pointStep ? <p>pointStep {pointStep}</p> : null}
       </div>
-      <EntryTypeCompletionForm entryType={props.entryType} selectedDayStr={selectedDayStr} />
+      {!isDone && <EntryTypeCompletionForm entryType={props.entryType} selectedDayStr={selectedDayStr} />}
     </div>
   );
 };

@@ -232,3 +232,28 @@ export const getEntryInstanceDateRange = (entryInstancesMap: { [key: string]: En
       return getDaysFromDateToDateNow(earliestDay);
   }
 };
+
+// 获取累计这个type的总instance个数
+export const getEntryTypesTotalInstance = (entryInstancesMap: { [key: string]: EntryInstance[] }) => {
+  const entryTypeTotalInstance: { [key: string]: number } = {};
+  for (const key in entryInstancesMap) {
+    if (!entryInstancesMap?.[key]?.length) continue;
+    for (const { entryTypeId } of entryInstancesMap[key]) {
+      entryTypeTotalInstance?.[entryTypeId] ? entryTypeTotalInstance[entryTypeId]++ : (entryTypeTotalInstance[entryTypeId] = 1);
+    }
+  }
+  return entryTypeTotalInstance;
+};
+
+// 累计这个type的总instance个数排序 所有日子里所有instance都算上 越多说明越常用
+export const sortEntryTypesArray = (entryTypeArray: EntryType[], entryInstancesMap: { [key: string]: EntryInstance[] }) => {
+  const entryTypeTotalInstance = getEntryTypesTotalInstance(entryInstancesMap);
+  entryTypeArray.sort((a, b) => {
+    const sumA = entryTypeTotalInstance?.[a.id] ?? 0;
+    const sumB = entryTypeTotalInstance?.[b.id] ?? 0;
+    if (sumA > sumB) return -1;
+    else return 1;
+  });
+  console.log({ entryTypeTotalInstance, entryTypeArray, entryInstancesMap });
+  return entryTypeArray;
+};
