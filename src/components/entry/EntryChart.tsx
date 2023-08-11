@@ -17,7 +17,8 @@ import {
 } from '../../app/types-constants';
 import Segmented from '../segmented';
 import EntryChartTooltip, { TooltipPayload } from './EntryChartTooltip';
-
+import { HiOutlineRefresh } from 'react-icons/hi';
+import { motion } from 'framer-motion';
 const options = [
   { label: 'By Day', value: 'day' },
   { label: 'By Week', value: 'week' },
@@ -203,7 +204,18 @@ function EntryChart(props: { entryInstancesMap: { [key: string]: EntryInstance[]
   }, [chartData, selectedChartDate, selectedRange]);
   return (
     <div>
-      <Segmented defaultValue={selectedRange} onChange={(value) => setSelectedRange(value as DateRange)} options={options} />
+      <div className="flex justify-between gap-2">
+        <Segmented defaultValue={selectedRange} onChange={(value) => setSelectedRange(value as DateRange)} options={options} />
+        <motion.div
+          transition={{ type: 'spring', stiffness: 300 }}
+          whileTap={{ scale: 1.1 }}
+          whileHover={{ scale: 1.1 }}
+          className="cursor-pointer rounded-full bg-blue/10 p-2 text-blue"
+          onClick={() => setSelectedChartDate(dayjs().format('YYYY-MM-DD'))}
+        >
+          <HiOutlineRefresh className="h-6 w-6" />
+        </motion.div>
+      </div>
       <ResponsiveContainer width="95%" height={480}>
         <AreaChart onClick={handleChartClick} data={chartData} margin={{ top: 12, right: 16, left: -20, bottom: 12 }}>
           <defs>
