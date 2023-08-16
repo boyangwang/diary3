@@ -66,6 +66,7 @@ const EntryInstanceForm = ({ entryInstance }: { entryInstance: EntryInstance }) 
         Update
       </Button>
       <Button
+        htmlType="button"
         type="primary"
         danger
         onClick={() => {
