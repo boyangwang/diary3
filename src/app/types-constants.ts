@@ -197,3 +197,10 @@ export const getDatePeriods = (type: RoutineEnum, cycle = 7) => {
   }
   return periods;
 };
+
+export enum ReminderType {
+  weekly = 'Weekly',
+  monthly = 'Monthly',
+  annual = 'Annual',
+  since = 'Since',
+}

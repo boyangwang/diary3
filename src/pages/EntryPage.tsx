@@ -31,9 +31,9 @@ export default function EntryPage() {
     <div className="flex h-full flex-col gap-4 overflow-auto px-4 py-6 text-center">
       <HeaderDatetime />
       <EntryProgressBar points={selectedTotalPoints} />
-      <div className="mt-4 flex items-center justify-center pt-2 text-xl font-semibold">
+      <h2 className="mt-4 flex items-center justify-center pt-2 text-xl font-semibold">
         Selected Date {formatDate(selectedDay)}
-      </div>
+      </h2>
       <EntryChart entryInstancesMap={entryInstancesMap} />
       <EntryInstanceList entryInstancesArray={entryInstancesArray} />
       <EntryTypeListForCompletion selectedDateStr={selectedDay} />
