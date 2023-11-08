@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+
 export interface EntryInstance {
-  id: string; // timesstamp + random number
+  id: string; // timestamp + random number
   entryTypeId: string;
 
   createdAt: number;
@@ -204,3 +205,29 @@ export enum ReminderType {
   annual = 'Annual',
   since = 'Since',
 }
+
+export type ReminderRecord = {
+  id: string;
+  title: string;
+  content?: string;
+  type: ReminderType;
+
+  createdAt: number;
+  updatedAt: number;
+};
+export const ReminderConstructor = ({
+  title = '',
+  content,
+  type = ReminderType.weekly,
+}: Partial<ReminderRecord>): ReminderRecord => {
+  const now = dayjs();
+  const uniqueId = `${now.toISOString()}_${Math.random().toString(36).substring(2, 9)}`;
+  return {
+    id: uniqueId,
+    title,
+    type,
+    content,
+    updatedAt: now.valueOf(),
+    createdAt: now.valueOf(),
+  };
+};
