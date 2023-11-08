@@ -9,6 +9,8 @@ export interface UIState {
   addPage: {
     isEntryTypeUpdating: boolean;
     updatingEntryTypeId: string | null;
+
+    updatingReminderId: string | null;
   };
   reminderPage: {};
   settingsPage: {};
@@ -21,6 +23,7 @@ const initialState: UIState = {
   addPage: {
     isEntryTypeUpdating: false,
     updatingEntryTypeId: null,
+    updatingReminderId: null,
   },
   reminderPage: {},
   settingsPage: {},
@@ -37,11 +40,17 @@ export const uiStateSlice = createSlice({
       state.addPage.isEntryTypeUpdating = true;
       state.addPage.updatingEntryTypeId = action.payload.entryTypeId;
     },
+    enterReminderEdit(state, action: PayloadAction<{ reminderId: string }>) {
+      state.addPage.updatingReminderId = action.payload.reminderId;
+    },
     exitEntryTypeEdit(state) {
       state.addPage.isEntryTypeUpdating = false;
       state.addPage.updatingEntryTypeId = null;
     },
+    exitReminderEdit(state) {
+      state.addPage.updatingReminderId = null;
+    },
   },
 });
 
-export const { initDateStr, enterEntryTypeEdit, exitEntryTypeEdit } = uiStateSlice.actions;
+export const { initDateStr, enterEntryTypeEdit, enterReminderEdit, exitEntryTypeEdit, exitReminderEdit } = uiStateSlice.actions;

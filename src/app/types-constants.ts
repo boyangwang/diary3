@@ -211,14 +211,22 @@ export type ReminderRecord = {
   title: string;
   content?: string;
   type: ReminderType;
+  // ReminderPushConfig;
+  weekDay?: number; // ReminderType.weekly 0~6 星期里的第几天
+  monthDay?: number; // ReminderType.monthly 月份里的几号 0～31
+  month?: number; // ReminderType.annual 年里的第几月进行提醒 0～11
+  startTime?: number; // ReminderType.since 从什么时候开始记录
 
   createdAt: number;
   updatedAt: number;
 };
 export const ReminderConstructor = ({
+  id,
   title = '',
-  content,
   type = ReminderType.weekly,
+  createdAt,
+  updatedAt,
+  ...rest
 }: Partial<ReminderRecord>): ReminderRecord => {
   const now = dayjs();
   const uniqueId = `${now.toISOString()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -226,8 +234,8 @@ export const ReminderConstructor = ({
     id: uniqueId,
     title,
     type,
-    content,
-    updatedAt: now.valueOf(),
-    createdAt: now.valueOf(),
+    ...rest,
+    updatedAt: createdAt ?? now.valueOf(),
+    createdAt: updatedAt ?? now.valueOf(),
   };
 };
