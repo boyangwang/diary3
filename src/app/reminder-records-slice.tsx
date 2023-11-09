@@ -21,6 +21,7 @@ export const reminderRecordsSlice = createSlice({
       const indexToUpdate = state.reminderRecords.findIndex((reminder) => reminder.id === action.payload.id);
       // update this index in state.reminderRecords
       state.reminderRecords[indexToUpdate] = action.payload;
+      toast.success(`Update ${action.payload.title} successfully`);
     },
     deleteReminder: (state, action: PayloadAction<string>) => {
       const indexToDelete = state.reminderRecords.findIndex((reminder) => reminder.id === action.payload);

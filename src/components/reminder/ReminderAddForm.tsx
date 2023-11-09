@@ -1,4 +1,4 @@
-import { createReminder } from '@/app/reminder-records-slice';
+import { createReminder, updateReminder } from '@/app/reminder-records-slice';
 import { selectReminderRecordArray, useAppDispatch, useAppSelector } from '@/app/store';
 import { ReminderConstructor, ReminderRecord, ReminderType } from '@/app/types-constants';
 import { exitReminderEdit } from '@/app/ui-slice';
@@ -62,11 +62,27 @@ export default function ReminderAddForm() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const submitData: ReminderRecord = ReminderConstructor({
       ...data,
+      id: updatingReminderId ?? undefined,
       weekDay: data?.type === ReminderType.weekly ? weekOpt : undefined,
       monthDay: data?.type === ReminderType.monthly ? monthDayOpt : undefined,
     });
-    dispatch(createReminder(submitData));
+    if (!updatingReminderId) {
+      dispatch(createReminder(submitData));
+    } else {
+      dispatch(updateReminder(submitData));
+    }
   }
+  const { startDate, recurrenceRule } = useMemo(() => {
+    // https://icalendar.org/rrule-tool.html
+    // https://add-to-calendar-button.com/examples#case-4
+    const type = form.getValues('type');
+    if (type === ReminderType.weekly)
+      return {
+        startDate: dayjs().day(weekOpt).format('YYYY-MM-DD'),
+        recurrenceRule: `RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=${dayjs().day(weekOpt).format('dd').toUpperCase()}`,
+      };
+    return {};
+  }, [form, weekOpt]);
 
   const renderPushConfig = useCallback(() => {
     const type = form.getValues('type');
@@ -167,7 +183,7 @@ export default function ReminderAddForm() {
               <FormItem>
                 <FormLabel>Type</FormLabel>
                 <FormControl>
-                  <Segmented className="bg-background" options={options} {...field} />
+                  <Segmented className="bg-background" options={options} value={field.value} onChange={field.onChange} />
                 </FormControl>
               </FormItem>
             )}
@@ -183,23 +199,21 @@ export default function ReminderAddForm() {
           <Button type="primary" size="large" className="rounded-full" htmlType="submit">
             {updatingReminderId !== null ? 'Update' : 'Submit'}
           </Button>
-          <AddToCalendarButton
-            name={form.getValues('title')}
-            description={form.getValues('content')}
-            startDate="2023-11-9"
-            endDate="2023-11-9"
-            startTime="10:15"
-            endTime="23:30"
-            recurrence="weekly"
-            recurrence_interval={1}
-            // recurrence_byDay="MO"
-            // recurrence_byMonth="1,2,3,4"
-            // recurrence_byMonthDay="4,5"
-            buttonStyle="round"
-            options={['Apple', 'Google', 'iCal', 'Microsoft365', 'MicrosoftTeams', 'Outlook.com', 'Yahoo']}
-            hideCheckmark
-            size="5"
-          />
+          {startDate && (
+            <AddToCalendarButton
+              name={form.getValues('title')}
+              description={form.getValues('content')}
+              recurrence={recurrenceRule}
+              startDate={startDate}
+              endDate={startDate}
+              startTime="12:00"
+              endTime="12:15"
+              buttonStyle="round"
+              options={['Apple', 'Google', 'iCal', 'Microsoft365', 'MicrosoftTeams', 'Outlook.com', 'Yahoo']}
+              hideCheckmark
+              size="5"
+            />
+          )}
         </div>
       </form>
     </FormProvider>

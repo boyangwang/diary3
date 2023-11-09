@@ -232,7 +232,7 @@ export const ReminderConstructor = ({
   const now = dayjs();
   const uniqueId = `${now.toISOString()}_${Math.random().toString(36).substring(2, 9)}`;
   return {
-    id: uniqueId,
+    id: id ?? uniqueId,
     title,
     type,
     ...rest,
