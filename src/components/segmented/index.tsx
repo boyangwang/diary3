@@ -13,11 +13,20 @@ type SegmentedProps = {
   defaultValue?: string | number;
   value?: string | number; // Optional controlled value
   onChange?: (value: string | number) => void;
-  className?: string;
   id?: string;
+  className?: string;
+  optionClass?: string;
 };
 
-export const Segmented = ({ options, defaultValue, value: controlledValue, onChange, className, id }: SegmentedProps) => {
+export const Segmented = ({
+  options,
+  defaultValue,
+  value: controlledValue,
+  onChange,
+  id,
+  className,
+  optionClass,
+}: SegmentedProps) => {
   const [internalValue, setInternalValue] = useState(() => defaultValue || options[0]?.value || '');
 
   // Effect to update internal state when defaultValue changes
@@ -54,9 +63,13 @@ export const Segmented = ({ options, defaultValue, value: controlledValue, onCha
         const { label, value: optionValue } = option;
         return (
           <div
-            className={clsx('relative px-3 py-1 first:rounded-l-lg last:rounded-r-lg', {
-              'text-blue': isSelected(optionValue),
-            })}
+            className={clsx(
+              'relative px-3 py-1 first:rounded-l-lg last:rounded-r-lg',
+              {
+                'text-blue': isSelected(optionValue),
+              },
+              optionClass,
+            )}
             onClick={() => select(optionValue)}
             key={optionValue}
           >

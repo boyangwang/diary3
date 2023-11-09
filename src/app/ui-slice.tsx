@@ -48,6 +48,7 @@ export const uiStateSlice = createSlice({
       state.addPage.updatingEntryTypeId = null;
     },
     exitReminderEdit(state) {
+      console.log('exit', state);
       state.addPage.updatingReminderId = null;
     },
   },

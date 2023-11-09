@@ -10,7 +10,7 @@
     "editor.codeActionsOnSave": {
       "source.fixAll": true
     },
-    "cSpell.words": ["beforeunload", "craco", "Datetime", "reduxjs", "toastify"],
+    "cSpell.words": ["beforeunload", "craco", "Datetime", "hookform", "reduxjs", "toastify"],
     "css.lint.unknownAtRules": "ignore"
   }
 }
