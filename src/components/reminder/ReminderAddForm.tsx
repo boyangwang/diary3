@@ -31,6 +31,7 @@ const options = [
 export default function ReminderAddForm() {
   const [weekOpt, setWeekOpt] = useState<number>(0);
   const [monthDayOpt, setMonthDayOpt] = useState<number>(0);
+  const [yearMonthOpt, setYearMonthOpt] = useState<number>(0);
   const dispatch = useAppDispatch();
   const updatingReminderId = useAppSelector((state) => state.uiState.addPage.updatingReminderId);
   const reminderRecords = useAppSelector(selectReminderRecordArray);
@@ -57,6 +58,7 @@ export default function ReminderAddForm() {
     else form.setValue('isSendReminderEmail', false);
     setWeekOpt(updatingReminder?.weekDay ?? 0);
     setMonthDayOpt(updatingReminder?.monthDay ?? 0);
+    setYearMonthOpt(updatingReminder?.month ?? 0);
   }, [form, updatingReminder, updatingReminderId]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -65,7 +67,11 @@ export default function ReminderAddForm() {
       id: updatingReminderId ?? undefined,
       weekDay: data?.type === ReminderType.weekly ? weekOpt : undefined,
       monthDay: data?.type === ReminderType.monthly ? monthDayOpt : undefined,
+      month: data?.type === ReminderType.annual ? yearMonthOpt : undefined,
     });
+
+    console.log('submit:', submitData);
+
     if (!updatingReminderId) {
       dispatch(createReminder(submitData));
     } else {
@@ -81,8 +87,22 @@ export default function ReminderAddForm() {
         startDate: dayjs().day(weekOpt).format('YYYY-MM-DD'),
         recurrenceRule: `RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=${dayjs().day(weekOpt).format('dd').toUpperCase()}`,
       };
+    if (type === ReminderType.monthly)
+      return {
+        startDate: dayjs()
+          .date(monthDayOpt + 1)
+          .format('YYYY-MM-DD'),
+        recurrenceRule: `RRULE:FREQ=MONTHLY;INTERVAL=1;BYMONTHDAY=${monthDayOpt + 1}`,
+      };
+    if (type === ReminderType.annual)
+      return {
+        startDate: dayjs().month(yearMonthOpt).format('YYYY-MM-DD'),
+        recurrenceRule: `RRULE:FREQ=YEARLY;INTERVAL=1;BYMONTH=${yearMonthOpt + 1};BYDAY=1MO`,
+      };
     return {};
-  }, [form, weekOpt]);
+  }, [form, monthDayOpt, weekOpt, yearMonthOpt]);
+
+  console.log({ startDate, recurrenceRule });
 
   const renderPushConfig = useCallback(() => {
     const type = form.getValues('type');
@@ -94,6 +114,11 @@ export default function ReminderAddForm() {
       label: (value + 1).toString(),
       value,
     }));
+    const yearMonthOpts = _.range(0, 12).map((value) => ({
+      label: dayjs().month(value).format('MMM'),
+      value,
+    }));
+
     return (
       <>
         {type === ReminderType.weekly && (
@@ -117,13 +142,29 @@ export default function ReminderAddForm() {
             <FormLabel>Month Day</FormLabel>
             <FormControl>
               <Segmented
-                className="flex-wrap bg-background"
-                optionClass="w-10"
+                className="grid grid-cols-7 bg-background text-center"
+                optionClass="w-16"
                 value={monthDayOpt}
                 onChange={(value) => {
                   setMonthDayOpt(value as number);
                 }}
                 options={monthDayOpts}
+              />
+            </FormControl>
+          </FormItem>
+        )}
+        {type === ReminderType.annual && (
+          <FormItem>
+            <FormLabel>Yearly (Select Month)</FormLabel>
+            <FormControl>
+              <Segmented
+                className="grid grid-cols-7 bg-background text-center"
+                optionClass="w-16"
+                value={yearMonthOpt}
+                onChange={(value) => {
+                  setYearMonthOpt(value as number);
+                }}
+                options={yearMonthOpts}
               />
             </FormControl>
           </FormItem>
@@ -142,7 +183,7 @@ export default function ReminderAddForm() {
         />
       </>
     );
-  }, [form, monthDayOpt, weekOpt]);
+  }, [form, monthDayOpt, weekOpt, yearMonthOpt]);
 
   return (
     <FormProvider {...form}>
@@ -205,7 +246,6 @@ export default function ReminderAddForm() {
               description={form.getValues('content')}
               recurrence={recurrenceRule}
               startDate={startDate}
-              endDate={startDate}
               startTime="12:00"
               endTime="12:15"
               buttonStyle="round"

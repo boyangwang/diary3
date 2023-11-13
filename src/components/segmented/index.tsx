@@ -6,6 +6,7 @@ import { twMerge } from 'tailwind-merge';
 export type OptionType = {
   label?: string;
   value: string | number;
+  disabled?: boolean;
 } | null;
 
 type SegmentedProps = {
@@ -60,7 +61,7 @@ export const Segmented = ({
     <div className={twMerge('flex w-fit cursor-pointer items-center rounded-md p-1 text-xs font-semibold', className)}>
       {options.map((option) => {
         if (!option) return null;
-        const { label, value: optionValue } = option;
+        const { label, value: optionValue, disabled } = option;
         return (
           <div
             className={clsx(
@@ -68,9 +69,10 @@ export const Segmented = ({
               {
                 'text-blue': isSelected(optionValue),
               },
+              { 'text-gray-400': disabled },
               optionClass,
             )}
-            onClick={() => select(optionValue)}
+            onClick={() => !disabled && select(optionValue)}
             key={optionValue}
           >
             {label ?? optionValue}
