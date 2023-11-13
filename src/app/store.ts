@@ -6,6 +6,7 @@ import { entryTypesSlice } from './entry-types-slice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { uiStateSlice } from './ui-slice';
 import { entryInstancesSlice } from './entry-instances-slice';
+import { reminderRecordsSlice } from './reminder-records-slice';
 
 const persistConfig = {
   key: 'diary',
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   loginUser: loginUserSlice.reducer,
   entryTypes: entryTypesSlice.reducer,
   entryInstances: entryInstancesSlice.reducer,
+  reminderRecords: reminderRecordsSlice.reducer,
   uiState: uiStateSlice.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -38,6 +40,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const selectEntryTypesArray = (state: RootState) => state.entryTypes.entryTypesArray;
 export const selectEntryInstancesMap = (state: RootState) => state.entryInstances.entryInstancesMap;
+export const selectReminderRecordArray = (state: RootState) => state.reminderRecords.reminderRecords;
 export const selectLoginUser = (state: RootState) => state.loginUser;
 export const selectDateStr = (state: RootState) => state.uiState.app.dateStr;
 

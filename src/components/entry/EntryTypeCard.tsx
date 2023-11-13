@@ -1,5 +1,7 @@
+import { deleteEntryInstanceByEntryTypeId } from '@/app/entry-instances-slice';
 import { formatDate } from '@/utils/date';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
+import { PiStepsDuotone } from 'react-icons/pi';
 import { twMerge } from 'tailwind-merge';
 import { deleteEntryType } from '../../app/entry-types-slice';
 import { useAppDispatch } from '../../app/store';
@@ -7,13 +9,8 @@ import { EntryType } from '../../app/types-constants';
 import { enterEntryTypeEdit } from '../../app/ui-slice';
 import Button from '../button';
 import { CheckIcon } from '../icon/DiaryIcons';
-import EntryTypeCompletionForm from './EntryTypeCompletionForm';
-import { deleteEntryInstanceByEntryTypeId } from '@/app/entry-instances-slice';
 import Tooltip from '../tooltip';
-import { PiStepsDuotone } from 'react-icons/pi';
-import clsx from 'clsx';
-import Collapse from '../collapse';
-import { MdExpandMore } from 'react-icons/md';
+import EntryTypeCompletionForm from './EntryTypeCompletionForm';
 const EntryTypeCardDeleteButton = (props: { entryType: EntryType }) => {
   const dispatch = useAppDispatch();
 

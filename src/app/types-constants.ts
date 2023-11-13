@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+
 export interface EntryInstance {
-  id: string; // timesstamp + random number
+  id: string; // timestamp + random number
   entryTypeId: string;
 
   createdAt: number;
@@ -196,4 +197,46 @@ export const getDatePeriods = (type: RoutineEnum, cycle = 7) => {
     periods.unshift({ start, end });
   }
   return periods;
+};
+
+export enum ReminderType {
+  weekly = 'Weekly',
+  monthly = 'Monthly',
+  annual = 'Annual',
+  since = 'Since',
+}
+
+export type ReminderRecord = {
+  id: string;
+  title: string;
+  content?: string;
+  type: ReminderType;
+  // ReminderPushConfig;
+  weekDay?: number; // ReminderType.weekly 0~6 星期里的第几天
+  monthDay?: number; // ReminderType.monthly 月份里的几号 0～31
+  month?: number; // ReminderType.annual 年里的第几月进行提醒 0～11
+  sinceStartTime?: number; // ReminderType.since 从什么时候开始记录
+  isSendReminderEmail?: boolean;
+
+  createdAt: number;
+  updatedAt: number;
+};
+export const ReminderConstructor = ({
+  id,
+  title = '',
+  type = ReminderType.weekly,
+  createdAt,
+  updatedAt,
+  ...rest
+}: Partial<ReminderRecord>): ReminderRecord => {
+  const now = dayjs();
+  const uniqueId = `${now.toISOString()}_${Math.random().toString(36).substring(2, 9)}`;
+  return {
+    id: id ?? uniqueId,
+    title,
+    type,
+    ...rest,
+    updatedAt: createdAt ?? now.valueOf(),
+    createdAt: updatedAt ?? now.valueOf(),
+  };
 };

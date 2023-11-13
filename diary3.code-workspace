@@ -9,6 +9,20 @@
     "eslint.validate": ["typescript", "typescriptreact"],
     "editor.codeActionsOnSave": {
       "source.fixAll": true
-    }
+    },
+    "cSpell.words": [
+      "beforeunload",
+      "craco",
+      "Datetime",
+      "hookform",
+      "reduxjs",
+      "toastify",
+      "BYDAY",
+      "BYMONTH",
+      "BYMONTHDAY",
+      "hookform",
+      "RRULE"
+    ],
+    "css.lint.unknownAtRules": "ignore"
   }
 }
