@@ -215,7 +215,7 @@ export type ReminderRecord = {
   weekDay?: number; // ReminderType.weekly 0~6 星期里的第几天
   monthDay?: number; // ReminderType.monthly 月份里的几号 0～31
   month?: number; // ReminderType.annual 年里的第几月进行提醒 0～11
-  startTime?: number; // ReminderType.since 从什么时候开始记录
+  sinceStartTime?: number; // ReminderType.since 从什么时候开始记录
   isSendReminderEmail?: boolean;
 
   createdAt: number;

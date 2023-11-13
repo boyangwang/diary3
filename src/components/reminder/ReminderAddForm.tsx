@@ -2,24 +2,29 @@ import { createReminder, updateReminder } from '@/app/reminder-records-slice';
 import { selectReminderRecordArray, useAppDispatch, useAppSelector } from '@/app/store';
 import { ReminderConstructor, ReminderRecord, ReminderType } from '@/app/types-constants';
 import { exitReminderEdit } from '@/app/ui-slice';
+import { cn } from '@/utils';
+import { formatDate } from '@/utils/date';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddToCalendarButton } from 'add-to-calendar-button-react';
 import dayjs from 'dayjs';
 import _ from 'lodash-es';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { AiFillCalendar } from 'react-icons/ai';
 import { z } from 'zod';
 import Button from '../button';
 import Segmented from '../segmented';
+import { Calendar } from '../ui/calendar';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Switch } from '../ui/switch';
 
 const FormSchema = z.object({
   title: z.string().trim().min(1, { message: 'This field cannot be empty. Please fill it in.' }),
   content: z.string().optional(),
-  type: z.nativeEnum(ReminderType), // ReminderType
   isSendReminderEmail: z.boolean().optional(),
+  sinceStartTime: z.date().optional(),
 });
 
 const options = [
@@ -29,6 +34,8 @@ const options = [
   { value: ReminderType.since },
 ];
 export default function ReminderAddForm() {
+  const [type, setType] = useState<ReminderType>(ReminderType.weekly);
+
   const [weekOpt, setWeekOpt] = useState<number>(0);
   const [monthDayOpt, setMonthDayOpt] = useState<number>(0);
   const [yearMonthOpt, setYearMonthOpt] = useState<number>(0);
@@ -42,32 +49,38 @@ export default function ReminderAddForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      title: updatingReminder?.title ?? '',
-      content: updatingReminder?.content ?? '',
-      type: updatingReminder?.type ?? ReminderType.weekly,
-      isSendReminderEmail: updatingReminder?.isSendReminderEmail ?? false,
+      title: '',
+      content: '',
+      isSendReminderEmail: false,
+      sinceStartTime: new Date(),
     },
   });
 
   useEffect(() => {
-    if (!updatingReminderId || !updatingReminder) return;
+    if (!updatingReminderId || !updatingReminder) {
+      form.reset();
+      return;
+    }
     form.setValue('title', updatingReminder?.title ?? '');
     form.setValue('content', updatingReminder?.content);
-    form.setValue('type', updatingReminder?.type ?? ReminderType.weekly);
+    form.setValue('sinceStartTime', updatingReminder?.sinceStartTime ? new Date(updatingReminder.sinceStartTime) : undefined);
     if (updatingReminder?.isSendReminderEmail) form.setValue('isSendReminderEmail', true);
     else form.setValue('isSendReminderEmail', false);
     setWeekOpt(updatingReminder?.weekDay ?? 0);
     setMonthDayOpt(updatingReminder?.monthDay ?? 0);
     setYearMonthOpt(updatingReminder?.month ?? 0);
+    setType(updatingReminder?.type ?? ReminderType.weekly);
   }, [form, updatingReminder, updatingReminderId]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const submitData: ReminderRecord = ReminderConstructor({
       ...data,
       id: updatingReminderId ?? undefined,
-      weekDay: data?.type === ReminderType.weekly ? weekOpt : undefined,
-      monthDay: data?.type === ReminderType.monthly ? monthDayOpt : undefined,
-      month: data?.type === ReminderType.annual ? yearMonthOpt : undefined,
+      type,
+      weekDay: type === ReminderType.weekly ? weekOpt : undefined,
+      monthDay: type === ReminderType.monthly ? monthDayOpt : undefined,
+      month: type === ReminderType.annual ? yearMonthOpt : undefined,
+      sinceStartTime: type === ReminderType.since ? data?.sinceStartTime?.valueOf() : undefined,
     });
 
     console.log('submit:', submitData);
@@ -78,10 +91,10 @@ export default function ReminderAddForm() {
       dispatch(updateReminder(submitData));
     }
   }
+
   const { startDate, recurrenceRule } = useMemo(() => {
     // https://icalendar.org/rrule-tool.html
     // https://add-to-calendar-button.com/examples#case-4
-    const type = form.getValues('type');
     if (type === ReminderType.weekly)
       return {
         startDate: dayjs().day(weekOpt).format('YYYY-MM-DD'),
@@ -100,12 +113,11 @@ export default function ReminderAddForm() {
         recurrenceRule: `RRULE:FREQ=YEARLY;INTERVAL=1;BYMONTH=${yearMonthOpt + 1};BYDAY=1MO`,
       };
     return {};
-  }, [form, monthDayOpt, weekOpt, yearMonthOpt]);
+  }, [monthDayOpt, type, weekOpt, yearMonthOpt]);
 
   console.log({ startDate, recurrenceRule });
 
   const renderPushConfig = useCallback(() => {
-    const type = form.getValues('type');
     const weekOpts = _.range(0, 7).map((value) => ({
       label: dayjs().day(value).format('ddd'),
       value,
@@ -134,7 +146,7 @@ export default function ReminderAddForm() {
                 options={weekOpts}
               />
             </FormControl>
-            <FormDescription>Defaults to 10am + 8pm, 15 minute reminder events</FormDescription>
+            <FormDescription>Defaults to 8pm, 15 minute reminder events</FormDescription>
           </FormItem>
         )}
         {type === ReminderType.monthly && (
@@ -169,21 +181,62 @@ export default function ReminderAddForm() {
             </FormControl>
           </FormItem>
         )}
-        <FormField
-          control={form.control}
-          name="isSendReminderEmail"
-          render={({ field }) => (
-            <FormItem className="mt-2 flex flex-col">
-              <FormLabel className="leading-5">Send Reminder Email</FormLabel>
-              <FormControl className="mt-2">
-                <Switch disabled checked={field.value} onCheckedChange={field.onChange} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        {type === ReminderType.since && (
+          <FormField
+            control={form.control}
+            name="sinceStartTime"
+            render={({ field }) => (
+              <FormItem className="mt-2 flex flex-col">
+                <FormLabel>Date of Since Reminder</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        htmlType="button"
+                        className={cn(
+                          'flex w-[240px] items-center justify-between rounded-lg',
+                          !field.value && 'text-muted-foreground',
+                        )}
+                      >
+                        {field.value ? formatDate(field.value) : <span>Pick a date</span>}
+                        <AiFillCalendar className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      required
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) => date < new Date('1900-01-01')}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormDescription>Recording from that time.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {type !== ReminderType.since && (
+          <FormField
+            control={form.control}
+            name="isSendReminderEmail"
+            render={({ field }) => (
+              <FormItem className="mt-2 flex flex-col">
+                <FormLabel className="leading-5">Send Reminder Email</FormLabel>
+                <FormControl className="mt-2">
+                  <Switch checked={field.value} onCheckedChange={field.onChange} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        )}
       </>
     );
-  }, [form, monthDayOpt, weekOpt, yearMonthOpt]);
+  }, [form.control, monthDayOpt, type, weekOpt, yearMonthOpt]);
 
   return (
     <FormProvider {...form}>
@@ -217,18 +270,19 @@ export default function ReminderAddForm() {
           )}
         />
         <div className="flex flex-wrap items-start gap-4">
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Type</FormLabel>
-                <FormControl>
-                  <Segmented className="bg-background" options={options} value={field.value} onChange={field.onChange} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+          <FormItem>
+            <FormLabel>Type</FormLabel>
+            <FormControl>
+              <Segmented
+                className="bg-background"
+                options={options}
+                value={type}
+                onChange={(value) => {
+                  setType(value as ReminderType);
+                }}
+              />
+            </FormControl>
+          </FormItem>
           {renderPushConfig()}
         </div>
         <div className="mt-2 flex items-center justify-center gap-2">
