@@ -1,7 +1,7 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export interface EntryInstance {
-  id: string; // timesstamp + random number
+  id: string; // timestamp + random number
   entryTypeId: string;
 
   createdAt: number;
@@ -24,7 +24,6 @@ export interface EntryType {
 
   defaultPoints: number;
   pointStep: number;
-
   // when not completed in a cycle, deduct default points
   routine: RoutineEnum;
 
@@ -32,6 +31,13 @@ export interface EntryType {
   updatedAt: number;
 
   themeColors: string[];
+}
+
+export enum StreakStatus {
+  UNCREATED = 'uncreated',
+  INCOMPLETE = 'incomplete',
+  COMPLETED = 'completed',
+  WARNING = 'warning', // 本周期还未完成 快失败了
 }
 
 export const EntryTypeConstructor = ({
@@ -42,7 +48,7 @@ export const EntryTypeConstructor = ({
   routine = RoutineEnum.adhoc,
   themeColors = ['#000000'],
 }) => {
-  const now = +new Date();
+  const now = Number(new Date());
   return {
     updatedAt: now,
     createdAt: now,
@@ -52,7 +58,7 @@ export const EntryTypeConstructor = ({
     pointStep,
     routine,
     themeColors,
-  } as EntryType;
+  } satisfies EntryType;
 };
 
 export type Year = number;
@@ -90,7 +96,11 @@ export type Day =
   | 29
   | 30
   | 31;
-export type DiaryDate = { year: Year; month: Month; day: Day };
+export interface DiaryDate {
+  year: Year;
+  month: Month;
+  day: Day;
+}
 
 export interface EntryDay extends DiaryDate {
   entryInstanceIds: string[];
@@ -109,82 +119,36 @@ export const EntryTypeThemeColors = [
   ['09BDA0', '3E90FF'],
   ['3592FF', '6865FF'],
   ['6865FF', '9E3EEF'],
+
+  ['FDEB71', 'F8D800'],
+  ['ABDCFF', '0396FF'],
+  ['FEB692', 'EA5455'],
+  ['CE9FFC', '7367F0'],
+
+  ['90F7EC', '32CCBC'],
+  ['FFF6B7', 'F6416C'],
+  ['81FBB8', '28C76F'],
+  ['E2B0FF', '9F44D3'],
+
+  ['5EFCE8', '736EFE'],
+  ['FAD7A1', 'E96D71'],
+  ['FEC163', 'DE4313'],
+  ['FFF886', 'F072B6'],
+
+  ['FFF720', '3CD500'],
+  ['FDD819', 'E80505'],
+  ['FFDDE1', 'EE9CA7'],
+  ['6190E8', 'A7BFE8'],
 ];
 
-export const barLowValue = 8;
-export const barHighValue = 16;
+export type DateRange = 'day' | 'week' | 'month';
+export const barLowValue: { [key: string]: number } = { day: 8, week: 16, month: 32 };
+export const barHighValue: { [key: string]: number } = { day: 16, week: 32, month: 64 };
 export const barLowColor = '#990000';
 export const barHighColor = '#006600';
-export const chartColorPanel = [
-  'rgba(242,122,119,1)',
-  'rgba(119,242,122,1)',
-  'rgba(122,119,242,1)',
-  'rgba(249,145,87,1)',
-  'rgba(249,87,145,1)',
-  'rgba(145,249,87,1)',
-  'rgba(145,87,249,1)',
-  'rgba(87,249,145,1)',
-  'rgba(87,145,249,1)',
-  'rgba(240,192,96,1)',
-  'rgba(240,96,192,1)',
-  'rgba(192,240,96,1)',
-  'rgba(192,96,240,1)',
-  'rgba(96,240,192,1)',
-  'rgba(96,192,240,1)',
-  'rgba(144,192,144,1)',
-  'rgba(144,144,192,1)',
-  'rgba(192,144,144,1)',
-  'rgba(96,192,192,1)',
-  'rgba(192,96,192,1)',
-  'rgba(192,192,96,1)',
-  'rgba(96,144,192,1)',
-  'rgba(96,192,144,1)',
-  'rgba(144,96,192,1)',
-  'rgba(144,192,96,1)',
-  'rgba(192,96,144,1)',
-  'rgba(192,144,96,1)',
-  'rgba(192,144,192,1)',
-  'rgba(192,192,144,1)',
-  'rgba(144,192,192,1)',
-  'rgba(210,123,83,1)',
-  'rgba(210,83,123,1)',
-  'rgba(123,210,83,1)',
-  'rgba(123,83,210,1)',
-  'rgba(83,210,123,1)',
-  'rgba(83,123,210,1)',
-];
-export const stringHashCode = (s: string) => {
-  let hash = 0;
-  if (s.length === 0) {
-    return hash;
-  }
-  for (let i = 0; i < s.length; i++) {
-    const chr = s.charCodeAt(i);
-    hash = (hash << 5) - hash + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-};
-export const setOpacity = (s: string, a: number) => {
-  return s.substring(0, s.lastIndexOf(',') + 1) + a + ')';
-};
 export const isNumOrStrAndNotNaN = (a: any) => {
-  return (typeof a == 'number' || typeof a == 'string') && !isNaN(a as number);
+  return (typeof a === 'number' || typeof a === 'string') && !isNaN(a as number);
 };
-
-export class DiaryGlobalStats {
-  registedSince: number = -1;
-  entryDays: number = -1;
-
-  historicalLongestStreakByEntry: number = -1;
-  currentStreakByentry: number = -1;
-
-  totalEntries: number = -1;
-}
-
-export const formatDatetime = (datetime: number | null) =>
-  datetime ? moment(datetime).format('h:mm:ssa | ddd YYYY-MMM-DD') : '';
-export const formatDate = (datetime: number | null) => (datetime ? moment(datetime).format('ddd DD MMM YYYY') : '');
 
 export const getDateStringFromEntryDay = (entryDay: EntryDay) => {
   const { year, month, day } = entryDay;
@@ -192,28 +156,87 @@ export const getDateStringFromEntryDay = (entryDay: EntryDay) => {
 };
 
 export const getDateStringFromTimestamp = (timestamp: number) => {
-  const m = moment(timestamp);
+  const m = dayjs(timestamp);
   // month is 0-indexed. maybe easier to index in an array [Jan, Feb, Mar, ...]
   // same goes for day of week
   return m.format('YYYY-MM-DD');
 };
 export const getDatetimeStringFromTimestampShortFormat = (timestamp: number) => {
-  const m = moment(timestamp);
+  const m = dayjs(timestamp);
   // month is 0-indexed. maybe easier to index in an array [Jan, Feb, Mar, ...]
   // same goes for day of week
   return m.format('YYYYMMDD-hhmmss');
 };
 export const getDatetimeStringFromTimestamp = (timestamp: number) => {
-  const m = moment(timestamp);
+  const m = dayjs(timestamp);
   // month is 0-indexed. maybe easier to index in an array [Jan, Feb, Mar, ...]
   // same goes for day of week
   return m.format('YYYY-MM-DD-hh-mm-ss');
 };
 
-export const getDateStringFromNow = () => getDateStringFromTimestamp(+new Date());
-export const getDatetimeStringFromNow = () => getDateStringFromTimestamp(+new Date());
-export const getDatetimeStringShortFormatFromNow = () => getDatetimeStringFromTimestampShortFormat(+new Date());
+export const getDateStringFromNow = () => getDateStringFromTimestamp(Number(new Date()));
+export const getDatetimeStringFromNow = () => getDateStringFromTimestamp(Number(new Date()));
+export const getDatetimeStringShortFormatFromNow = () => getDatetimeStringFromTimestampShortFormat(Number(new Date()));
 
-export const getEntryInstanceIdFromEntryType = (entryType: EntryType) => {
-  return `${entryType.id}-${new Date().toISOString()}-${Math.floor(Math.random() * 120)}`;
+export const getEntryInstanceIdFromEntryType = (entryType: EntryType, date = dayjs()) => {
+  return `${entryType.id}-${date.toISOString()}-${Math.floor(Math.random() * 120)}`;
+};
+export const getDatePeriods = (type: RoutineEnum, cycle = 7) => {
+  if (type === RoutineEnum.adhoc) return [];
+  let dayType = {
+    [RoutineEnum.daily]: 'day',
+    [RoutineEnum.weekly]: 'week',
+    [RoutineEnum.monthly]: 'month',
+  };
+  const t = dayType[type] as 'day' | 'week' | 'month';
+  const nowDate = dayjs();
+  const periods = [];
+  for (let i = 0; i < cycle; i++) {
+    const start = nowDate.subtract(i, t).startOf(t).format('YYYY-MM-DD HH:mm:ss');
+    const end = nowDate.subtract(i, t).endOf(t).format('YYYY-MM-DD HH:mm:ss');
+    periods.unshift({ start, end });
+  }
+  return periods;
+};
+
+export enum ReminderType {
+  weekly = 'Weekly',
+  monthly = 'Monthly',
+  annual = 'Annual',
+  since = 'Since',
+}
+
+export type ReminderRecord = {
+  id: string;
+  title: string;
+  content?: string;
+  type: ReminderType;
+  // ReminderPushConfig;
+  weekDay?: number; // ReminderType.weekly 0~6 星期里的第几天
+  monthDay?: number; // ReminderType.monthly 月份里的几号 0～31
+  month?: number; // ReminderType.annual 年里的第几月进行提醒 0～11
+  sinceStartTime?: number; // ReminderType.since 从什么时候开始记录
+  isSendReminderEmail?: boolean;
+
+  createdAt: number;
+  updatedAt: number;
+};
+export const ReminderConstructor = ({
+  id,
+  title = '',
+  type = ReminderType.weekly,
+  createdAt,
+  updatedAt,
+  ...rest
+}: Partial<ReminderRecord>): ReminderRecord => {
+  const now = dayjs();
+  const uniqueId = `${now.toISOString()}_${Math.random().toString(36).substring(2, 9)}`;
+  return {
+    id: id ?? uniqueId,
+    title,
+    type,
+    ...rest,
+    updatedAt: createdAt ?? now.valueOf(),
+    createdAt: updatedAt ?? now.valueOf(),
+  };
 };

@@ -13,7 +13,7 @@ const instream = fs.createReadStream('./src/scripts/entry-instances-history-2023
 const outstream = fs.createWriteStream('./src/scripts/entry-instances-history-20230211-0106.json');
 const rl = readline.createInterface(instream, outstream);
 
-type OldEntryInstance = {
+interface OldEntryInstance {
   id: string; // timesstamp + random number
   entryTypeId: string;
 
@@ -22,7 +22,7 @@ type OldEntryInstance = {
 
   points: number;
   notes: string;
-};
+}
 
 const results: OldEntryInstance[] = [];
 let headers: (keyof OldEntryInstance)[] = [];
@@ -47,15 +47,16 @@ rl.on('line', (line: string) => {
     points: -1,
     notes: '',
   };
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < headers.length; i++) {
     const dateComponents = row[0].split('/');
-    const createDate = new Date(2000 + +dateComponents[2], +dateComponents[1] - 1, +dateComponents[0]);
+    const createDate = new Date(2000 + Number(dateComponents[2]), Number(dateComponents[1]) - 1, Number(dateComponents[0]));
 
     data.entryTypeId = row[1];
     data.id = `${data.entryTypeId}-${createDate.toISOString()}-${Math.floor(Math.random() * 120)}`;
-    data.createdAt = +createDate;
-    data.updatedAt = +new Date();
-    data.points = +row[2];
+    data.createdAt = Number(createDate);
+    data.updatedAt = Number(new Date());
+    data.points = Number(row[2]);
     data.notes = row[3];
   }
   if (row.find((item) => item !== '')) {

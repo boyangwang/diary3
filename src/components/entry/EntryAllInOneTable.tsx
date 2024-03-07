@@ -4,7 +4,7 @@ import { ProTable, TableDropdown } from '@ant-design/pro-components';
 import { Button, Dropdown, Space, Tag } from 'antd';
 import { useRef } from 'react';
 
-type GithubIssueItem = {
+interface GithubIssueItem {
   url: string;
   id: number;
   number: number;
@@ -18,7 +18,7 @@ type GithubIssueItem = {
   created_at: string;
   updated_at: string;
   closed_at?: string | null;
-};
+}
 
 const mockData = {
   data: [

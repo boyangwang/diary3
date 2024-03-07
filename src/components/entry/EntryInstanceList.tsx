@@ -1,38 +1,14 @@
-import { Button, List } from 'antd';
-import { deleteEntryInstance } from '../../app/entry-instances-slice';
-import { useAppDispatch } from '../../app/store';
-import { EntryInstance } from '../../app/types-constants';
+import { EntryInstance } from '@/app/types-constants';
+import EntryInstanceForm from './EntryInstanceForm';
 
-const EntryInstanceCardDeleteButton = (props: { entryInstance: EntryInstance }) => {
-  const dispatch = useAppDispatch();
-
+const EntryInstanceList = ({ entryInstancesArray }: { entryInstancesArray: EntryInstance[] }) => {
   return (
-    <Button
-      danger
-      onClick={() => {
-        dispatch(deleteEntryInstance(props.entryInstance));
-      }}
-    >
-      Delete
-    </Button>
+    <div className="flex flex-col items-center gap-2">
+      {entryInstancesArray?.length
+        ? entryInstancesArray.map((item) => <EntryInstanceForm key={item.id} entryInstance={item} />)
+        : null}
+    </div>
   );
 };
-
-const EntryInstanceList = (props: { entryInstancesArray: EntryInstance[] }) => (
-  <List
-    dataSource={props.entryInstancesArray}
-    renderItem={(item: EntryInstance) => (
-      <List.Item
-        key={item.id}
-        actions={[<EntryInstanceCardDeleteButton entryInstance={item}></EntryInstanceCardDeleteButton>]}
-      >
-        <List.Item.Meta avatar={item.points} title={item.entryTypeId} description={item.notes} />
-        <span>id: {item.id}</span>
-        <span>createdAt: {item.createdAt}</span>
-        <span>updatedAt: {item.updatedAt}</span>
-      </List.Item>
-    )}
-  />
-);
 
 export default EntryInstanceList;
